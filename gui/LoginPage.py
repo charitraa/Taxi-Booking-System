@@ -4,10 +4,11 @@ from tkinter import messagebox
 
 class LoginPage(tk.CTk):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.title("Extraordinary Login Page")
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.master = master
+        self.title("Login Page")
+        self.geometry("300x300")
         self.create_widgets()
 
     def create_widgets(self):
