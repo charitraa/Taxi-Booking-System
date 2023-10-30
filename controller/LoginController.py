@@ -11,11 +11,12 @@ class LoginController:
                 password = 'root',
                 database = 'taxi'
             )
+            connection.close()
             if connection.is_connected():
                 LoginController.message = "Connected"
                 return connection
+            connection.close()
+        
     except Exception as e:
         messagen = e
-@staticmethod
-def Close(self, connection):
-    connection.Close()
+
