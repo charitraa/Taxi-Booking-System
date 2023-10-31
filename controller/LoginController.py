@@ -11,12 +11,9 @@ class LoginController:
                 password = 'root',
                 database = 'taxi'
             )
-            connection.close()
             if connection.is_connected():
                 LoginController.message = "Connected"
                 return connection
-            connection.close()
-        
+            connection.close()  
     except Exception as e:
-        messagen = e
-
+        print(e)
