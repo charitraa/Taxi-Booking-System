@@ -1,7 +1,7 @@
 import customtkinter as tk
 
 import LoginModel as md
-import dbContext as db
+import LoginController as db
 class LoginPage(tk.CTk):
 
     email = str
