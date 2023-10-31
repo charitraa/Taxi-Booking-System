@@ -21,7 +21,10 @@ class database:
             return True
         return False
     def __isAuthentic(self,LoginUser):
-        if  LoginUser.getEmail()== "admin" and  LoginUser.getPassword() =="admin":
-            
+        cursor = self.__connection__.cursor()
+        cursor.execute("SELECT * FROM login WHERE Email='"+LoginUser.getEmail()+"' AND Password='"+LoginUser.getPassword()+"'")
+        record = cursor.fetchone()
+        if (record!=None):
             return True
         return False
+        

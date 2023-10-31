@@ -1,10 +1,11 @@
 import customtkinter as tk
-# from controller import dbContext as db
-# from model import LoginModel as md
-# import TAXIBOOKINGSYSTEM.model
-from ..model import LoginModel
-# from ..model.LoginModel import Login as md
+
+import LoginModel as md
+import dbContext as db
 class LoginPage(tk.CTk):
+
+    email = str
+    password = str
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
@@ -18,8 +19,10 @@ class LoginPage(tk.CTk):
         self.label_password = tk.CTkLabel(self, text="Password:")
 
         # Create entry widgets for username and password
-        self.entry_username = tk.CTkEntry(self)
-        self.entry_password = tk.CTkEntry(self, show="*")  # Show * for password
+        self.email = tk.StringVar()
+        self.password = tk.StringVar()
+        self.entry_username = tk.CTkEntry(self, textvariable=self.email)
+        self.entry_password = tk.CTkEntry(self, textvariable= self.password )  # Show * for password
         
         # Create login button
         self.button_login = tk.CTkButton(self, text="Login", command=self.on_login)
@@ -32,12 +35,11 @@ class LoginPage(tk.CTk):
         self.button_login.grid(row=2, columnspan=2, pady=20)
 
     def on_login(self):
-        pass
-        # login = md()
-        # login.setEmail(self.entry_username)
-        # login.setPassword(self.entry_password)
-        # user = db.database()
-        # user.Login(login)
+        login = md.Login()
+        login.setEmail(self.email.get())
+        login.setPassword(self.password.get())
+        user = db.database()
+        user.Login(login)
 if __name__ == "__main__":
     app = LoginPage()
     app.mainloop()
