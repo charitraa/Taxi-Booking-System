@@ -19,8 +19,7 @@ class database:
             connection.close()  
     except Exception as e:
         print(e)
-    
-    
+        
     def __init__(self):
         self.__connection__ = database.Connect()
     
