@@ -1,4 +1,5 @@
 class Customer:
+    #constructor
     def __init__(self,_first,_last,_phone,_address,_email,_password):
         self.first = _first
         self.last = _last
@@ -9,24 +10,18 @@ class Customer:
     
     #getters
 
-    def getEmail(self):
-        return self.email
+    def getFIrst(self):
+        return self.first
     
-    def getEmail(self):
-        return self.email
+    def getLast(self):
+        return self.last
     
 
-    def getEmail(self):
-        return self.email
+    def getPhone(self):
+        return self.phone
     
-    def getPassword(self):
-        return self.password
-    def getEmail(self):
-        return self.email
-    
-    def getEmail(self):
-        return self.email
-    
+    def getAddress(self):
+        return self.address
 
     def getEmail(self):
         return self.email
@@ -35,6 +30,19 @@ class Customer:
         return self.password
     
     #setters
+
+    def setFirst(self, name):
+        self.name = name
+
+    def setLast(self, last):
+        self.last = last
+
+    def setPhone(self, phone):
+        self.phone = phone
+
+    def setAddress(self, Address):
+        self.address = Address
+
     def setEmail(self, email):
         self.email = email
 
