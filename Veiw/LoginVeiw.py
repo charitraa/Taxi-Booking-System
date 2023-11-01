@@ -41,7 +41,7 @@ class LoginPage(tk.CTk):
         login = md.Login()
         login.setEmail(self.email.get())
         login.setPassword(self.password.get())
-        user = db.database()
+        user = db.LoginDatabase()
         user.Login(login)
 if __name__ == "__main__":
     app = LoginPage()

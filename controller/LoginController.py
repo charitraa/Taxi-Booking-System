@@ -1,7 +1,7 @@
 from tkinter import messagebox
 import mysql.connector as c
-# from model import LoginModel 
-class database:
+
+class LoginDatabase:
     message = ""
     __connection__ = None
     try:
@@ -14,14 +14,14 @@ class database:
                 database = 'taxi'
             )
             if connection.is_connected():
-                database.message = "Connected"
+                LoginDatabase.message = "Connected"
                 return connection
             connection.close()  
     except Exception as e:
         print(e)
         
     def __init__(self):
-        self.__connection__ = database.Connect()
+        self.__connection__ = LoginDatabase.Connect()
     
     def Login(self,LoginUser):
         if self.__isvalidlogin(LoginUser):
