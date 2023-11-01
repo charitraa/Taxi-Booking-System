@@ -1,6 +1,6 @@
 from tkinter import messagebox
 import mysql.connector as c
-# from model import LoginModel 
+
 class CustomerDatabase:
     message = ""
     __connection__ = None
@@ -25,20 +25,19 @@ class CustomerDatabase:
     
     def Login(self,LoginUser):
         if self.__isvalidlogin(LoginUser):
-            
             if self.__isAuthentic(LoginUser):
-                messagebox.showinfo("login","Login sucessfully")
+                messagebox.showinfo("register","Login sucessfully")
             else:
-                messagebox.showinfo("login","invalid username and password")
+                messagebox.showinfo("register","invalid username and password")
         else:
-            messagebox.showinfo("login","please write a username and password and try again")
+            messagebox.showinfo("register","please write a valid information")
     def __isvalidlogin(self,LoginUser):
         if LoginUser.getEmail()!="" and LoginUser.getPassword != "":
             return True
         return False
     def __isAuthentic(self,LoginUser):
         cursor = self.__connection__.cursor()
-        cursor.execute("SELECT * FROM login WHERE Email='"+LoginUser.getEmail()+"' AND Password='"+LoginUser.getPassword()+"'")
+        cursor.execute("INSERT INTO `customer`(`customerid`, `first name`, `last name`, `email`, `phone number`, `password`) VALUES ('','','','','','')")
         record = cursor.fetchone()
         if (record!=None):
             return True
