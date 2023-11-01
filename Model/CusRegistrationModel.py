@@ -1,6 +1,7 @@
 class Customer:
     #constructor
-    def __init__(self,_first,_last,_phone,_address,_email,_password):
+    def __init__(self,cusid=0,_first="",_last="",_phone="",_address="",_email="",_password=""):
+        self.cusid = cusid
         self.first = _first
         self.last = _last
         self.phone = _phone
@@ -9,14 +10,15 @@ class Customer:
         self.password = _password
     
     #getters
+    def getId(self):
+        return self.cusid
 
-    def getFIrst(self):
+    def getFirst(self):
         return self.first
     
     def getLast(self):
         return self.last
-    
-
+        
     def getPhone(self):
         return self.phone
     
@@ -31,8 +33,11 @@ class Customer:
     
     #setters
 
-    def setFirst(self, name):
-        self.name = name
+    def setId(self, Uid):
+        self.cusid = Uid
+
+    def setFirst(self,first ):
+        self.first = first
 
     def setLast(self, last):
         self.last = last
