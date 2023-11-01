@@ -3,8 +3,8 @@ import customtkinter as tk
 import sys
 
 sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
-from Controller import LoginController as md
-# import LoginController as db
+from Controller import LoginController as db
+from Model import LoginModel as md
 class LoginPage(tk.CTk):
 
     email = str
@@ -38,12 +38,11 @@ class LoginPage(tk.CTk):
         self.button_login.grid(row=2, columnspan=2, pady=20)
 
     def on_login(self):
-        pass
-        # login = md.Login()
-        # login.setEmail(self.email.get())
-        # login.setPassword(self.password.get())
-        # user = db.database()
-        # user.Login(login)
+        login = md.Login()
+        login.setEmail(self.email.get())
+        login.setPassword(self.password.get())
+        user = db.database()
+        user.Login(login)
 if __name__ == "__main__":
     app = LoginPage()
     app.mainloop()

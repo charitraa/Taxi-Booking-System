@@ -1,5 +1,5 @@
 class Customer:
-    def __init__(self,_first,_last,_phone,_address,_email="",_password=""):
+    def __init__(self,_first,_last,_phone,_address,_email,_password):
         self.first = _first
         self.last = _last
         self.phone = _phone
@@ -9,6 +9,18 @@ class Customer:
     
     #getters
 
+    def getEmail(self):
+        return self.email
+    
+    def getEmail(self):
+        return self.email
+    
+
+    def getEmail(self):
+        return self.email
+    
+    def getPassword(self):
+        return self.password
     def getEmail(self):
         return self.email
     
