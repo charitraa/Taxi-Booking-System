@@ -1,6 +1,7 @@
 from tkinter import messagebox
 import mysql.connector as c
 
+
 class CustomerDatabase:
     message = ""
     __connection__ = None
@@ -11,7 +12,7 @@ class CustomerDatabase:
                 host='localhost',
                 user = 'root',
                 password = 'root',
-                database = 'taxi'
+                database = 'taxi' 
             )
             if connection.is_connected():
                 CustomerDatabase.message = "Connected"
@@ -27,6 +28,7 @@ class CustomerDatabase:
         if self.__isvalidRegister(CusRegister):
             if self.__isAuthentic(CusRegister):
                 messagebox.showinfo("register","Register Successfully")
+                
             else:
                 messagebox.showinfo("register","Register Failure")
         else:

@@ -1,6 +1,6 @@
 class Customer:
     #constructor
-    def __init__(self,cusid=0,_first="",_last="",_phone="",_address="",_email="",_password=""):
+    def __init__(self,cusid,_first,_last,_phone,_address,_email,_password):
         self.cusid = cusid
         self.first = _first
         self.last = _last
