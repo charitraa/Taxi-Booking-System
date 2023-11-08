@@ -4,12 +4,12 @@ sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
 from Model import CusRegistrationModel as cusmodel
 from Controller import CusRegistrationController as cusdb
 
-class RegistrationPage(tk.CTk):
+class DriverRegistrationVeiw(tk.CTk):
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
-        self.title(" Customer Registration Page")
-        self.geometry("300x300")
+        self.title(" Driver Registration Page")
+        self.geometry("300x400")
         self.create_widgets()
 
     def create_widgets(self):
@@ -39,10 +39,22 @@ class RegistrationPage(tk.CTk):
         self.phone_entry = tk.CTkEntry(self,textvariable=tk.StringVar())
         self.phone_entry.grid(row=4, column=1, padx=10, pady=5)
 
+        self.liscence_CTKLabel = tk.CTkLabel(self, text="Driving Liscence:")
+        self.liscence_CTKLabel.grid(row=5, column=0, padx=10, pady=5)
+        self.liscence_entry = tk.CTkEntry(self,textvariable=tk.StringVar())
+        self.liscence_entry.grid(row=5, column=1, padx=10, pady=5)
+
+        self.vechicle_CTKLabel = tk.CTkLabel(self, text="Vechicle No:")
+        self.vechicle_CTKLabel.grid(row=6, column=0, padx=10, pady=5)
+        self.vechicle_entry = tk.CTkEntry(self,textvariable=tk.StringVar())
+        self.vechicle_entry.grid(row=6, column=1, padx=10, pady=5)
+
         self.pass_CTKLabel = tk.CTkLabel(self, text="Password:")
-        self.pass_CTKLabel.grid(row=5, column=0, padx=10, pady=5)
+        self.pass_CTKLabel.grid(row=7, column=0, padx=10, pady=5)
         self.pass_entry = tk.CTkEntry(self,textvariable=tk.StringVar())
-        self.pass_entry.grid(row=5, column=1, padx=10, pady=5)
+        self.pass_entry.grid(row=7, column=1, padx=10, pady=5)
+        
+
 
         # Repeat this pattern for the remaining fields
 
@@ -62,5 +74,5 @@ class RegistrationPage(tk.CTk):
 
 if __name__ == "__main__":
     
-    app = RegistrationPage()
+    app = DriverRegistrationVeiw()
     app.mainloop()
