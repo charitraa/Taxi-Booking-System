@@ -49,14 +49,7 @@ class RegistrationPage(tk.CTk):
         register_button = tk.CTkButton(self, text="Register", command=self.register)
         register_button.grid(row=8, column=1, pady=10)
     def register(self):
-        cus = cusmodel.Customer()
-        cus.setId(self.id)
-        cus.setFirst(self.first_name_entry.get())
-        cus.setLast(self.last_name_entry.get())
-        cus.setAddress(self.address_entry.get())
-        cus.setPhone( self.phone_entry.get())
-        cus.setEmail(self.email_entry.get())
-        cus.setPassword(self.pass_entry.get())
+        cus = cusmodel.Customer(self.id, self.first_name_entry.get(),self.last_name_entry.get(),self.phone_entry.get(),self.address_entry.get(),self.email_entry.get(),self.pass_entry.get())
         reg = cusdb.CustomerDatabase()
         reg.Register(cus)
 

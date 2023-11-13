@@ -1,8 +1,11 @@
 import customtkinter as tk
 import sys
 sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
-from Controller import LoginController as logindb
-from Model import LoginModel as loginmodel
+from Controller import CusLoginController as cusdb
+from Controller import DriveLoginController as drivedb
+from Model import LoginModel as loginmd
+from tkinter import messagebox
+
 class LoginPage(tk.CTk):
 
     email = str
@@ -36,11 +39,20 @@ class LoginPage(tk.CTk):
         self.button_login.grid(row=2, columnspan=2, pady=20)
 
     def on_login(self):
-        login = loginmodel.Login()
-        login.setEmail(self.email.get())
-        login.setPassword(self.password.get())
-        user = logindb.LoginDatabase()
-        user.Login(login)
+        
+        login = loginmd.Login(self.entry_username.get(),self.entry_password.get())
+        customer = cusdb.LoginDatabase()
+        cus = customer.Login(login)
+        driver  = drivedb.LoginDatabase()
+        dri = driver.Login(login)
+        if cus==True:
+            messagebox.showinfo('Login','Customer Login Sucessfully')
+        
+        elif dri==True:
+            messagebox.showinfo('Login','Driver Login Sucessfully')
+        else:
+            messagebox.showerror('Login','Incorrect email and password')
+
 if __name__ == "__main__":
     app = LoginPage()
     app.mainloop()
