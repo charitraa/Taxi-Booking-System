@@ -2,7 +2,7 @@ import tkinter as tk
 import sys
 sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
 from Model import CusRegistrationModel as cusmodel
-from Controller import CusRegistrationController as cusdb
+from Controller import CustomerController as cusdb
 
 class RegistrationPage(tk.Tk):
     def __init__(self, master=None):

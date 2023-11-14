@@ -1,12 +1,14 @@
 from tkinter import messagebox
-from Controller import Connection as con
+from Controller import DataBaseConnection as con
+
 class CustomerDatabase:
     __connection__ = None
+
     def __init__(self):
         self.__connection__ = con.Database.Connect()
     
-    def Register(self,CusRegister):
-        if self.__isvalidRegister(CusRegister):
+    def CustomerRegister(self,CusRegister):
+        if self.__isvalidCustomerRegister(CusRegister):
             if self.__isAuthentic(CusRegister):
                 messagebox.showinfo('register','Registration Successfully')
             else:
@@ -14,7 +16,7 @@ class CustomerDatabase:
         else:
             messagebox.showinfo("register","please write a valid information")
             
-    def __isvalidRegister(self,CusRegister):
+    def __isvalidCustomerRegister(self,CusRegister):
         if CusRegister.getFirst()!="" and CusRegister.getLast()!= "" and CusRegister.getPhone()!="" and CusRegister.getAddress()!="" and CusRegister.getEmail()!="" and CusRegister.getPassword()!="":
             return True
         return False
@@ -29,4 +31,11 @@ class CustomerDatabase:
         except Exception as e:
             print(e)
             return False
-        
+    
+    def CustomerLogin(self,LoginCustomer):
+        cursor = self.__connection__.cursor()
+        cursor.execute("SELECT * FROM customer WHERE email='"+LoginCustomer.getEmail()+"' AND password='"+LoginCustomer.getPassword()+"'")
+        record = cursor.fetchone()
+        if (record!=None):
+            return True
+        return False

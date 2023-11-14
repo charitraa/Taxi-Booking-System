@@ -1,6 +1,6 @@
 
 from tkinter import messagebox
-from Controller import Connection as con
+from Controller import DataBaseConnection as con
 
 class DriverDatabase:
     __connection__ = None
@@ -15,10 +15,12 @@ class DriverDatabase:
                 messagebox.showinfo("register","Register Failure")
         else:
             messagebox.showinfo("register","please write a valid information")
+            
     def __isvalidRegister(self,DriveRegister):
         if DriveRegister.getFirst()!="" and DriveRegister.getLast()!= "" and DriveRegister.getPhone()!="" and DriveRegister.getAddress()!="" and DriveRegister.getEmail()!="" and DriveRegister.getVechicle()!="" and DriveRegister.getLiscence()!="" and DriveRegister.getPassword()!="":
             return True
         return False
+    
     def __isAuthentic(self,DriveRegister):
         try:
             cursor = self.__connection__.cursor()
@@ -31,3 +33,10 @@ class DriverDatabase:
             print(e)
             return False
         
+    def DriverLogin(self,LoginDriver):
+        cursor = self.__connection__.cursor()
+        cursor.execute("SELECT * FROM driver WHERE email='"+LoginDriver.getEmail()+"' AND password='"+LoginDriver.getPassword()+"'")
+        record = cursor.fetchone()
+        if (record!=None):
+            return True
+        return False

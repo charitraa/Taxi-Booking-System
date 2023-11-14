@@ -2,7 +2,7 @@ import tkinter as tk
 import sys
 sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
 from Model import DriverRegistrationModel as drivermodel
-from Controller import DriveController as driverdb
+from Controller import DriverController as driverdb
 
 class DriverRegistrationVeiw(tk.Tk):
     def __init__(self, master=None):

@@ -1,17 +1,17 @@
+
 from tkinter import messagebox
-from Controller import Connection as con
+from Controller import DataBaseConnection as con
 
-class LoginDatabase:
+class AdminDatabase:
 
-        
+    __connection__ = None
     def __init__(self):
         self.__connection__ = con.Database.Connect()
 
-    def Login(self,LoginUser):
+    def AdminLogin(self,LoginAdmin):
         cursor = self.__connection__.cursor()
-        cursor.execute("SELECT * FROM customer WHERE email='"+LoginUser.getEmail()+"' AND password='"+LoginUser.getPassword()+"'")
+        cursor.execute("SELECT * FROM admin WHERE email='"+LoginAdmin.getEmail()+"' AND password='"+LoginAdmin.getPassword()+"'")
         record = cursor.fetchone()
         if (record!=None):
             return True
         return False
-        

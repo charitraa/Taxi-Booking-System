@@ -1,10 +1,9 @@
 import tkinter as tk
 import sys
 sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
-from Controller import CusLoginController as cusdb
-from Controller import DriveLoginController as drivedb
+from Controller import CustomerController as cusdb , DriverController as drivedb
 from Model import LoginModel as loginmd
-import CusRegistrationVeiw as cusregveiw
+# import CusRegistrationVeiw as cusregveiw
 from tkinter import messagebox
 
 class LoginPage(tk.Tk):
@@ -42,10 +41,10 @@ class LoginPage(tk.Tk):
         username = self.entry_username.get()
         password = self.entry_password.get()
         login = loginmd.Login(_email=username, _password=password)
-        customer = cusdb.LoginDatabase()
+        customer = cusdb.CustomerDatabase()
         cus = customer.Login(login)
-        driver  = drivedb.LoginDatabase()
-        dri = driver.Login(login)
+        driver  = drivedb.DriverDatabase()
+        dri = driver.DriverLogin(login)
         
         if cus==True:
             messagebox.showinfo('Login','Customer Login Sucessfully')
