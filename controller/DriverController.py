@@ -7,8 +7,8 @@ class DriverDatabase:
     def __init__(self):
         self.__connection__ = con.Database.Connect()
     
-    def Register(self,DriveRegister):
-        if self.__isvalidRegister(DriveRegister):
+    def DriverRegister(self,DriveRegister):
+        if self.__isvalidDriverRegister(DriveRegister):
             if self.__isAuthentic(DriveRegister):
                 messagebox.showinfo("register","Register Successfully")
             else:
@@ -16,7 +16,7 @@ class DriverDatabase:
         else:
             messagebox.showinfo("register","please write a valid information")
             
-    def __isvalidRegister(self,DriveRegister):
+    def __isvalidDriverRegister(self,DriveRegister):
         if DriveRegister.getFirst()!="" and DriveRegister.getLast()!= "" and DriveRegister.getPhone()!="" and DriveRegister.getAddress()!="" and DriveRegister.getEmail()!="" and DriveRegister.getVechicle()!="" and DriveRegister.getLiscence()!="" and DriveRegister.getPassword()!="":
             return True
         return False

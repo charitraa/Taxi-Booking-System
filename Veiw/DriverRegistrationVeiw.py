@@ -63,7 +63,7 @@ class DriverRegistrationVeiw(tk.Tk):
     def register(self):
         driver = drivermodel.Driver(self.id,self.first_name_entry.get(),self.last_name_entry.get(),self.phone_entry.get(),self.address_entry.get(),self.email_entry.get(),self.liscence_entry.get(),self.vechicle_entry.get(),self.pass_entry.get())
         reg = driverdb.DriverDatabase()
-        reg.Register(driver)
+        reg.DriverRegister(driver)
 
 if __name__ == "__main__":
     

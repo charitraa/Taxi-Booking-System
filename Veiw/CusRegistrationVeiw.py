@@ -51,7 +51,7 @@ class RegistrationPage(tk.Tk):
     def register(self):
         cus = cusmodel.Customer(self.id, self.first_name_entry.get(),self.last_name_entry.get(),self.phone_entry.get(),self.address_entry.get(),self.email_entry.get(),self.pass_entry.get())
         reg = cusdb.CustomerDatabase()
-        reg.Register(cus)
+        reg.CustomerRegister(cus)
 
 if __name__ == "__main__":
     

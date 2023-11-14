@@ -1,7 +1,7 @@
 import tkinter as tk
 import sys
 sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
-from Controller import CustomerController as cusdb , DriverController as drivedb
+from Controller import CustomerController as cusdb , DriverController as drivedb , AdminController as admindb
 from Model import LoginModel as loginmd
 # import CusRegistrationVeiw as cusregveiw
 from tkinter import messagebox
@@ -42,24 +42,24 @@ class LoginPage(tk.Tk):
         password = self.entry_password.get()
         login = loginmd.Login(_email=username, _password=password)
         customer = cusdb.CustomerDatabase()
-        cus = customer.Login(login)
+        cus = customer.CustomerLogin(login)
         driver  = drivedb.DriverDatabase()
         dri = driver.DriverLogin(login)
-        
+        admin = admindb.AdminDatabase()
+        ad = admin.AdminLogin(login)
         if cus==True:
             messagebox.showinfo('Login','Customer Login Sucessfully')
             self.destroy()
-                
-
         elif dri==True:
             messagebox.showinfo('Login','Driver Login Sucessfully')
             self.destroy()
-            
+        elif ad == True:
+            messagebox.showinfo('Login','Admin Login Sucessfully')
+            self.destroy()
         elif username=='' or password=='':
             messagebox.showwarning('Login','please write both email and password')
         elif username=='' and password =='':
             messagebox.showwarning('Login','please write email and password')
-
         else:
             messagebox.showinfo('Login','Incorrect email and password')
 
