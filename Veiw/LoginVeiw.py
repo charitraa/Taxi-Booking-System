@@ -4,6 +4,7 @@ sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
 from Controller import CusLoginController as cusdb
 from Controller import DriveLoginController as drivedb
 from Model import LoginModel as loginmd
+import CusRegistrationVeiw as cusregveiw
 from tkinter import messagebox
 
 class LoginPage(tk.CTk):
@@ -26,7 +27,7 @@ class LoginPage(tk.CTk):
         self.email = tk.StringVar()
         self.password = tk.StringVar()
         self.entry_username = tk.CTkEntry(self, textvariable=self.email)
-        self.entry_password = tk.CTkEntry(self, textvariable= self.password )  # Show * for password
+        self.entry_password = tk.CTkEntry(self, textvariable= self.password , show='*')  # Show * for password
         
         # Create login button
         self.button_login = tk.CTkButton(self, text="Login", command=self.on_login)
@@ -39,19 +40,34 @@ class LoginPage(tk.CTk):
         self.button_login.grid(row=2, columnspan=2, pady=20)
 
     def on_login(self):
-        
-        login = loginmd.Login(self.entry_username.get(),self.entry_password.get())
+        username = self.entry_username.get()
+        password = self.entry_password.get()
+        login = loginmd.Login(_email=username, _password=password)
         customer = cusdb.LoginDatabase()
         cus = customer.Login(login)
         driver  = drivedb.LoginDatabase()
         dri = driver.Login(login)
+        
         if cus==True:
             messagebox.showinfo('Login','Customer Login Sucessfully')
-        
+            self.destroy()
+            # master = tk.CTk()
+            cusregveiw.RegistrationPage()
+            # master.mainloop()
         elif dri==True:
             messagebox.showinfo('Login','Driver Login Sucessfully')
+            self.destroy()
+            master = tk.CTk()
+
+            master.mainloop()
+
+        elif username=='' or password=='':
+            messagebox.showwarning('Login','please write both email and password')
+        elif username=='' and password =='':
+            messagebox.showwarning('Login','please write email and password')
+
         else:
-            messagebox.showerror('Login','Incorrect email and password')
+            messagebox.showinfo('Login','Incorrect email and password')
 
 if __name__ == "__main__":
     app = LoginPage()
