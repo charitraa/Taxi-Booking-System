@@ -3,9 +3,8 @@ import sys
 sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
 from Controller import CustomerController as cusdb , DriverController as drivedb , AdminController as admindb
 from Model import LoginModel as loginmd
-# import CusRegistrationVeiw as cusregveiw
 from tkinter import messagebox
-import RegistrationOptionVeiw
+import RegistrationOptionVeiw , VerifyEmailVeiw
 class LoginPage(tk.Tk):
 
     email = str
@@ -31,6 +30,7 @@ class LoginPage(tk.Tk):
         # Create login button
         self.button_login = tk.Button(self, text="Login", command=self.on_login)
         self.button_SignUp = tk.Button(self, text="SignUp", command=self.on_SignUp)
+        self.button_Forget = tk.Button(self, text="Forget Password", command=self.on_forget)
         # Arrange widgets using grid
         self.label_username.grid(row=0, column=0, padx=10, pady=10)
         self.entry_username.grid(row=0, column=1, padx=10, pady=10)
@@ -38,10 +38,15 @@ class LoginPage(tk.Tk):
         self.entry_password.grid(row=1, column=1, padx=10, pady=10)
         self.button_login.place(x=110, y=100,width=75)
         self.button_SignUp.place(x=110, y=150,width=75)
+        self.button_Forget.place(x=100, y=200,width=100)
     def on_SignUp(self):
         self.destroy()
         RegistrationOptionVeiw.OptionPage()
+    
+    def on_forget(self):
         
+        self.destroy()
+        VerifyEmailVeiw.VerifyEmail()
     def on_login(self):
         username = self.entry_username.get()
         password = self.entry_password.get()
