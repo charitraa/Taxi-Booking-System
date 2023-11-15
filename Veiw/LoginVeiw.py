@@ -13,6 +13,7 @@ class LoginPage(tk.Tk):
     def __init__(self, master=None):
         super().__init__()
         self.master = master
+        self.title('Login Page')
         self.geometry("300x300")
         self.create_widgets()
         
