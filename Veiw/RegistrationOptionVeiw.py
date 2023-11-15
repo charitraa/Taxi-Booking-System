@@ -11,8 +11,8 @@ class OptionPage(tk.Tk):
         
     def create_widgets(self):
         # Create labels
-        self.label_username = tk.Label(self, text="As Customer")
-        self.label_password = tk.Label(self, text="As Driver:")
+        self.label_username = tk.Label(self, text="As a Customer")
+        self.label_password = tk.Label(self, text="As a Driver:")
 
         
         # Create login button
