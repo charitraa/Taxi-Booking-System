@@ -3,7 +3,7 @@ import sys
 sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
 from Model import DriverRegistrationModel as drivermodel
 from Controller import DriverController as driverdb
-
+import LoginVeiw
 class DriverRegistrationVeiw(tk.Tk):
     def __init__(self, master=None):
         super().__init__(master)
@@ -59,12 +59,17 @@ class DriverRegistrationVeiw(tk.Tk):
         # Repeat this pattern for the remaining fields
 
         register_button = tk.Button(self, text="Register", command=self.register)
-        register_button.grid(row=8, column=1, pady=10)
+        register_button.grid(row=8, column=0, pady=10)
+        back_button = tk.Button(self, text="Back", command=self.Back)
+        back_button.grid(row=8, column=1, pady=10)
     def register(self):
         driver = drivermodel.Driver(self.id,self.first_name_entry.get(),self.last_name_entry.get(),self.phone_entry.get(),self.address_entry.get(),self.email_entry.get(),self.liscence_entry.get(),self.vechicle_entry.get(),self.pass_entry.get())
         reg = driverdb.DriverDatabase()
         reg.DriverRegister(driver)
 
+    def Back(self):
+        self.destroy()
+        LoginVeiw.LoginPage()
 if __name__ == "__main__":
     
     app = DriverRegistrationVeiw()

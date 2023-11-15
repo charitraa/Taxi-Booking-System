@@ -36,7 +36,7 @@ class LoginPage(tk.Tk):
         self.entry_username.grid(row=0, column=1, padx=10, pady=10)
         self.label_password.grid(row=1, column=0, padx=10, pady=10)
         self.entry_password.grid(row=1, column=1, padx=10, pady=10)
-        self.button_login.grid(row=2, columnspan=2, pady=20)
+        self.button_login.place(x=110, y=100,width=75)
 
     def on_login(self):
         username = self.entry_username.get()
