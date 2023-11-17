@@ -8,15 +8,19 @@ class VerifyEmail(tk.Tk):
         self.title("Password Creation")
         self.geometry('300x300')
         # Label and Entry for Create New Password
-        self.create_password_label = tk.Label(master, text="verify email address:")
-        self.create_password_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
+
+        self.topic = tk.Label(master,text='At first you should verify your email')
+        self.topic.place(x=50, y=20)
+        self.create_password_label = tk.Label(master,
+        text="verify email address:")
+        self.create_password_label.place(x=70, y=50)
 
         self.create_password_entry = tk.Entry(master)  # Entry widget with '*' to hide the password
-        self.create_password_entry.grid(row=0, column=1, padx=10, pady=10, sticky="w")
+        self.create_password_entry.place()
 
         # Submit Button
         self.submit_button = tk.Button(master, text="Create Password", command=self.create_password)
-        self.submit_button.grid(row=2, column=0, columnspan=2, pady=10)
+        self.submit_button.place()
 
     def create_password(self):
         new_password = self.create_password_entry.get()
