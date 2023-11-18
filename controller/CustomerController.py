@@ -39,3 +39,11 @@ class CustomerDatabase:
         if (record!=None):
             return True
         return False
+    
+    def _isValidEmail(self,email):
+        cursor = self.__connection__.cursor()
+        cursor.execute("SELECT * FROM customer WHERE email='"+email.getEmail()+"'")
+        record = cursor.fetchone()
+        if (record!=None):
+            return True
+        return False

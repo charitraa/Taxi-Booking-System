@@ -60,6 +60,6 @@ class RegistrationPage(tk.Tk):
         LoginVeiw.LoginPage()
 
 if __name__ == "__main__":
-    
+
     app = RegistrationPage()
     app.mainloop()

@@ -13,6 +13,6 @@ class Login:
     #setters
     def setEmail(self, email):
         self.email = email
-
+    
     def setPassword(self, password):
         self.password = password

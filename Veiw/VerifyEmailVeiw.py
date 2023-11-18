@@ -15,7 +15,7 @@ class VerifyEmail(tk.Tk):
         text="email address:")
         self.emailaddress_label.place(x=70, y=50)
 
-        self.emailaddress_entry = tk.Entry(master)  # Entry widget with '*' to hide the password
+        self.emailaddress_entry = tk.Entry(master,textvariable=tk.StringVar())  # Entry widget with '*' to hide the password
         self.emailaddress_entry.place(x=70, y=75)
 
         # Submit Button
@@ -24,11 +24,14 @@ class VerifyEmail(tk.Tk):
 
     def emailaddress(self):
         verifyemail = self.emailaddress_entry.get()
-        
+        from Model.EmailModel import Email
+        verify = Email(_email=verifyemail)
+        from Controller.CustomerController import CustomerDatabase
+        emaill = CustomerDatabase()
+        check = emaill._isValidEmail(verify)
         # Here, you can implement your password creation logic.
         # For simplicity, let's just check if the passwords match.
-        if verifyemail == 'stharabi@gmail.com':
-
+        if check==True:
             messagebox.showinfo("verify", "email has been verify successful!")
             self.destroy()
             NewPasswordVeiw.PasswordCreation()
