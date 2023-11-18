@@ -34,7 +34,6 @@ class RegistrationPage(tk.Tk):
         self.address_Label.grid(row=3, column=0, padx=10, pady=5)
         self.address_entry = tk.Entry(self,textvariable=tk.StringVar())
         self.address_entry.grid(row=3, column=1, padx=10, pady=5)
-
         self.phone_Label = tk.Label(self, text="Phone Number:")
         self.phone_Label.grid(row=4, column=0, padx=10, pady=5)
         self.phone_entry = tk.Entry(self,textvariable=tk.StringVar())
