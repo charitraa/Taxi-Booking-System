@@ -29,8 +29,7 @@ class VerifyEmail(tk.Tk):
         from Controller.CustomerController import CustomerDatabase
         emaill = CustomerDatabase()
         check = emaill._isValidEmail(verify)
-        # Here, you can implement your password creation logic.
-        # For simplicity, let's just check if the passwords match.
+        
         if check==True:
             messagebox.showinfo("verify", "email has been verify successful!")
             self.destroy()
