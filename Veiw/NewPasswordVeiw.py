@@ -13,14 +13,14 @@ class PasswordCreation(tk.Tk):
         self.create_password_label = tk.Label(self, text="Create New Password:")
         self.create_password_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
 
-        self.create_password_entry = tk.Entry(self, show="*")  # Entry widget with '*' to hide the password
+        self.create_password_entry = tk.Entry(self, show="*",textvariable=tk.StringVar())  # Entry widget with '*' to hide the password
         self.create_password_entry.grid(row=0, column=1, padx=10, pady=10, sticky="w")
 
         # Label and Entry for Re-type New Password
         self.retype_password_label = tk.Label(self, text="Re-type New Password:")
         self.retype_password_label.grid(row=1, column=0, padx=10, pady=10, sticky="w")
 
-        self.retype_password_entry = tk.Entry(self, show="*")
+        self.retype_password_entry = tk.Entry(self, show="*",textvariable=tk.StringVar())
         self.retype_password_entry.grid(row=1, column=1, padx=10, pady=10, sticky="w")
 
         # Submit Button
@@ -31,9 +31,19 @@ class PasswordCreation(tk.Tk):
         new_password = self.create_password_entry.get()
         retype_password = self.retype_password_entry.get()
 
-        # Here, you can implement your password creation logic.
-        # For simplicity, let's just check if the passwords match.
         if new_password == retype_password:
+            from Model import VerifyModel , LoginModel
+            gmail = VerifyModel.Email.getEmail()
+            send = LoginModel.Login(_email=gmail,_password=new_password)
+            try:
+                
+
+
+            except:
+
+
+
+
             messagebox.showinfo("Password Created", "Password creation successful!")
             self.destroy()
             LoginVeiw.LoginPage()

@@ -47,3 +47,11 @@ class CustomerDatabase:
         if (record!=None):
             return True
         return False
+    
+    def _ChangePassword(self,new):
+        cursor = self.__connection__.cursor()
+        cursor.execute("UPDATE customer SET password ='"+new.getPassword()+"' WHERE='"+new.getEmail()+"'")
+        record = cursor.fetchone()
+        if (record!=None):
+            return True
+        return False
