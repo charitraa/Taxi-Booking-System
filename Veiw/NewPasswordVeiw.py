@@ -32,21 +32,23 @@ class PasswordCreation(tk.Tk):
         retype_password = self.retype_password_entry.get()
 
         if new_password == retype_password:
-            from Model import VerifyModel , LoginModel
-            gmail = VerifyModel.Email.getEmail()
-            send = LoginModel.Login(_email=gmail,_password=new_password)
             try:
+                from Model import LoginModel
+                import GobalVariable
+                gmail = GobalVariable.email
+                send = LoginModel.Login()
+                send.setPassword(new_password)
+                send.setEmail(gmail)
+                from Controller.CustomerController import CustomerDatabase
+                var = CustomerDatabase._ChangePassword(send)
+                if var:
+                    messagebox.showinfo("Password Created", "Your password has been changed")
+                    self.destroy()
+                    LoginVeiw.LoginPage()
                 
+            except Exception as e:
+                print(e)
 
-
-            except:
-
-
-
-
-            messagebox.showinfo("Password Created", "Password creation successful!")
-            self.destroy()
-            LoginVeiw.LoginPage()
         else:
             messagebox.showerror("Password Error", "Passwords do not match. Please try again.")
 

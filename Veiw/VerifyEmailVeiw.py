@@ -32,7 +32,10 @@ class VerifyEmail(tk.Tk):
         check = emaill._isValidEmail(verify)
         
         if check==True:
+            import GobalVariable
+            GobalVariable.email = self.emailaddress_entry.get()
             messagebox.showinfo("verify", "email has been verify successful!")
+            
             self.destroy()
             NewPasswordVeiw.PasswordCreation()
         else:
