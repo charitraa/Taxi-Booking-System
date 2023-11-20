@@ -24,7 +24,7 @@ class VerifyEmail(tk.Tk):
 
     def emailaddress(self):
         verifyemail = self.emailaddress_entry.get()
-        from Model.EmailModel import Email
+        from Model.VerifyModel import Email
         verify = Email(_email=verifyemail)
         from Controller.CustomerController import CustomerDatabase
         emaill = CustomerDatabase()
