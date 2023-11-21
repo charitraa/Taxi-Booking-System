@@ -1,5 +1,5 @@
 class Login:
-    def __init__(self,_email,_password):
+    def __init__(self,_email=None,_password=None):
         self.email = _email
         self.password = _password
     

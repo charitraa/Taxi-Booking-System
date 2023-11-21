@@ -48,10 +48,13 @@ class CustomerDatabase:
             return True
         return False
     
-    def _ChangePassword(self,new):
-        cursor = self.__connection__.cursor()
-        cursor.execute("UPDATE customer SET password ='"+new.getPassword()+"' WHERE='"+new.getEmail()+"'")
-        record = cursor.fetchone()
-        if (record!=None):
+    def _ChangePassword(self,email):
+        try:
+            cursor = self.__connection__.cursor()
+            cursor.execute("UPDATE customer SET password ='"+email.getPassword()+"' WHERE email='"+email.getEmail()+"'")
+            record = cursor.fetchone()
+            self.__connection__.commit()
+            cursor.close()
             return True
-        return False
+        except Exception as e:
+            print(e)

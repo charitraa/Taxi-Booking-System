@@ -36,11 +36,11 @@ class PasswordCreation(tk.Tk):
                 from Model import LoginModel
                 import GobalVariable
                 gmail = GobalVariable.email
-                send = LoginModel.Login()
-                send.setPassword(new_password)
-                send.setEmail(gmail)
-                from Controller.CustomerController import CustomerDatabase
-                var = CustomerDatabase._ChangePassword(send)
+                send = LoginModel.Login(_email=gmail,_password=new_password)
+                
+                from Controller import CustomerController
+                var = CustomerController.CustomerDatabase()
+                var._ChangePassword(send)
                 if var:
                     messagebox.showinfo("Password Created", "Your password has been changed")
                     self.destroy()
