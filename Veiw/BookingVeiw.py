@@ -46,8 +46,6 @@ class Booking(tk.Tk):
         date = self.date_entry.get()
         time = self.time_entry.get()
 
-        # Here, you can implement the logic to book the ride based on the entered information.
-        # For simplicity, let's just display the information for now.
         ride_info = f"Pickup: {pickup_location}\nDrop-off: {dropoff_location}\nDate: {date}\nTime: {time}"
 
         messagebox.showinfo("Ride Booked", ride_info)
