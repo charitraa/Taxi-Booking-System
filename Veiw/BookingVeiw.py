@@ -46,9 +46,8 @@ class Booking(tk.Tk):
         date = self.date_entry.get()
         time = self.time_entry.get()
 
-        ride_info = f"Pickup: {pickup_location}\nDrop-off: {dropoff_location}\nDate: {date}\nTime: {time}"
 
-        messagebox.showinfo("Ride Booked", ride_info)
+        messagebox.showinfo("Ride Booked")
 
 if __name__ == "__main__":
     app = Booking()

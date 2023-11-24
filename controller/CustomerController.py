@@ -58,3 +58,15 @@ class CustomerDatabase:
             return True
         except Exception as e:
             print(e)
+
+    def __CustomerBook(self,CusBook):
+        try:
+            cursor = self.__connection__.cursor()
+            query  = f"INSERT INTO `book`(`customerid`,`first name`, `last name`, `email`, `phone number`,`address`, `password`) VALUES ('{CusBook.getId()}','{CusBook.getFirst()}','{CusBook.getLast()}','{CusBook.getEmail()}','{CusBook.getPhone()}','{CusBook.getAddress()}','{CusBook.getPassword()}')"
+            cursor.execute(query)
+            self.__connection__.commit()
+            cursor.close()
+            return True
+        except Exception as e:
+            print(e)
+            return False

@@ -1,5 +1,6 @@
 import tkinter as tk
 import sys
+from tkcalendar import Calendar
 sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
 from Model import CusRegistrationModel as cusmodel
 from Controller import CustomerController as cusdb
@@ -38,7 +39,9 @@ class RegistrationPage(tk.Tk):
         self.phone_Label.grid(row=4, column=0, padx=10, pady=5)
         self.phone_entry = tk.Entry(self,textvariable=tk.StringVar())
         self.phone_entry.grid(row=4, column=1, padx=10, pady=5)
-
+        self.date_label = Calendar(self,selectmode='day',year = 2023,month = 11, day = 24)
+        self.date_label.place(x=0,y=200,width=200,height=100)
+        
         self.pass_Label = tk.Label(self, text="Password:")
         self.pass_Label.grid(row=5, column=0, padx=10, pady=5)
         self.pass_entry = tk.Entry(self,textvariable=tk.StringVar())
