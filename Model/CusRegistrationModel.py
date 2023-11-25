@@ -1,11 +1,12 @@
 class Customer:
     #constructor
-    def __init__(self,_cusid,_first,_last,_phone,_address,_email,_password):
+    def __init__(self,_cusid=None,_first=None,_last=None,_phone=None,_address=None,_dob=None,_email=None,_password=None):
         self.cusid = _cusid
         self.first = _first
         self.last = _last
         self.phone = _phone
         self.address = _address
+        self.dob = _dob
         self.email = _email
         self.password = _password
     
@@ -25,6 +26,9 @@ class Customer:
     def getAddress(self):
         return self.address
 
+    def getDOB(self):
+        return self.dob
+    
     def getEmail(self):
         return self.email
     
@@ -47,6 +51,9 @@ class Customer:
 
     def setAddress(self, Address):
         self.address = Address
+
+    def setDOB(self, DOB):
+        self.dob = DOB
 
     def setEmail(self, email):
         self.email = email

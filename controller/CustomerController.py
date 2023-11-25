@@ -6,24 +6,11 @@ class CustomerDatabase:
 
     def __init__(self):
         self.__connection__ = con.Database.Connect()
-    
-    def CustomerRegister(self,CusRegister):
-        if self.__isvalidCustomerRegister(CusRegister):
-            if self.__isAuthentic(CusRegister):
-                messagebox.showinfo('register','Registration Successfully')
-            else:
-                messagebox.showerror("register","Register Failure")
-        else:
-            messagebox.showinfo("register","please write a valid information")
-            
-    def __isvalidCustomerRegister(self,CusRegister):
-        if CusRegister.getFirst()!="" and CusRegister.getLast()!= "" and CusRegister.getPhone()!="" and CusRegister.getAddress()!="" and CusRegister.getEmail()!="" and CusRegister.getPassword()!="":
-            return True
-        return False
-    def __isAuthentic(self,CusRegister):
+        
+    def _CustomerRegister(self,CusRegister):
         try:
             cursor = self.__connection__.cursor()
-            query  = f"INSERT INTO `customer`(`customerid`,`first name`, `last name`, `email`, `phone number`,`address`, `password`) VALUES ('{CusRegister.getId()}','{CusRegister.getFirst()}','{CusRegister.getLast()}','{CusRegister.getEmail()}','{CusRegister.getPhone()}','{CusRegister.getAddress()}','{CusRegister.getPassword()}')"
+            query  = f"INSERT INTO `customer`(`customerid`, `first name`, `last name`, `email`, `DOB`, `phone number`, `address`, `password`) VALUES ('{CusRegister.getId()}','{CusRegister.getFirst()}','{CusRegister.getLast()}','{CusRegister.getEmail()}','{CusRegister.getDOB()}','{CusRegister.getPhone()}','{CusRegister.getAddress()}','{CusRegister.getPassword()}')"
             cursor.execute(query)
             self.__connection__.commit()
             cursor.close()
@@ -59,7 +46,7 @@ class CustomerDatabase:
         except Exception as e:
             print(e)
 
-    def __CustomerBook(self,CusBook):
+    def _CustomerBook(self,CusBook):
         try:
             cursor = self.__connection__.cursor()
             query  = f"INSERT INTO `book`(`customerid`,`first name`, `last name`, `email`, `phone number`,`address`, `password`) VALUES ('{CusBook.getId()}','{CusBook.getFirst()}','{CusBook.getLast()}','{CusBook.getEmail()}','{CusBook.getPhone()}','{CusBook.getAddress()}','{CusBook.getPassword()}')"

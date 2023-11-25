@@ -1,5 +1,6 @@
 import tkinter as tk
 import sys
+from tkinter import messagebox
 sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
 from Model import DriverRegistrationModel as drivermodel
 from Controller import DriverController as driverdb
@@ -63,13 +64,25 @@ class DriverRegistrationVeiw(tk.Tk):
         back_button = tk.Button(self, text="Back", command=self.Back)
         back_button.grid(row=8, column=1, pady=10)
     def register(self):
-        driver = drivermodel.Driver(self.id,self.first_name_entry.get(),self.last_name_entry.get(),self.phone_entry.get(),self.address_entry.get(),self.email_entry.get(),self.liscence_entry.get(),self.vechicle_entry.get(),self.pass_entry.get())
-        reg = driverdb.DriverDatabase()
-        reg.DriverRegister(driver)
+        if self.first_name_entry.get()!='' and self.last_name_entry.get()!='' and self.phone_entry.get()!='' and self.email_entry.get()!='' and self.address_entry.get()!='' and self.liscence_entry.get()!='' and self.vechicle_entry.get()!='' and self.pass_entry.get()!='':
+
+            driver = drivermodel.Driver(self.id,self.first_name_entry.get(),self.last_name_entry.get(),self.phone_entry.get(),self.address_entry.get(),self.email_entry.get(),self.liscence_entry.get(),self.vechicle_entry.get(),self.pass_entry.get())
+            reg = driverdb.DriverDatabase()
+            reg._DriverRegister(driver)
+            if reg:
+                messagebox.showinfo('register','Registration Successfully')
+                self.destroy()
+                LoginVeiw.LoginPage()
+            else:
+                messagebox.showerror("register","Register Failure")
+        else:
+            messagebox.showinfo("register","please write a valid information")
+        
 
     def Back(self):
         self.destroy()
         LoginVeiw.LoginPage()
+
 if __name__ == "__main__":
     
     app = DriverRegistrationVeiw()

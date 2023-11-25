@@ -7,21 +7,7 @@ class DriverDatabase:
     def __init__(self):
         self.__connection__ = con.Database.Connect()
     
-    def DriverRegister(self,DriveRegister):
-        if self.__isvalidDriverRegister(DriveRegister):
-            if self.__isAuthentic(DriveRegister):
-                messagebox.showinfo("register","Register Successfully")
-            else:
-                messagebox.showinfo("register","Register Failure")
-        else:
-            messagebox.showinfo("register","please write a valid information")
-            
-    def __isvalidDriverRegister(self,DriveRegister):
-        if DriveRegister.getFirst()!="" and DriveRegister.getLast()!= "" and DriveRegister.getPhone()!="" and DriveRegister.getAddress()!="" and DriveRegister.getEmail()!="" and DriveRegister.getVechicle()!="" and DriveRegister.getLiscence()!="" and DriveRegister.getPassword()!="":
-            return True
-        return False
-    
-    def __isAuthentic(self,DriveRegister):
+    def _DriverRegister(self,DriveRegister):
         try:
             cursor = self.__connection__.cursor()
             query  = f"INSERT INTO `driver`(`driverid`, `first name`, `last name`, `phone number`, `Address`, `email`, `liscence no`, `vechicle no`, `password`) VALUES ('{DriveRegister.getId()}','{DriveRegister.getFirst()}','{DriveRegister.getLast()}','{DriveRegister.getPhone()}','{DriveRegister.getAddress()}','{DriveRegister.getEmail()}','{DriveRegister.getLiscence()}','{DriveRegister.getVechicle()}','{DriveRegister.getPassword()}')"

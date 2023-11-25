@@ -1,6 +1,7 @@
 import tkinter as tk
 import sys
-from tkcalendar import Calendar
+from tkcalendar import DateEntry
+from tkinter import messagebox
 sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
 from Model import CusRegistrationModel as cusmodel
 from Controller import CustomerController as cusdb
@@ -11,7 +12,7 @@ class RegistrationPage(tk.Tk):
         super().__init__(master)
         self.master = master
         self.title(" Customer Registration Page")
-        self.geometry("300x300")
+        self.geometry("500x500")
         self.create_widgets()
 
     def create_widgets(self):
@@ -35,17 +36,22 @@ class RegistrationPage(tk.Tk):
         self.address_Label.grid(row=3, column=0, padx=10, pady=5)
         self.address_entry = tk.Entry(self,textvariable=tk.StringVar())
         self.address_entry.grid(row=3, column=1, padx=10, pady=5)
+        
+        self.date_label = tk.Label(self,text = 'DOB:')
+        self.date_label.grid(row=4, column=0, padx=10, pady=5)
+
+        self.date_Entry = DateEntry(self,selectmode='day')
+        self.date_Entry.grid(row=4,column=1 ,padx=10, pady=5)
+
         self.phone_Label = tk.Label(self, text="Phone Number:")
-        self.phone_Label.grid(row=4, column=0, padx=10, pady=5)
+        self.phone_Label.grid(row=5, column=0, padx=10, pady=5)
         self.phone_entry = tk.Entry(self,textvariable=tk.StringVar())
-        self.phone_entry.grid(row=4, column=1, padx=10, pady=5)
-        self.date_label = Calendar(self,selectmode='day',year = 2023,month = 11, day = 24)
-        self.date_label.place(x=0,y=200,width=200,height=100)
+        self.phone_entry.grid(row=5, column=1, padx=10, pady=5)
         
         self.pass_Label = tk.Label(self, text="Password:")
-        self.pass_Label.grid(row=5, column=0, padx=10, pady=5)
+        self.pass_Label.grid(row=6, column=0, padx=10, pady=5)
         self.pass_entry = tk.Entry(self,textvariable=tk.StringVar())
-        self.pass_entry.grid(row=5, column=1, padx=10, pady=5)
+        self.pass_entry.grid(row=6, column=1, padx=10, pady=5)
 
         # Repeat this pattern for the remaining fields
 
@@ -53,11 +59,21 @@ class RegistrationPage(tk.Tk):
         register_button.grid(row=8, column=0, pady=10)
         back_button = tk.Button(self, text="Back", command=self.Back)
         back_button.grid(row=8, column=1, pady=10)
+
     def register(self):
-        cus = cusmodel.Customer(self.id, self.first_name_entry.get(),self.last_name_entry.get(),self.phone_entry.get(),self.address_entry.get(),self.email_entry.get(),self.pass_entry.get())
-        reg = cusdb.CustomerDatabase()
-        reg.CustomerRegister(cus)
-    
+        if self.first_name_entry.get()!='' and self.last_name_entry.get()!='' and self.phone_entry.get()!='' and self.email_entry.get()!='' and self.address_entry.get()!='' and self.date_Entry.get_date()!='' and self.pass_entry.get()!='':
+            cus = cusmodel.Customer(self.id, self.first_name_entry.get(),self.last_name_entry.get(),self.phone_entry.get(),self.address_entry.get(),self.date_Entry.get_date(),self.email_entry.get(),self.pass_entry.get())
+            reg = cusdb.CustomerDatabase()
+            reg._CustomerRegister(cus)
+            if reg:
+                messagebox.showinfo('register','Registration Successfully')
+                self.destroy()
+                LoginVeiw.LoginPage()
+            else:
+                messagebox.showerror("register","Register Failure")
+        else:
+            messagebox.showinfo("register","please write a valid information")
+
     def Back(self):
         self.destroy()
         LoginVeiw.LoginPage()
