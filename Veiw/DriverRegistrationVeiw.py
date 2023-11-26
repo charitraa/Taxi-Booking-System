@@ -71,9 +71,9 @@ class DriverRegistrationVeiw(tk.Tk):
         back_button = tk.Button(self, text="Back", command=self.Back)
         back_button.grid(row=9, column=1, pady=10)
     def register(self):
-        if self.first_name_entry.get()!='' and self.last_name_entry.get()!='' and self.phone_entry.get()!='' and self.email_entry.get()!='' and self.address_entry.get()!='' and self.liscence_entry.get()!='' and self.vechicle_entry.get()!='' and self.pass_entry.get()!='':
+        if self.first_name_entry.get()!='' and self.last_name_entry.get()!='' and self.phone_entry.get()!='' and self.email_entry.get()!='' and self.address_entry.get()!='' and self.date_Entry.get_date()!='' and self.liscence_entry.get()!='' and self.vechicle_entry.get()!='' and self.pass_entry.get()!='':
 
-            driver = drivermodel.Driver(self.id,self.first_name_entry.get(),self.last_name_entry.get(),self.phone_entry.get(),self.address_entry.get(),self.email_entry.get(),self.liscence_entry.get(),self.vechicle_entry.get(),self.pass_entry.get())
+            driver = drivermodel.Driver(self.id,self.first_name_entry.get(),self.last_name_entry.get(),self.phone_entry.get(),self.address_entry.get(),self.email_entry.get(),self.date_Entry.get_date(),self.liscence_entry.get(),self.vechicle_entry.get(),self.pass_entry.get())
             reg = driverdb.DriverDatabase()
             reg._DriverRegister(driver)
             if reg:

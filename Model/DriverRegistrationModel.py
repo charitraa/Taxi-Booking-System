@@ -1,12 +1,13 @@
 class Driver:
     #constructor
-    def __init__(self,_driverid,_first,_last,_phone,_address,_email,_liscence,_vechicle,_password):
+    def __init__(self,_driverid,_first,_last,_phone,_address,_email,_dob,_liscence,_vechicle,_password):
         self.driverid = _driverid
         self.first = _first
         self.last = _last
         self.phone = _phone
         self.address = _address
         self.email = _email
+        self.DOB = _dob
         self.liscence = _liscence
         self.vechicle = _vechicle
         self.password = _password
@@ -29,6 +30,9 @@ class Driver:
 
     def getEmail(self):
         return self.email
+    
+    def getDOB(self):
+        return self.DOB
     
     def getVechicle(self):
         return self.vechicle
@@ -58,6 +62,9 @@ class Driver:
 
     def setEmail(self, email):
         self.email = email
+
+    def setDOB(self, DOB):
+        self.DOB = DOB
 
     def setLiscence(self, Liscence):
         self.liscence = Liscence

@@ -10,7 +10,7 @@ class DriverDatabase:
     def _DriverRegister(self,DriveRegister):
         try:
             cursor = self.__connection__.cursor()
-            query  = f"INSERT INTO `driver`(`driverid`, `first name`, `last name`, `phone number`, `Address`, `email`, `liscence no`, `vechicle no`, `password`) VALUES ('{DriveRegister.getId()}','{DriveRegister.getFirst()}','{DriveRegister.getLast()}','{DriveRegister.getPhone()}','{DriveRegister.getAddress()}','{DriveRegister.getEmail()}','{DriveRegister.getLiscence()}','{DriveRegister.getVechicle()}','{DriveRegister.getPassword()}')"
+            query  = f"INSERT INTO `driver`(`driverid`, `first name`, `last name`, `phone number`, `Address`, `email`, `DOB`, `liscence no`, `vechicle no`, `password`) VALUES ('{DriveRegister.getId()}','{DriveRegister.getFirst()}','{DriveRegister.getLast()}','{DriveRegister.getPhone()}','{DriveRegister.getAddress()}','{DriveRegister.getEmail()}','{DriveRegister.getDOB()}','{DriveRegister.getLiscence()}','{DriveRegister.getVechicle()}','{DriveRegister.getPassword()}')"
             cursor.execute(query)
             self.__connection__.commit()
             cursor.close()
