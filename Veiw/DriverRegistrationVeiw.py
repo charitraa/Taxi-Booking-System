@@ -1,6 +1,7 @@
 import tkinter as tk
 import sys
 from tkinter import messagebox
+from tkcalendar import DateEntry
 sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
 from Model import DriverRegistrationModel as drivermodel
 from Controller import DriverController as driverdb
@@ -10,7 +11,7 @@ class DriverRegistrationVeiw(tk.Tk):
         super().__init__(master)
         self.master = master
         self.title(" Driver Registration Page")
-        self.geometry("300x400")
+        self.geometry("500x500")
         self.create_widgets()
 
     def create_widgets(self):
@@ -35,34 +36,40 @@ class DriverRegistrationVeiw(tk.Tk):
         self.address_entry = tk.Entry(self,textvariable=tk.StringVar())
         self.address_entry.grid(row=3, column=1, padx=10, pady=5)
 
+        self.date_label = tk.Label(self,text = 'DOB:')
+        self.date_label.grid(row=4, column=0, padx=10, pady=5)
+
+        self.date_Entry = DateEntry(self,selectmode='day')
+        self.date_Entry.grid(row=4,column=1 ,padx=10, pady=5)
+
         self.phone_Label = tk.Label(self, text="Phone Number:")
-        self.phone_Label.grid(row=4, column=0, padx=10, pady=5)
+        self.phone_Label.grid(row=5, column=0, padx=10, pady=5)
         self.phone_entry = tk.Entry(self,textvariable=tk.StringVar())
-        self.phone_entry.grid(row=4, column=1, padx=10, pady=5)
+        self.phone_entry.grid(row=5, column=1, padx=10, pady=5)
 
         self.liscence_Label = tk.Label(self, text="Driving Liscence:")
-        self.liscence_Label.grid(row=5, column=0, padx=10, pady=5)
+        self.liscence_Label.grid(row=6, column=0, padx=10, pady=5)
         self.liscence_entry = tk.Entry(self,textvariable=tk.StringVar())
-        self.liscence_entry.grid(row=5, column=1, padx=10, pady=5)
+        self.liscence_entry.grid(row=6, column=1, padx=10, pady=5)
 
         self.vechicle_Label = tk.Label(self, text="Vechicle No:")
-        self.vechicle_Label.grid(row=6, column=0, padx=10, pady=5)
+        self.vechicle_Label.grid(row=7, column=0, padx=10, pady=5)
         self.vechicle_entry = tk.Entry(self,textvariable=tk.StringVar())
-        self.vechicle_entry.grid(row=6, column=1, padx=10, pady=5)
+        self.vechicle_entry.grid(row=7, column=1, padx=10, pady=5)
 
         self.pass_Label = tk.Label(self, text="Password:")
-        self.pass_Label.grid(row=7, column=0, padx=10, pady=5)
+        self.pass_Label.grid(row=8, column=0, padx=10, pady=5)
         self.pass_entry = tk.Entry(self,textvariable=tk.StringVar())
-        self.pass_entry.grid(row=7, column=1, padx=10, pady=5)
+        self.pass_entry.grid(row=8, column=1, padx=10, pady=5)
         
 
 
         # Repeat this pattern for the remaining fields
 
         register_button = tk.Button(self, text="Register", command=self.register)
-        register_button.grid(row=8, column=0, pady=10)
+        register_button.grid(row=9, column=0, pady=10)
         back_button = tk.Button(self, text="Back", command=self.Back)
-        back_button.grid(row=8, column=1, pady=10)
+        back_button.grid(row=9, column=1, pady=10)
     def register(self):
         if self.first_name_entry.get()!='' and self.last_name_entry.get()!='' and self.phone_entry.get()!='' and self.email_entry.get()!='' and self.address_entry.get()!='' and self.liscence_entry.get()!='' and self.vechicle_entry.get()!='' and self.pass_entry.get()!='':
 
