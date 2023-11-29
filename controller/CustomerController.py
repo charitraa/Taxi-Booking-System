@@ -20,12 +20,13 @@ class CustomerDatabase:
             return False
     
     def CustomerLogin(self,LoginCustomer):
-        cursor = self.__connection__.cursor()
-        cursor.execute("SELECT * FROM customer WHERE email='"+LoginCustomer.getEmail()+"' AND password='"+LoginCustomer.getPassword()+"'")
-        record = cursor.fetchone()
-        if (record!=None):
-            return True
-        return False
+        try:
+            cursor = self.__connection__.cursor()
+            cursor.execute("SELECT * FROM customer WHERE email='"+LoginCustomer.getEmail()+"' AND password='"+LoginCustomer.getPassword()+"'")
+            record = cursor.fetchone()
+        except Exception as e:
+            print(e)
+        return record
     
     def _isValidEmail(self,email):
         cursor = self.__connection__.cursor()

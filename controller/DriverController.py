@@ -20,9 +20,12 @@ class DriverDatabase:
             return False
         
     def DriverLogin(self,LoginDriver):
-        cursor = self.__connection__.cursor()
-        cursor.execute("SELECT * FROM driver WHERE email='"+LoginDriver.getEmail()+"' AND password='"+LoginDriver.getPassword()+"'")
-        record = cursor.fetchone()
-        if (record!=None):
-            return True
-        return False
+        try:
+            cursor = self.__connection__.cursor()
+            cursor.execute("SELECT * FROM driver WHERE email='"+LoginDriver.getEmail()+"' AND password='"+LoginDriver.getPassword()+"'")
+            record = cursor.fetchone()
+            
+        except Exception as e:
+            print(e)
+            
+        return record

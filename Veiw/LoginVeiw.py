@@ -1,10 +1,12 @@
 import tkinter as tk
-# import sys
-# sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
+import sys
+sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
 from Controller import CustomerController as cusdb , DriverController as drivedb , AdminController as admindb
 from Model import LoginModel as loginmd
 from tkinter import messagebox
 import RegistrationOptionVeiw , VerifyEmailVeiw
+import BookingVeiw
+import GobalVariable
 class LoginPage(tk.Tk):
 
     email = str
@@ -57,13 +59,15 @@ class LoginPage(tk.Tk):
         dri = driver.DriverLogin(login)
         admin = admindb.AdminDatabase()
         ad = admin.AdminLogin(login)
-        if cus==True:
+        if cus!=None:
             messagebox.showinfo('Login','Customer Login Sucessfully')
+            cus = GobalVariable.Customer
             self.destroy()
-        elif dri==True:
+            BookingVeiw.Booking()
+        elif dri!=None:
             messagebox.showinfo('Login','Driver Login Sucessfully')
             self.destroy()
-        elif ad == True:
+        elif ad!=None:
             messagebox.showinfo('Login','Admin Login Sucessfully')
             self.destroy()
         elif username=='' or password=='':

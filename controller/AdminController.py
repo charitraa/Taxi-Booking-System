@@ -9,9 +9,12 @@ class AdminDatabase:
         self.__connection__ = con.Database.Connect()
 
     def AdminLogin(self,LoginAdmin):
-        cursor = self.__connection__.cursor()
-        cursor.execute("SELECT * FROM admin WHERE email='"+LoginAdmin.getEmail()+"' AND password='"+LoginAdmin.getPassword()+"'")
-        record = cursor.fetchone()
-        if (record!=None):
-            return True
-        return False
+        try:
+            
+            cursor = self.__connection__.cursor()
+            cursor.execute("SELECT * FROM admin WHERE email='"+LoginAdmin.getEmail()+"' AND password='"+LoginAdmin.getPassword()+"'")
+            record = cursor.fetchone()
+            
+        except Exception as e:
+            print(e)
+        return record
