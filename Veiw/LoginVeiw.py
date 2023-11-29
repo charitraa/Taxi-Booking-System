@@ -61,14 +61,16 @@ class LoginPage(tk.Tk):
         ad = admin.AdminLogin(login)
         if cus!=None:
             messagebox.showinfo('Login','Customer Login Sucessfully')
-            cus = GobalVariable.Customer
+            GobalVariable.Customer = cus
             self.destroy()
             BookingVeiw.Booking()
         elif dri!=None:
             messagebox.showinfo('Login','Driver Login Sucessfully')
+            GobalVariable.Driver = dri
             self.destroy()
         elif ad!=None:
             messagebox.showinfo('Login','Admin Login Sucessfully')
+            GobalVariable.Admin  = ad
             self.destroy()
         elif username=='' or password=='':
             messagebox.showwarning('Login','please write both email and password')

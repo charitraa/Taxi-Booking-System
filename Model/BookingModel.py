@@ -1,11 +1,12 @@
 class Customer:
     #constructor
-    def __init__(self,_bid,_pickup,_dropoff,_date,_time,):
+    def __init__(self,_bid,_pickup,_dropoff,_date,_time,_cusid):
         self.bid = _bid
         self.pickup = _pickup
         self.dropoff = _dropoff
         self.date = _date
         self.time= _time
+        self.cusid = _cusid
     
     #getters
     def getId(self):
@@ -22,6 +23,8 @@ class Customer:
     
     def getTime(self):
         return self.time
+    def getUID(self):
+        return self.cusid
     
     #setters
 
@@ -39,3 +42,6 @@ class Customer:
 
     def setTime(self, time):
         self.time = time
+
+    def setUid(self, uid):
+        self.cusid = uid
