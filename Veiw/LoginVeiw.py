@@ -1,6 +1,6 @@
 import tkinter as tk
-import sys
-sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
+# import sys
+# sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
 from Controller import CustomerController as cusdb , DriverController as drivedb , AdminController as admindb
 from Model import LoginModel as loginmd
 from tkinter import messagebox
