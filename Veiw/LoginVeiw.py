@@ -59,6 +59,7 @@ class LoginPage(tk.Tk):
         dri = driver.DriverLogin(login)
         admin = admindb.AdminDatabase()
         ad = admin.AdminLogin(login)
+
         if cus!=None:
             messagebox.showinfo('Login','Customer Login Sucessfully')
             GobalVariable.Customer = cus
