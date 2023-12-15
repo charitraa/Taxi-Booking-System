@@ -14,15 +14,16 @@ class Customer:
 
     def getPickup(self):
         return self.pickup
-    
+
     def getDropoff(self):
         return self.dropoff
-        
+
     def getDate(self):
         return self.date
-    
+
     def getTime(self):
         return self.time
+
     def getUID(self):
         return self.cusid
     

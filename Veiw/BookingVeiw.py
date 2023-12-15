@@ -45,10 +45,6 @@ class Booking(tk.Tk):
         dropoff_location = self.dropoff_entry.get()
         date = self.date_entry.get()
         time = self.time_entry.get()
-
-
-
-
         messagebox.showinfo("Ride Booked")
 
 if __name__ == "__main__":
