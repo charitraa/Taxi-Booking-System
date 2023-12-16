@@ -7,6 +7,7 @@ from tkinter import messagebox
 import RegistrationOptionVeiw , VerifyEmailVeiw
 import BookingVeiw
 import GobalVariable
+from PIL import ImageTk, Image
 class LoginPage(tk.Tk):
 
     email = str
@@ -15,7 +16,7 @@ class LoginPage(tk.Tk):
         super().__init__()
         self.master = master
         self.title('Login Page')
-        self.geometry("300x300")
+        self.geometry("1000x1000")
         self.create_widgets()
         
     def create_widgets(self):
@@ -24,6 +25,16 @@ class LoginPage(tk.Tk):
         self.label_password = tk.Label(self, text="Password:")
 
         # Create entry widgets for username and password
+        
+        background_image = Image.open('D:\\Code\\Python\\python project\\TaxBookingSystem\\Veiw\\Screenshot 2022-03-28 220249.jpg')
+        self.background_photo = ImageTk.PhotoImage(background_image)
+
+        self.canvas = tk.Canvas(self, width=1000, height=5000)
+        self.canvas.place(x=0,y=0)
+
+        self.canvas.create_image(0, 0, image=self.background_photo)
+
+
         self.email = tk.StringVar()
         self.password = tk.StringVar()
         self.entry_username = tk.Entry(self, textvariable=self.email)
