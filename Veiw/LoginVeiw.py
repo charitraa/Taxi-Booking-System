@@ -29,7 +29,7 @@ class LoginPage(tk.Tk):
         background_image = Image.open('D:\\Code\\Python\\python project\\TaxBookingSystem\\Veiw\\Screenshot 2022-03-28 220249.jpg')
         self.background_photo = ImageTk.PhotoImage(background_image)
 
-        self.canvas = tk.Canvas(self, width=1000, height=5000)
+        self.canvas = tk.Canvas(self, width=300, height=300)
         self.canvas.place(x=0,y=0)
 
         self.canvas.create_image(0, 0, image=self.background_photo)
