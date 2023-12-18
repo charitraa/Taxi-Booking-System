@@ -26,14 +26,15 @@ class LoginPage(tk.Tk):
 
         # Create entry widgets for username and password
         
-        background_image = Image.open('D:\\Code\\Python\\python project\\TaxBookingSystem\\Veiw\\Screenshot 2022-03-28 220249.jpg')
+        background_image = Image.open('D:\\Code\\Python\\python project\\TaxBookingSystem\\Veiw\\1685725595.jpeg')
         self.background_photo = ImageTk.PhotoImage(background_image)
 
-        self.canvas = tk.Canvas(self, width=300, height=300)
-        self.canvas.place(x=0,y=0)
+        # self.canvas = tk.Canvas(self, width=500, height=500)
+        # self.canvas.place(x=100,y=100)
 
-        self.canvas.create_image(0, 0, image=self.background_photo)
+        # self.canvas.create_image(100, 0, image=self.background_photo, anchor = tk.NW)
 
+        self.img = tk.Label(image=self.background_photo).place(x=10,y=20)
 
         self.email = tk.StringVar()
         self.password = tk.StringVar()
