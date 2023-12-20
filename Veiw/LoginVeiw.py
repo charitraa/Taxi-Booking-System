@@ -12,6 +12,7 @@ class LoginPage(CT.CTk):
     def __init__(self,*args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title('Login Page')
+        
         self.geometry("1000x1000")
         self.create_widgets()
         
@@ -29,7 +30,7 @@ class LoginPage(CT.CTk):
 
         self.email = CT.StringVar()
         self.password = CT.StringVar()
-        self.CTkentry_username = CT.CTkEntry(self, textvariable=self.email)
+        self.CTkentry_username = CT.CTkEntry(self, textvariable=self.email,border_width=0)
         self.CTkentry_password = CT.CTkEntry(self, textvariable= self.password , show='*')  # Show * for password
         
         # Create login button
@@ -44,16 +45,16 @@ class LoginPage(CT.CTk):
         self.button_login.place(x=110, y=100)
         self.button_SignUp.place(x=110, y=150)
         self.button_Forget.place(x=100, y=200)
-        
+
     def on_SignUp(self):
         self.destroy()
         nextpage = CT.CTkToplevel()
         RegistrationOptionVeiw.OptionPage(nextpage)
     
     def on_forget(self):
-        
         self.destroy()
         VerifyEmailVeiw.VerifyEmail()
+
     def on_login(self):
         username = self.CTkentry_username.get()
         password = self.CTkentry_password.get()
@@ -68,16 +69,16 @@ class LoginPage(CT.CTk):
         if cus!=None:
             messagebox.showinfo('Login','Customer Login Sucessfully')
             GobalVariable.Customer = cus
-            self.root.destroy()
+            self.destroy()
             BookingVeiw.Booking()
         elif dri!=None:
             messagebox.showinfo('Login','Driver Login Sucessfully')
             GobalVariable.Driver = dri
-            self.root.destroy()
+            self.destroy()
         elif ad!=None:
             messagebox.showinfo('Login','Admin Login Sucessfully')
             GobalVariable.Admin  = ad
-            self.root.destroy()
+            self.destroy()
         elif username=='' or password=='':
             messagebox.showwarning('Login','please write both email and password')
         elif username=='' and password =='':
