@@ -1,2 +1,5 @@
-self.CTkLabel_username = CT.CTkLabel(self, text="Email:").place(x=1000,y=300)
-        # self.CTkLabel_password = CT.CTkLabel(self, text="Password:")
+
+        # self.screen_width=1400
+        # self.screen_height= 900
+        # self.geometry("1400x900")
+        # self.eval('tk::PlaceWindow . center')

@@ -12,12 +12,12 @@ class LoginPage(CT.CTk):
     def __init__(self,*args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title('Login Page')
-        width= self.winfo_screenwidth() 
-        height= self.winfo_screenheight()
-        # self.state('zoomed')
-        #setting tkinter window size
-        self.geometry("%dx%d" % (width, height))
-        # self.geometry("1000x1000")
+        
+        # self.screen_width=1400
+        # self.screen_height= 900
+        # self.geometry("1400x900")
+        # self.eval('tk::PlaceWindow . center')
+        
         self.create_widgets()
 
     def create_widgets(self):
@@ -83,4 +83,5 @@ class LoginPage(CT.CTk):
 if __name__ == "__main__":
     
     app = LoginPage()
+    app.after(0,lambda:app.state('zoomed'))
     app.mainloop()
