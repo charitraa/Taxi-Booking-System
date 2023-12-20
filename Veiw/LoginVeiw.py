@@ -12,39 +12,33 @@ class LoginPage(CT.CTk):
     def __init__(self,*args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title('Login Page')
-        
-        self.geometry("1000x1000")
+        width= self.winfo_screenwidth() 
+        height= self.winfo_screenheight()
+        # self.state('zoomed')
+        #setting tkinter window size
+        self.geometry("%dx%d" % (width, height))
+        # self.geometry("1000x1000")
         self.create_widgets()
-        
+
     def create_widgets(self):
         # Create CTkLabels
-        self.CTkLabel_username = CT.CTkLabel(self, text="Email:")
-        self.CTkLabel_password = CT.CTkLabel(self, text="Password:")
-
         # Create CTkentry widgets for username and password
         
-        # background_image = Image.open('D:\\Code\\Python\\python project\\TaxBookingSystem\\Veiw\\1685725595.jpeg')
-        # self.background_photo = ImageCT.PhotoImage(background_image)
-
-        # self.img = CT.CTkLabel(image=self.background_photo).place(x=10,y=20)
+        self.background_image = CT.CTkImage(Image.open('D:\\Code\\Python\\python project\\TaxBookingSystem\\image\\new.png'), size=(1000,1000))
+        self.img = CT.CTkLabel(self,image=self.background_image, text="").place(x=0,y=0)
+        self.CTkLabel_username = CT.CTkLabel(self, text="Email:").place(x=1100,y=300)
+        self.CTkLabel_password = CT.CTkLabel(self, text="Password:").place(x=1100,y=500)
 
         self.email = CT.StringVar()
         self.password = CT.StringVar()
-        self.CTkentry_username = CT.CTkEntry(self, textvariable=self.email,border_width=0)
-        self.CTkentry_password = CT.CTkEntry(self, textvariable= self.password , show='*')  # Show * for password
+        self.CTkentry_username = CT.CTkEntry(self, textvariable=self.email,border_width=0).place(x=1100,y=400)
+        self.CTkentry_password = CT.CTkEntry(self, textvariable= self.password , show='*').place(x=1100,y=600) # Show * for password
         
         # Create login button
-        self.button_login = CT.CTkButton(self, text="Login", command=self.on_login)
-        self.button_SignUp = CT.CTkButton(self, text="SignUp", command=self.on_SignUp)
-        self.button_Forget = CT.CTkButton(self, text="Forget Password", command=self.on_forget)
+        self.button_login = CT.CTkButton(self, text="Login", command=self.on_login).place(x=1100,y=700)
+        self.button_SignUp = CT.CTkButton(self, text="SignUp", command=self.on_SignUp).place(x=1100,y=800)
+        self.button_Forget = CT.CTkButton(self, text="Forget Password", command=self.on_forget).place(x=1300,y=800)
         # Arrange widgets using grid
-        self.CTkLabel_username.grid(row=0, column=0, padx=10, pady=10)
-        self.CTkentry_username.grid(row=0, column=1, padx=10, pady=10)
-        self.CTkLabel_password.grid(row=1, column=0, padx=10, pady=10)
-        self.CTkentry_password.grid(row=1, column=1, padx=10, pady=10)
-        self.button_login.place(x=110, y=100)
-        self.button_SignUp.place(x=110, y=150)
-        self.button_Forget.place(x=100, y=200)
 
     def on_SignUp(self):
         self.destroy()
