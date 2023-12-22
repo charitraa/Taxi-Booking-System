@@ -41,7 +41,7 @@ class RegistrationPage(CT.CTk):
         self.date_CTklabel = CT.CTkLabel(self,text = 'DOB:')
         self.date_CTklabel.grid(row=4, column=0, padx=10, pady=5)
 
-        self.date_CTkEntry = DateCTkEntry(self,selectmode='day')
+        self.date_CTkEntry = DateEntry(self,selectmode='day')
         self.date_CTkEntry.grid(row=4,column=1 ,padx=10, pady=5)
 
         self.phone_CTkLabel = CT.CTkLabel(self, text="Phone Number:")
