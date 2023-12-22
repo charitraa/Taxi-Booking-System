@@ -6,7 +6,7 @@ from Controller import CustomerController as cusdb , DriverController as drivedb
 from Model import LoginModel as loginmd
 import tkinter as tk
 import customtkinter as CT
-import RegistrationOptionVeiw , VerifyEmailVeiw , BookingVeiw , GobalVariable
+import VerifyEmailVeiw , BookingVeiw , RegistrationVeiw
 
 class LoginPage(CT.CTk):
     def __init__(self,*args, **kwargs):
@@ -24,14 +24,14 @@ class LoginPage(CT.CTk):
         # Create CTkLabels
         # Create CTkentry widgets for username and password
         
-        self.background_image = CT.CTkImage(Image.open('D:\\Code\\Python\\python project\\TaxBookingSystem\\image\\new.png'), size=(1000,1000))
+        self.background_image = CT.CTkImage(Image.open('Veiw\\Untitled.png'), size=(900,900))
         self.img = CT.CTkLabel(self,image=self.background_image, text="").place(x=0,y=0)
         self.CTkLabel_username = CT.CTkLabel(self, text="Email:").place(x=1100,y=300)
         self.CTkLabel_password = CT.CTkLabel(self, text="Password:").place(x=1100,y=500)
 
         self.email = CT.StringVar()
         self.password = CT.StringVar()
-        self.CTkentry_username = CT.CTkEntry(self, textvariable=self.email,border_width=0).place(x=1100,y=400)
+        self.CTkentry_username = CT.CTkEntry(self, textvariable=self.email).place(x=1100,y=400)
         self.CTkentry_password = CT.CTkEntry(self, textvariable= self.password , show='*').place(x=1100,y=600) # Show * for password
         
         # Create login button
@@ -43,11 +43,13 @@ class LoginPage(CT.CTk):
     def on_SignUp(self):
         self.destroy()
         nextpage = CT.CTkToplevel()
-        RegistrationOptionVeiw.OptionPage(nextpage)
+        RegistrationVeiw.RegistrationPage(nextpage)
     
     def on_forget(self):
+
         self.destroy()
-        VerifyEmailVeiw.VerifyEmail()
+        page = CT.CTkToplevel()
+        VerifyEmailVeiw.VerifyEmail(page)
 
     def on_login(self):
         username = self.CTkentry_username.get()
