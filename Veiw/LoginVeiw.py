@@ -20,7 +20,7 @@ class LoginPage():
         my_font = CT.CTkFont(family="Times", size=50,weight="bold")
 
         #create Background Image
-        self.background_image = CT.CTkImage(Image.open('image\\Untitled design (14).png'), size=(1000,850))
+        self.background_image = CT.CTkImage(Image.open('image\\Home.png'), size=(1000,850))
         self.img = CT.CTkLabel(self.master,image=self.background_image, text="").place(x=0,y=0)
 
         # Create CTkLabels
@@ -59,7 +59,10 @@ class LoginPage():
         
 
     def on_forget(self):
+        reg = CT.CTkToplevel()
         VerifyEmailVeiw.VerifyEmail(self)
+        reg.mainloop()
+        
 
     def on_login(self):
         username = self.CTkentry_username.get()
@@ -76,7 +79,10 @@ class LoginPage():
             messagebox.showinfo('Login','Customer Login Sucessfully')
             GobalVariable.Customer = cus
             self.master.destroy()
-            # BookingVeiw.Booking()
+            reg = CT.CTkToplevel()
+            BookingVeiw.Booking()
+            reg.mainloop()
+
         elif dri!=None:
             messagebox.showinfo('Login','Driver Login Sucessfully')
             GobalVariable.Driver = dri
