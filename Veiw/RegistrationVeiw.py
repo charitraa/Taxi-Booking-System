@@ -8,57 +8,55 @@ from Model import CusRegistrationModel as cusmodel
 from Controller import CustomerController as cusdb
 import LoginVeiw
 
-class RegistrationPage(CT.CTk):
-    def __init__(self,*args, **kwargs):
-        super().__init__(*args, **kwargs)
-        
-        self.title(" Customer Registration Page")
-        self.geometry("500x500")
-        self.create_widgets()
+class RegistrationPage():
+    def __init__(self,master):
+        self.master = master
+        self.master.title(" Customer Registration Page")
+        self.master.geometry("500x500")
+        self.master.attributes('-topmost',True)
 
-    def create_widgets(self):
         self.id = 0
-        self.first_name_CTkLabel = CT.CTkLabel(self, text="First Name:")
+        self.first_name_CTkLabel = CT.CTkLabel(self.master, text="First Name:")
         self.first_name_CTkLabel.grid(row=0, column=0, padx=10, pady=5)
-        self.first_name_CTkentry = CT.CTkEntry(self,textvariable=CT.StringVar())
+        self.first_name_CTkentry = CT.CTkEntry(self.master,textvariable=CT.StringVar())
         self.first_name_CTkentry.grid(row=0, column=1, padx=10, pady=5)
 
-        self.last_name_CTkLabel = CT.CTkLabel(self, text="Last Name:")
+        self.last_name_CTkLabel = CT.CTkLabel(self.master, text="Last Name:")
         self.last_name_CTkLabel.grid(row=1, column=0, padx=10, pady=5)
-        self.last_name_CTkentry = CT.CTkEntry(self,textvariable=CT.StringVar())
+        self.last_name_CTkentry = CT.CTkEntry(self.master,textvariable=CT.StringVar())
         self.last_name_CTkentry.grid(row=1, column=1, padx=10, pady=5)
 
-        self.email_CTkLabel = CT.CTkLabel(self, text="Email:")
+        self.email_CTkLabel = CT.CTkLabel(self.master, text="Email:")
         self.email_CTkLabel.grid(row=2, column=0, padx=10, pady=5)
-        self.email_CTkentry = CT.CTkEntry(self,textvariable=CT.StringVar())
+        self.email_CTkentry = CT.CTkEntry(self.master,textvariable=CT.StringVar())
         self.email_CTkentry.grid(row=2, column=1, padx=10, pady=5)
 
-        self.address_CTkLabel = CT.CTkLabel(self, text="Address:")
+        self.address_CTkLabel = CT.CTkLabel(self.master, text="Address:")
         self.address_CTkLabel.grid(row=3, column=0, padx=10, pady=5)
-        self.address_CTkentry = CT.CTkEntry(self,textvariable=CT.StringVar())
+        self.address_CTkentry = CT.CTkEntry(self.master,textvariable=CT.StringVar())
         self.address_CTkentry.grid(row=3, column=1, padx=10, pady=5)
         
-        self.date_CTklabel = CT.CTkLabel(self,text = 'DOB:')
+        self.date_CTklabel = CT.CTkLabel(self.master,text = 'DOB:')
         self.date_CTklabel.grid(row=4, column=0, padx=10, pady=5)
 
-        self.date_CTkEntry = DateEntry(self,selectmode='day')
+        self.date_CTkEntry = DateEntry(self.master,selectmode='day')
         self.date_CTkEntry.grid(row=4,column=1 ,padx=10, pady=5)
 
-        self.phone_CTkLabel = CT.CTkLabel(self, text="Phone Number:")
+        self.phone_CTkLabel = CT.CTkLabel(self.master, text="Phone Number:")
         self.phone_CTkLabel.grid(row=5, column=0, padx=10, pady=5)
-        self.phone_CTkentry = CT.CTkEntry(self,textvariable=CT.StringVar())
+        self.phone_CTkentry = CT.CTkEntry(self.master,textvariable=CT.StringVar())
         self.phone_CTkentry.grid(row=5, column=1, padx=10, pady=5)
         
-        self.pass_CTkLabel = CT.CTkLabel(self, text="Password:")
+        self.pass_CTkLabel = CT.CTkLabel(self.master, text="Password:")
         self.pass_CTkLabel.grid(row=6, column=0, padx=10, pady=5)
-        self.pass_CTkentry = CT.CTkEntry(self,textvariable=CT.StringVar())
+        self.pass_CTkentry = CT.CTkEntry(self.master,textvariable=CT.StringVar())
         self.pass_CTkentry.grid(row=6, column=1, padx=10, pady=5)
 
         # Repeat this pattern for the remaining fields
 
-        register_CTkbutton = CT.CTkButton(self, text="Register", command=self.register)
+        register_CTkbutton = CT.CTkButton(self.master, text="Register", command=self.register)
         register_CTkbutton.grid(row=8, column=0, pady=10)
-        back_CTkbutton = CT.CTkButton(self, text="Back", command=self.Back)
+        back_CTkbutton = CT.CTkButton(self.master, text="Back", command=self.Back)
         back_CTkbutton.grid(row=8, column=1, pady=10)
 
     def register(self):
@@ -68,7 +66,7 @@ class RegistrationPage(CT.CTk):
             reg._CustomerRegister(cus)
             if reg:
                 messagebox.showinfo('register','Registration Successfully')
-                self.destroy()
+                self.master.destroy()
                 LoginVeiw.LoginPage()
             else:
                 messagebox.showerror("register","Register Failure")
@@ -76,10 +74,11 @@ class RegistrationPage(CT.CTk):
             messagebox.showinfo("register","please write a valid information")
 
     def Back(self):
-        self.destroy()
+        self.master.destroy()
         LoginVeiw.LoginPage()
 
 if __name__ == "__main__":
 
-    app = RegistrationPage()
+    app = CT.CTk()
+    RegistrationPage(app)
     app.mainloop()
