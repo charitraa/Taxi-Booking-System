@@ -20,7 +20,7 @@ class LoginPage(CT.CTk):
         # decleare the font for text
         my_font = CT.CTkFont(family="Times", size=50,weight="bold")
         #create Background Image
-        self.background_image = CT.CTkImage(Image.open('Veiw\\Untitled.png'), size=(1000,850))
+        self.background_image = CT.CTkImage(Image.open('image\\frontpage.png'), size=(1000,850))
         self.img = CT.CTkLabel(self,image=self.background_image, text="").place(x=0,y=0)
 
         # Create CTkLabels
@@ -37,11 +37,15 @@ class LoginPage(CT.CTk):
         # Create CTkentry widgets for username and password
         self.CTkentry_username = CT.CTkEntry(self, textvariable=CT.StringVar(),width=300, border_color="green").place(x=1110,y=350)
         self.CTkentry_password = CT.CTkEntry(self, textvariable= CT.StringVar(),width=300 , show='*',border_color="green", border_width=2).place(x=1110,y=450) # Show * for passwords
+
+        # create check box
+
+        self.remember = CT.CTkCheckBox(self,text="Remember me", bg_color="white", font=CT.CTkFont(family="Times", size=20)).place(x=1110,y=500) 
         
         # Create login button
-        self.button_login = CT.CTkButton(self, text="Login", command=self.on_login, width=300, height=40, fg_color="green", text_color="white", font=CT.CTkFont(family="Times", size=20)).place(x=1110,y=525)
+        self.button_login = CT.CTkButton(self, text="Login", command=self.on_login, width=300, height=40, fg_color="green", text_color="white", font=CT.CTkFont(family="Times", size=20)).place(x=1110,y=550)
         self.button_SignUp = CT.CTkButton(self, text="SignUp", command=self.on_SignUp,fg_color='white', text_color='black', bg_color="white").place(x=1100,y=800)
-        self.button_Forget = CT.CTkButton(self, text="Forget Password", command=self.on_forget).place(x=1300,y=800)
+        self.button_Forget = CT.CTkButton(self, text="Forget Password ?", command=self.on_forget, fg_color="white", bg_color="white", text_color="green", font=CT.CTkFont(family="Times", size=15), hover=False).place(x=1280,y=500)
         # Arrange widgets using grid
 
     def on_SignUp(self):
