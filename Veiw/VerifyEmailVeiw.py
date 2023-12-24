@@ -1,46 +1,70 @@
-import tkinter as tk
+import sys
+sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
 from tkinter import messagebox
+from Model.VerifyModel import Email
+from Controller.CustomerController import CustomerDatabase
+import tkinter as tk
+import GobalVariable
+import customtkinter as CT
 import NewPasswordVeiw
-class VerifyEmail(tk.Tk):
+
+class VerifyEmail():
     verifyemail = str
-    def __init__(self, master=None):
-        super().__init__(master)
+    def __init__(self, master):
+        
         self.master = master
-        self.title("Password Creation")
-        self.geometry('300x300')
+        self.master.title("Forget Password")
+        screen_width = self.master.winfo_screenwidth()
+        screen_height = self.master.winfo_screenheight()
+        width = 500
+        height =300
+        x = (screen_width - width) // 2
+        y = (screen_height - height) // 2
+        self.master.geometry(f"{width}x{height}+{x}+{y}")
+        CT.set_default_color_theme("green")
+        self.master.config(background="white")
+        self.master.attributes('-topmost',True)
         # Label and Entry for Create New Password
 
-        self.topic = tk.Label(master,text='At first you should verify your email')
-        self.topic.place(x=50, y=20)
-        self.emailaddress_label = tk.Label(master,
-        text="email address:")
-        self.emailaddress_label.place(x=70, y=50)
+        self.topic = CT.CTkLabel(self.master,text='Forget Password?',bg_color="white", font=CT.CTkFont(family='Times', size=30, weight="bold"))
+        self.topic.place(x=150, y=20)
 
-        self.emailaddress_entry = tk.Entry(master,textvariable=tk.StringVar())  # Entry widget with '*' to hide the password
-        self.emailaddress_entry.place(x=70, y=75)
+        self.worries = CT.CTkLabel(self.master,text="No worries, we'll rest your password please enter the email for verfication.",bg_color="white").place(x=50,y=60)
+        
+        self.emailaddress_label = CT.CTkLabel(self.master,
+        text="Email Address:",bg_color="white")
+        self.emailaddress_label.place(x=150, y=100)
+
+        self.emailaddress_entry = CT.CTkEntry(self.master,textvariable=CT.StringVar(), width=200)  # Entry widget with '*' to hide the password
+        self.emailaddress_entry.place(x=150, y=130)
 
         # Submit Button
-        self.submit_button = tk.Button(master, text="Create Password", command=self.emailaddress)
-        self.submit_button.place(x=75, y=100)
+        self.submit_button = CT.CTkButton(self.master, text="Reset Password", command=self.emailaddress, width=200)
+        self.submit_button.place(x=150, y=170)
+        self.back_btn = CT.CTkButton(self.master, text="<- Back to log in ",fg_color="white",text_color="black",bg_color="white",hover=False, command=self.back, width=200)
+        self.back_btn.place(x=150, y=210)
 
+    
     def emailaddress(self):
         verifyemail = self.emailaddress_entry.get()
-        from Model.VerifyModel import Email
         verify = Email(_email=verifyemail)
-        from Controller.CustomerController import CustomerDatabase
         emaill = CustomerDatabase()
         check = emaill._isValidEmail(verify)
         
         if check==True:
-            import GobalVariable
             GobalVariable.email = self.emailaddress_entry.get()
             messagebox.showinfo("verify", "email has been verify successful!")
+            self.master.destroy()
+            reg = CT.CTkToplevel()
+            NewPasswordVeiw.PasswordCreation(reg)
+            reg.mainloop()
             
-            self.destroy()
-            NewPasswordVeiw.PasswordCreation()
         else:
             messagebox.showerror("Error", "Email do not match. Please try again.")
+    def back(self):
+        self.master.destroy()
 
 if __name__ == "__main__":
-    app = VerifyEmail()
+    app = CT.CTk()
+    VerifyEmail(app)
     app.mainloop()

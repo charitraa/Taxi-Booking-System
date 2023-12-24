@@ -1,1 +1,2 @@
-00BF63
+def back(self):
+        self.master.destroy()

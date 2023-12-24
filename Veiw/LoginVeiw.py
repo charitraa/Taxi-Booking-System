@@ -10,10 +10,11 @@ import VerifyEmailVeiw , BookingVeiw , RegistrationVeiw , GobalVariable
 
 # create the class
 class LoginPage():
+    # create the constructor
     def __init__(self,master):
         self.master = master
-        self.master.title('Login Page')
-        self.master.config(background="white")
+        self.master.title('Login Page')#titlename
+        self.master.config(background="white")#background   
         CT.set_default_color_theme("green")  
 
         # decleare the font for text
@@ -43,7 +44,6 @@ class LoginPage():
         self.CTkentry_password.place(x=1110,y=450) # Show * for passwords
 
         # create check box
-        
         self.remember = CT.CTkCheckBox(self.master,text="Remember me", bg_color="white", font=CT.CTkFont(family="Times", size=20)).place(x=1110,y=510) 
         
         # Create login button
@@ -51,19 +51,19 @@ class LoginPage():
         self.button_SignUp = CT.CTkButton(self.master, text="Signup", command=self.on_SignUp,fg_color='white', text_color='#00BF63', bg_color="white",hover=False, width=30,font=CT.CTkFont(family="Times",size=20)).place(x=1285,y=630)
         self.button_Forget = CT.CTkButton(self.master, text="Forget Password ?", command=self.on_forget, fg_color="white", bg_color="white", text_color="#00BF63", font=CT.CTkFont(family="Times", size=18), hover=False).place(x=1280,y=510)
 
+        # create the signup function
     def on_SignUp(self):
-
         reg = CT.CTkToplevel()
         RegistrationVeiw.RegistrationPage(reg)
         reg.mainloop()
         
-
+    # create the forget function
     def on_forget(self):
         reg = CT.CTkToplevel()
-        VerifyEmailVeiw.VerifyEmail(self)
+        VerifyEmailVeiw.VerifyEmail(reg)
         reg.mainloop()
         
-
+    # create the login function
     def on_login(self):
         username = self.CTkentry_username.get()
         password = self.CTkentry_password.get()
@@ -80,7 +80,7 @@ class LoginPage():
             GobalVariable.Customer = cus
             self.master.destroy()
             reg = CT.CTkToplevel()
-            BookingVeiw.Booking()
+            BookingVeiw.Booking(reg)
             reg.mainloop()
 
         elif dri!=None:
@@ -97,7 +97,7 @@ class LoginPage():
             messagebox.showwarning('Login','please write email and password')
         else:
             messagebox.showinfo('Login','Incorrect email and password')
-
+#create the name function
 if __name__ == "__main__":
     
     app = CT.CTk()
