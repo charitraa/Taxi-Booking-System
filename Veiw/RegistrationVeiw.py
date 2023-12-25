@@ -21,6 +21,7 @@ class RegistrationPage():
 
         #create the background Image
         self.background_image = CT.CTkImage(Image.open('image\\registration.png'), size=(550,550))
+        
         self.img = CT.CTkLabel(self.master,image=self.background_image, text="").place(x=0,y=0)
 
         self.id = 0
