@@ -53,6 +53,7 @@ class LoginPage():
 
         # create the signup function
     def on_SignUp(self):
+        # self.master.destroy()
         reg = CT.CTkToplevel()
         RegistrationVeiw.RegistrationPage(reg)
         reg.mainloop()
