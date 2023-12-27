@@ -58,22 +58,34 @@ class Dashboard():
         self.options_frame.configure(width=250,height=750)
 
         self.main_frame = Ct.CTkFrame(self.master, width=1150, height=750)
-        # self.lb = Ct.CTkLabel(self.main_frame, text='home page\n\nPage: 1')
-        # self.lb.pack()
-        # self.test = Ct.CTkLabel(self.main_frame,text="200")
-        # self.test.pack()
+        
+        self.profile_lbl=Ct.CTkLabel(self.main_frame,text="Your Profile",font=Ct.CTkFont(family="Times",size=50, weight='bold'),text_color='#00BF63')
+        self.profile_lbl.place(x=480,y=50)
+
+        self.veiw_first = Ct.CTkLabel(self.main_frame,text="First Name:",font=Ct.CTkFont(family="Times",size=30,))
+        self.veiw_first.place(x=50,y=200)
+
+        self.veiw_firstname = Ct.CTkLabel(self.main_frame,text="ravi",font=Ct.CTkFont(family="Times",size=30,))
+        self.veiw_firstname.place(x=200,y=200)
+
         self.main_frame.pack(side=Ct.LEFT,padx=30)
         self.main_frame.pack_propagate(False)
         # self.main_frame.configure(height=750, width=1150)
 
     def profile_page(self):
-        ''' The gui for the veiw profile frame, it shows the details of the customer whio has login '''
+        ''' The gui for the veiw profile frame, it shows the details of the customer who has login '''
         self.home_frame = Ct.CTkFrame(self.main_frame,width=1150, height=750)
-        # self.lb = Ct.CTkLabel(self.home_frame, text='home page\n\nPage: 1')
-        # self.lb.place(x=500,y=500)
-        # self.test = Ct.CTkLabel(self.home_frame,text="200")
-        # self.test.place(x=800,y=500)
-        self.home_frame.pack(side=Ct.LEFT)
+        self.profile_lbl=Ct.CTkLabel(self.home_frame,text="Profile")
+        self.profile_lbl.place(x=100,y=50)
+
+
+
+
+
+
+
+
+        self.home_frame.pack(side=Ct.RIGHT)
     def book_page(self):
         self.home_frame = Ct.CTkFrame(self.main_frame,width=1150, height=750)
         self.lb = Ct.CTkLabel(self.home_frame, text='home page\n\nPage: 2')
