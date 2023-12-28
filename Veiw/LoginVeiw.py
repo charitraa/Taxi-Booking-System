@@ -6,7 +6,7 @@ from Controller import CustomerController as cusdb , DriverController as drivedb
 from Model import LoginModel as loginmd
 import tkinter as tk
 import customtkinter as CT
-import VerifyEmailVeiw , BookingVeiw , RegistrationVeiw , GobalVariable
+import VerifyEmailVeiw , RegistrationVeiw , GobalVariable, CustomerDashboard
 
 # create the class
 class LoginPage():
@@ -14,14 +14,17 @@ class LoginPage():
     def __init__(self,master):
         self.master = master
         self.master.title('Login Page')#titlename
-        self.master.config(background="white")#background   
+        self.master.config(background="white")#background 
+        # screen_width = self.master.winfo_screenwidth()
+        # screen_height = self.master.winfo_screenheight()
+        # self.master.geometry(f'{screen_width}x{screen_height}')  
         CT.set_default_color_theme("green")  
-
+        
         # decleare the font for text
         my_font = CT.CTkFont(family="Times", size=50,weight="bold")
 
         #create Background Image
-        self.background_image = CT.CTkImage(Image.open('image\\Home.png'), size=(1000,850))
+        self.background_image = CT.CTkImage(Image.open('D:\Code\Python\python project\TaxBookingSystem\image\Home.png'), size=(1000,850))
         self.img = CT.CTkLabel(self.master,image=self.background_image, text="").place(x=0,y=0)
 
         # Create CTkLabels
@@ -81,8 +84,10 @@ class LoginPage():
             GobalVariable.Customer = cus
             self.master.destroy()
             reg = CT.CTkToplevel()
-            BookingVeiw.Booking(reg)
+            CustomerDashboard.Dashboard(reg)
+            reg.after(0,lambda:reg.state('zoomed'))
             reg.mainloop()
+            
 
         elif dri!=None:
             messagebox.showinfo('Login','Driver Login Sucessfully')
@@ -102,6 +107,8 @@ class LoginPage():
 if __name__ == "__main__":
     
     app = CT.CTk()
-    LoginPage(app)
     app.after(0,lambda:app.state('zoomed'))
+    LoginPage(app)
+    # CT.deactivate_automatic_dpi_awareness()
+    
     app.mainloop()
