@@ -8,7 +8,7 @@ class Database:
                 host='localhost',
                 user = 'root',
                 password = 'root',
-                database = 'taxi'
+                database = 'taxi_booking_system',
             )
             if connection.is_connected():
                 Database.message = "Connected"
