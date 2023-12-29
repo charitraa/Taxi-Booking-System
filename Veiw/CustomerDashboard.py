@@ -25,11 +25,6 @@ class Dashboard():
         self.lbl.place(x=1200,y=25)
         
         self.time()
-        # screen_width = self.master.winfo_screenwidth()
-        # screen_height = self.master.winfo_screenheight()
-        # self.master.geometry(f'{screen_width}x{screen_height}')
-
-
 
         self.options_frame = Ct.CTkFrame(self.master, fg_color='#00BF63',bg_color='#00BF63')
 
@@ -132,13 +127,16 @@ class Dashboard():
         self.date_entry=DateEntry(self.book_frame,width=40)
         self.date_entry.place(x=220,y=460)
 
-        self.date=Ct.CTkLabel(self.book_frame, text='Pickup Time',font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
-        self.date.place(x=50,y=440)
+        self.time_pick=Ct.CTkLabel(self.book_frame, text='Pickup Time',font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
+        self.time_pick.place(x=50,y=440)
 
-        self.drop_entry=Ct.CTkEntry(self.book_frame,width=200)
-        self.drop_entry.place(x=210,y=440)
+        self.custime = Ct.StringVar()
 
-        self.time_entry=Ct.CTkButton(self.book_frame, text="clock",width=10,command=self.time,)
+        self.time_pick_entry=Ct.CTkEntry(self.book_frame,width=200,textvariable=self.custime)
+        self.time_pick_entry.place(x=210,y=440)
+
+        
+        self.time_entry=Ct.CTkButton(self.book_frame, text="clock",width=10,command=self.picktime)
         self.time_entry.place(x=420,y=440)
 
         self.book_frame.pack(side=Ct.LEFT)
@@ -146,24 +144,65 @@ class Dashboard():
         self.request = Ct.CTkButton(self.book_frame, text="Request Book",width=200,font=Ct.CTkFont(family="Times",size=25, weight='bold'))
         self.request.place(x=210,y= 520)
 
-    def time(self):
+    def picktime(self):
         import tkinter as tk
         from tktimepicker import AnalogPicker
 
-        root = tk.Tk()
-        root.attributes('-topmost',True)
-
-        time_picker = AnalogPicker(root)
-        time_picker.pack(expand=True, fill="both")
+        self.root = tk.Tk()
+        self.root.attributes('-topmost',True)
+        self.time_picker = AnalogPicker(self.root)
+        self.time_picker.pack(expand=True, fill="both")
 
         # theme = AnalogThemes(time_picker)
         # theme.setDracula()
-
-        root.mainloop()
+        self.request = Ct.CTkButton(self.root, text="set",width=10,font=Ct.CTkFont(family="Times",size=20, weight='bold'),command=self.settime)
+        self.request.place(x=250,y= 200)
+        self.root.mainloop()
+    
+    def settime(self):
+            time = self.time_picker.time()
+            self.custime.set(time)
+            self.root.destroy()
 
     def veiw_page(self):
         self.veiw_frame = Ct.CTkFrame(self.main_frame,width=1150, height=750)
         self.veiw_frame.configure(fg_color= 'white')
+
+        self.pick=Ct.CTkLabel(self.veiw_frame, text='Pick up Address:',font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
+        self.pick.place(x=50,y=20)
+        self.pick_entry=Ct.CTkEntry(self.veiw_frame,width=200)
+        self.pick_entry.place(x=230,y=20)
+
+        self.drop=Ct.CTkLabel(self.veiw_frame, text='Drop off Address:',font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
+        self.drop.place(x=50,y=50)
+        self.drop_entry=Ct.CTkEntry(self.veiw_frame,width=200)
+        self.drop_entry.place(x=240,y=50)
+
+        self.date=Ct.CTkLabel(self.veiw_frame, text='Book Date:',font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
+        self.date.place(x=50,y=80)
+        self.date_entry=DateEntry(self.veiw_frame,width=20,height=50)
+        self.date_entry.place(x=220,y=110)
+
+        self.time_pick=Ct.CTkLabel(self.veiw_frame, text='Pickup Time:',font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
+        self.time_pick.place(x=50,y=120)
+
+        self.custime = Ct.StringVar()
+
+        self.time_pick_entry=Ct.CTkEntry(self.veiw_frame,width=200,textvariable=self.custime)
+        self.time_pick_entry.place(x=210,y=120)
+ 
+        
+        self.time_entry=Ct.CTkButton(self.veiw_frame, text="clock",width=10,command=self.picktime)
+        self.time_entry.place(x=420,y=120)
+
+        self.update=Ct.CTkButton(self.veiw_frame, text="Update",width=20)
+        self.update.place(x=320,y=160)
+
+        self.cancel_btn=Ct.CTkButton(self.veiw_frame, text="cancel",width=20)
+        self.cancel_btn.place(x=420,y=160)
+
+        self.veiw_frame.pack(side=Ct.LEFT)
+
         # Create the Treeview
         column = ("Booking_id", "Pickup Address", "Drop-off Address","date_of_booking","Booking status")
         self.veiw_booking = ttk.Treeview(self.veiw_frame, columns=column, show="headings", height=30)
@@ -191,9 +230,28 @@ class Dashboard():
 
     def change_page(self):
         self.change_frame = Ct.CTkFrame(self.main_frame,width=1125, height=750)
-        self.lb = Ct.CTkLabel(self.change_frame, text='home page\n\nPage: 3')
-        self.lb.pack()
-        self.change_frame.pack(pady=20)
+    
+        self.new_pass=Ct.CTkLabel(self.change_frame, text='Current Password:',font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
+        self.new_pass.place(x=50,y=90)
+        self.new_pass_entry=Ct.CTkEntry(self.change_frame,height=30)
+        self.new_pass_entry.place(x=250,y=90)
+
+        self.password=Ct.CTkLabel(self.change_frame, text='New Password:',font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
+        self.password.place(x=50,y=130)
+        self.pass_entry=Ct.CTkEntry(self.change_frame,height=30)
+        self.pass_entry.place(x=250,y=130)
+        
+        self.password2=Ct.CTkLabel(self.change_frame, text="Conform Password:",font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
+        self.password2.place(x=50,y=170)
+        self.pass_entry2=Ct.CTkEntry(self.change_frame,height=30)
+        self.pass_entry2.place(x=250,y=170)
+
+        self.con_button=Ct.CTkButton(self.change_frame,text="Change")
+        self.con_button.place(x=280,y=220)
+
+
+        
+        self.change_frame.pack()
 
     def delete_page(self):
         self.home_frame = Ct.CTkFrame(self.main_frame,width=1125, height=750)
@@ -358,6 +416,4 @@ if __name__ == '__main__':
     apps = Ct.CTk()
     apps.after(0,lambda:apps.state('zoomed'))
     Dashboard(apps)
-
-
     apps.mainloop()
