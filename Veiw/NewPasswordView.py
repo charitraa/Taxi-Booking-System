@@ -6,7 +6,7 @@ from tkinter import messagebox
 import customtkinter as CT
 import GobalVariable
 import tkinter as tk
-import LoginVeiw
+import Veiw.LoginView as LoginView
 class PasswordCreation():
     def __init__(self, master):
         self.master = master

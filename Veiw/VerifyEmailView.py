@@ -6,7 +6,7 @@ from Controller.CustomerController import CustomerDatabase
 import tkinter as tk
 import GobalVariable
 import customtkinter as CT
-import NewPasswordVeiw
+import Veiw.NewPasswordView as NewPasswordView
 
 class VerifyEmail():
     verifyemail = str
@@ -56,7 +56,7 @@ class VerifyEmail():
             messagebox.showinfo("verify", "email has been verify successful!",parent=self.master)
             self.master.destroy()
             reg = CT.CTkToplevel()
-            NewPasswordVeiw.PasswordCreation(reg)
+            NewPasswordView.PasswordCreation(reg)
             reg.mainloop()
             
         else:

@@ -8,7 +8,7 @@ from PIL import ImageTk, Image
 import tkinter as tk
 from tkinter import ttk
 import customtkinter as CT
-import LoginVeiw
+import LoginView
 #create a registration class
 class RegistrationPage():
     # create the constructor
@@ -91,17 +91,25 @@ class RegistrationPage():
     def register(self):
         self.gender = "Male" if self.var_gender.get() == 'Male' else "Female"
         self.pay_method = self.var.get()
-        if self.first_name_CTkentry.get()!='' and self.last_name_CTkentry.get()!=''and self.gender!=''and self.pay_method!='' and self.phone_CTkentry.get()!='' and self.email_CTkentry.get()!='' and self.address_CTkentry.get()!='' and self.date_CTkEntry.get_date()!='' and self.pass_CTkentry.get()!='':
+        if self.first_name_CTkentry.get()!='' and self.last_name_CTkentry.get()!=''and self.var_gender.get()!=''and self.var.get!='' and self.phone_CTkentry.get()!='' and self.email_CTkentry.get()!='' and self.address_CTkentry.get()!='' and self.date_CTkEntry.get_date()!='' and self.pass_CTkentry.get()!='':
             cus = cusmodel.Customer(self.id, self.first_name_CTkentry.get(),self.last_name_CTkentry.get(),self.phone_CTkentry.get(),self.pay_method,self.gender,self.address_CTkentry.get(),self.date_CTkEntry.get_date(),self.email_CTkentry.get(),self.pass_CTkentry.get())
             reg = cusdb.CustomerDatabase()
             reg._CustomerRegister(cus)
             if reg:
-                messagebox.showinfo('register','Registration Successfully')
+                self.first_name_CTkentry.delete(0,'end')
+                self.last_name_CTkentry.delete(0,'end')
+                self.email_CTkentry.delete(0,'end')
+                self.phone_CTkentry.delete(0,'end')
+                self.address_CTkentry.delete(0,'end')
+                self.pass_CTkentry.delete(0,'end')
+                messagebox.showinfo('register','Registration Successfully',parent=self.master)
+                
+
                 self.master.destroy()
             else:
-                messagebox.showerror("register","Register Failure")
+                messagebox.showerror("register","Register Failure",parent=self.master)
         else:
-            messagebox.showinfo("register","please write a valid information")
+            messagebox.showinfo("register","please write a valid information",parent=self.master)
 
     def Back(self):
         self.master.destroy()

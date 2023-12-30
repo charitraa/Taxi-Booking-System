@@ -6,7 +6,7 @@ from Controller import CustomerController as cusdb , DriverController as drivedb
 from Model import LoginModel as loginmd
 import tkinter as tk
 import customtkinter as CT
-import VerifyEmailVeiw , RegistrationVeiw , GobalVariable, CustomerDashboard
+import Veiw.VerifyEmailView as VerifyEmailView , Veiw.RegistrationView as RegistrationView , GobalVariable, CustomerDashboard
 
 # create the class
 class LoginPage():
@@ -26,7 +26,7 @@ class LoginPage():
 
         # Create CTkLabels
         self.welcome = CT.CTkLabel(self.master,text="Welcome Back", font=my_font,text_color="#00BF63", fg_color="white")
-        my_font.configure(family="new name")
+        my_font.configure(family="TImes")
         self.welcome.place(x=1100,y=100)
 
         self.txt = CT.CTkLabel(self.master,text=" Sign in to your account", font= CT.CTkFont(family="Times", size=30),fg_color="white")
@@ -61,13 +61,13 @@ class LoginPage():
     def on_SignUp(self):
         # self.master.destroy()
         reg = CT.CTkToplevel()
-        RegistrationVeiw.RegistrationPage(reg)
+        RegistrationView.RegistrationPage(reg)
         reg.mainloop()
         
     # create the forget function
     def on_forget(self):
         reg = CT.CTkToplevel()
-        VerifyEmailVeiw.VerifyEmail(reg)
+        VerifyEmailView.VerifyEmail(reg)
         reg.mainloop()
         
     # create the login function

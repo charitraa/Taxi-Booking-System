@@ -1,4 +1,4 @@
-class Customer:
+class Booking:
     #constructor
     def __init__(self,_bid,_pickup,_dropoff,_date,_time,_cusid):
         self.bid = _bid

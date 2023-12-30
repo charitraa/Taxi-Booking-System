@@ -50,7 +50,7 @@ class CustomerDatabase:
     def _CustomerBook(self,CusBook):
         try:
             cursor = self.__connection__.cursor()
-            query  = f"INSERT INTO `book`(`customerid`,`first name`, `last name`, `email`, `phone number`,`address`, `password`) VALUES ('{CusBook.getId()}','{CusBook.getFirst()}','{CusBook.getLast()}','{CusBook.getEmail()}','{CusBook.getPhone()}','{CusBook.getAddress()}','{CusBook.getPassword()}')"
+            query  = f"INSERT INTO `booking`(`bookingid`, `pickup_address`, `dropoff_address`, `date`, `time`, `status`, `customerid`) VALUES ('{CusBook.getId()}','{CusBook.getPickup()}','{CusBook.getDropoff()}','{CusBook.getDate()}','{CusBook.getTime()}','pending','{CusBook.getUID()}')"
             cursor.execute(query)
             self.__connection__.commit()
             cursor.close()
