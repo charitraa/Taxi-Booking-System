@@ -169,37 +169,37 @@ class Dashboard():
         self.veiw_frame.configure(fg_color= 'white')
 
         self.pick=Ct.CTkLabel(self.veiw_frame, text='Pick up Address:',font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
-        self.pick.place(x=50,y=20)
+        self.pick.place(x=50,y=50)
         self.pick_entry=Ct.CTkEntry(self.veiw_frame,width=200)
-        self.pick_entry.place(x=230,y=20)
+        self.pick_entry.place(x=230,y=50)
 
         self.drop=Ct.CTkLabel(self.veiw_frame, text='Drop off Address:',font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
-        self.drop.place(x=50,y=50)
+        self.drop.place(x=600,y=50)
         self.drop_entry=Ct.CTkEntry(self.veiw_frame,width=200)
-        self.drop_entry.place(x=240,y=50)
+        self.drop_entry.place(x=800,y=50)
 
         self.date=Ct.CTkLabel(self.veiw_frame, text='Book Date:',font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
-        self.date.place(x=50,y=80)
+        self.date.place(x=50,y=120)
         self.date_entry=DateEntry(self.veiw_frame,width=20,height=50)
-        self.date_entry.place(x=220,y=110)
+        self.date_entry.place(x=220,y=160)
 
         self.time_pick=Ct.CTkLabel(self.veiw_frame, text='Pickup Time:',font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
-        self.time_pick.place(x=50,y=120)
+        self.time_pick.place(x=600,y=120)
 
         self.custime = Ct.StringVar()
 
         self.time_pick_entry=Ct.CTkEntry(self.veiw_frame,width=200,textvariable=self.custime)
-        self.time_pick_entry.place(x=210,y=120)
+        self.time_pick_entry.place(x=800,y=120)
  
         
         self.time_entry=Ct.CTkButton(self.veiw_frame, text="clock",width=10,command=self.picktime)
-        self.time_entry.place(x=420,y=120)
+        self.time_entry.place(x=1020,y=120)
 
-        self.update=Ct.CTkButton(self.veiw_frame, text="Update",width=20)
-        self.update.place(x=320,y=160)
+        self.update=Ct.CTkButton(self.veiw_frame, text="Update",width=200,font=Ct.CTkFont(family="Times",size=25, weight='bold'))
+        self.update.place(x=300,y=180)
 
-        self.cancel_btn=Ct.CTkButton(self.veiw_frame, text="cancel",width=20)
-        self.cancel_btn.place(x=420,y=160)
+        self.cancel_btn=Ct.CTkButton(self.veiw_frame, text="Cancel",width=200,font=Ct.CTkFont(family="Times",size=25, weight='bold'))
+        self.cancel_btn.place(x=550,y=180)
 
         self.veiw_frame.pack(side=Ct.LEFT)
 
@@ -218,6 +218,8 @@ class Dashboard():
         self.history_frame = Ct.CTkFrame(self.main_frame,width=1125, height=750)
         self.history_frame.configure(fg_color= 'white')
         # Create the Treeview
+        self.booklb = Ct.CTkLabel(self.history_frame, text='Booking History',font=Ct.CTkFont(family="Times",size=50, weight='bold'),text_color='#00BF63')
+        self.booklb.place(x=400,y=50)
         column = ("Booking_id", "Pickup Address", "Drop-off Address","date_of_booking","Booking status")
         self.veiw_booking = ttk.Treeview(self.history_frame, columns=column, show="headings", height=30)
 
@@ -225,39 +227,60 @@ class Dashboard():
             self.veiw_booking.heading(col, text=col, anchor="center")
             self.veiw_booking.column(col, anchor="center", width=260)
 
-        self.veiw_booking.place(x=50,y=30)
+        self.veiw_booking.place(x=50,y=200)
         self.history_frame.pack()
 
     def change_page(self):
         self.change_frame = Ct.CTkFrame(self.main_frame,width=1125, height=750)
-    
+        self.change_frame.configure(fg_color= 'white')
+
+        self.cmpic = Ct.CTkImage(Image.open('D:\Code\Python\python project\TaxBookingSystem\image\Screenshot 2023-12-30 153422.png'), size=(600,500))
+        self.booklb = Ct.CTkLabel(self.change_frame, text='Password Change',font=Ct.CTkFont(family="Times",size=50, weight='bold'),text_color='#00BF63')
+        self.booklb.place(x=400,y=50)
+        self.cmimg = Ct.CTkLabel(self.change_frame,image=self.cmpic, text="").place(x=50,y=100)
         self.new_pass=Ct.CTkLabel(self.change_frame, text='Current Password:',font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
-        self.new_pass.place(x=50,y=90)
-        self.new_pass_entry=Ct.CTkEntry(self.change_frame,height=30)
-        self.new_pass_entry.place(x=250,y=90)
+        self.new_pass.place(x=700,y=150)
+        self.new_pass_entry=Ct.CTkEntry(self.change_frame,height=30,width=200)
+        self.new_pass_entry.place(x=700,y=200)
 
         self.password=Ct.CTkLabel(self.change_frame, text='New Password:',font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
-        self.password.place(x=50,y=130)
-        self.pass_entry=Ct.CTkEntry(self.change_frame,height=30)
-        self.pass_entry.place(x=250,y=130)
+        self.password.place(x=700,y=250) # Place password
+        self.pass_entry=Ct.CTkEntry(self.change_frame,height=30,width=200)
+        self.pass_entry.place(x=700,y=300)
         
         self.password2=Ct.CTkLabel(self.change_frame, text="Conform Password:",font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
-        self.password2.place(x=50,y=170)
-        self.pass_entry2=Ct.CTkEntry(self.change_frame,height=30)
-        self.pass_entry2.place(x=250,y=170)
+        self.password2.place(x=700,y=350)
+        self.pass_entry2=Ct.CTkEntry(self.change_frame,height=30,width=200)
+        self.pass_entry2.place(x=700,y=400)
 
-        self.con_button=Ct.CTkButton(self.change_frame,text="Change")
-        self.con_button.place(x=280,y=220)
+        self.con_button=Ct.CTkButton(self.change_frame,text="Change",font=Ct.CTkFont(family="Times",size=25, weight='bold'),width=200)
+        self.con_button.place(x=700,y=450)
 
 
         
         self.change_frame.pack()
 
     def delete_page(self):
-        self.home_frame = Ct.CTkFrame(self.main_frame,width=1125, height=750)
-        self.lb = Ct.CTkLabel(self.home_frame, text='home page\n\nPage: 3')
-        self.lb.pack()
-        self.home_frame.pack(pady=20)
+        self.delete_fram = Ct.CTkFrame(self.main_frame,width=1125, height=750)
+        self.delete_fram.configure(fg_color= 'white')
+        self.booklb = Ct.CTkLabel(self.delete_fram, text='Delete Your Account',font=Ct.CTkFont(family="Times",size=50, weight='bold'),text_color='#00BF63')
+        self.booklb.place(x=350,y=100)
+        self.booklb = Ct.CTkLabel(self.delete_fram, text='''
+                    Are You sure you want to delete your Whoami Account? 
+                            
+                if you're having problems, please contact us we can help you.
+        
+            Deleting your account will remove all of your information from our database. 
+            This cannot be undone.''',font=Ct.CTkFont(family="Times",size=30))
+        self.booklb.place(x=0,y=150)
+
+        
+        self.con_button=Ct.CTkButton(self.delete_fram,text="Delete Account",font=Ct.CTkFont(family="Times",size=30, weight='bold'),width=300)
+        self.con_button.place(x=420,y=450)
+
+
+        
+        self.delete_fram.pack()
     
 
     def delete_frame(self):

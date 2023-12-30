@@ -57,7 +57,7 @@ class PasswordCreation():
                 var = CustomerController.CustomerDatabase()
                 var._ChangePassword(send)
                 if var:
-                    messagebox.showinfo("Password Created", "Your password has been changed")
+                    messagebox.showinfo("Password Created", "Your password has been changed",parent=self.master)
                     self.master.destroy()
                     # LoginVeiw.LoginPage()
                 
@@ -65,7 +65,7 @@ class PasswordCreation():
                 print(e)
 
         else:
-            messagebox.showerror("Password Error", "Passwords do not match. Please try again.")
+            messagebox.showerror("Password Error", "Passwords do not match. Please try again.",parent=self.master)
 
 if __name__ == "__main__":
 

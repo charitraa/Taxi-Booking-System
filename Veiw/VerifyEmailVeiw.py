@@ -53,14 +53,14 @@ class VerifyEmail():
         
         if check==True:
             GobalVariable.email = self.emailaddress_entry.get()
-            messagebox.showinfo("verify", "email has been verify successful!")
+            messagebox.showinfo("verify", "email has been verify successful!",parent=self.master)
             self.master.destroy()
             reg = CT.CTkToplevel()
             NewPasswordVeiw.PasswordCreation(reg)
             reg.mainloop()
             
         else:
-            messagebox.showerror("Error", "Email do not match. Please try again.")
+            messagebox.showerror("Error", "Email do not match. Please try again.",parent=self.master)
     def back(self):
         self.master.destroy()
 

@@ -14,10 +14,7 @@ class LoginPage():
     def __init__(self,master):
         self.master = master
         self.master.title('Login Page')#titlename
-        self.master.config(background="white")#background 
-        # screen_width = self.master.winfo_screenwidth()
-        # screen_height = self.master.winfo_screenheight()
-        # self.master.geometry(f'{screen_width}x{screen_height}')  
+        self.master.config(background="white")#background   
         CT.set_default_color_theme("green")  
         
         # decleare the font for text
@@ -43,11 +40,17 @@ class LoginPage():
         # Create CTkentry widgets for username and password
         self.CTkentry_username = CT.CTkEntry(self.master, textvariable=CT.StringVar(),width=300, border_color="#00BF63")
         self.CTkentry_username.place(x=1110,y=350)
-        self.CTkentry_password = CT.CTkEntry(self.master, textvariable= CT.StringVar(),width=300 , show='*',border_color="#00BF63", border_width=2)
+        self.show = CT.StringVar()
+        self.CTkentry_password = CT.CTkEntry(self.master, textvariable=  self.show,width=300 , show='*',border_color="#00BF63", border_width=2)
         self.CTkentry_password.place(x=1110,y=450) # Show * for passwords
-
+        self.sh = CT.IntVar(value=0)
+        def my_show():
+            if(  self.sh.get()==1):
+                self.CTkentry_password.configure(show='') # display the chars 
+            else:
+                self.CTkentry_password.configure(show='*')# hide the chars using mask
         # create check box
-        self.remember = CT.CTkCheckBox(self.master,text="Remember me", bg_color="white", font=CT.CTkFont(family="Times", size=20)).place(x=1110,y=510) 
+        self.remember = CT.CTkCheckBox(self.master,text="Show Password", bg_color="white", font=CT.CTkFont(family="Times", size=20),variable=self.sh,onvalue=1,offvalue=0,command=my_show).place(x=1110,y=510) 
         
         # Create login button
         self.button_login = CT.CTkButton(self.master, text="Login", command=self.on_login, width=300, height=40, text_color="white", font=CT.CTkFont(family="Times", size=20),hover=False).place(x=1110,y=560)
