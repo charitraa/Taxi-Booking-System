@@ -10,7 +10,7 @@ class CustomerDatabase:
     def _CustomerRegister(self,CusRegister):
         try:
             cursor = self.__connection__.cursor()
-            query  = f"INSERT INTO `customer`(`customerid`, `first name`, `last name`, `email`, `DOB`,`Gender`,`phone number`, `address`,`Payment_Method`,`password`) VALUES ('{CusRegister.getId()}','{CusRegister.getFirst()}','{CusRegister.getLast()}','{CusRegister.getEmail()}','{CusRegister.getDOB()}','{CusRegister.getGender()}','{CusRegister.getPhone()}','{CusRegister.getAddress()}','{CusRegister.getPayment()}','{CusRegister.getPassword()}')"
+            query  = f"INSERT INTO `customer`(`customerid`, `firstname`, `lastname`, `email`, `DOB`,`Gender`,`phonenumber`, `address`,`Payment_Method`,`password`) VALUES ('{CusRegister.getId()}','{CusRegister.getFirst()}','{CusRegister.getLast()}','{CusRegister.getEmail()}','{CusRegister.getDOB()}','{CusRegister.getGender()}','{CusRegister.getPhone()}','{CusRegister.getAddress()}','{CusRegister.getPayment()}','{CusRegister.getPassword()}')"
             cursor.execute(query)
             self.__connection__.commit()
             cursor.close()

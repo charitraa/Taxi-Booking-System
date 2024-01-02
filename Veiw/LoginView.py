@@ -75,6 +75,7 @@ class LoginPage():
         username = self.CTkentry_username.get()
         password = self.CTkentry_password.get()
         login = loginmd.Login(_email=username, _password=password)
+
         customer = cusdb.CustomerDatabase()
         cus = customer.CustomerLogin(login)
         driver  = drivedb.DriverDatabase()
@@ -90,7 +91,6 @@ class LoginPage():
             CustomerDashboard.Dashboard(reg)
             reg.after(0,lambda:reg.state('zoomed'))
             reg.mainloop()
-            
 
         elif dri!=None:
             messagebox.showinfo('Login','Driver Login Sucessfully')
@@ -105,7 +105,7 @@ class LoginPage():
         elif username=='' and password =='':
             messagebox.showwarning('Login','please write email and password')
         else:
-            messagebox.showinfo('Login','Incorrect email and password')
+            messagebox.showerror('Login','Incorrect email and password')
 #create the name function
 if __name__ == "__main__":
     

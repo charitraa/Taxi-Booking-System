@@ -67,7 +67,7 @@ class RegistrationPage():
         self.var=CT.StringVar()
         self.var.set("Select payment method")
 
-        self.pay=tk.OptionMenu(self.master,self.var,"Cash", "Mobile Banking", "Esewa")
+        self.pay=tk.OptionMenu(self.master,self.var,"Cash", "Banking", "Esewa")
         self.pay.place(x=1000,y=415)
 
         self.phone_CTkLabel = CT.CTkLabel(self.master, text="Phone Number:",font=CT.CTkFont(family="Times",size=20))

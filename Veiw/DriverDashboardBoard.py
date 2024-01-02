@@ -34,32 +34,32 @@ class Dashboard():
         self.name = Ct.CTkLabel(self.options_frame,text="Charitra Shrestha", font=Ct.CTkFont(family='Times',size=30), text_color='white')
         self.name.place(x=20,y=120)
 
-        self.dash = Ct.CTkButton(self.options_frame,text="Veiw Profile", fg_color='#00BF63', border_width=0, bg_color='#00BF63',font=Ct.CTkFont(family='Times',size=25,weight='bold'),text_color='white',hover=False,command=lambda: self.indicate(self.proveiw, self.profile_page))
+        self.dash = Ct.CTkButton(self.options_frame,text="View Profile", fg_color='#00BF63', border_width=0, bg_color='#00BF63',font=Ct.CTkFont(family='Times',size=25,weight='bold'),text_color='white',hover=False,command=lambda: self.indicate(self.proveiw, self.profile_page))
         self.dash.place(x=60,y=250)
 
         self.proveiw = Ct.CTkFrame(self.options_frame, fg_color='white',width=127,height=3)
         self.proveiw.place(x=68,y=285)
 
-        self.veiw = Ct.CTkButton(self.options_frame, text='Veiw Book',fg_color='#00BF63', border_width=0, bg_color='#00BF63',font=Ct.CTkFont(family='Times',size=25,weight='bold'),text_color='white',hover=False, command=lambda: self.indicate(self.veiw_indicate,self.veiw_page))
-        self.veiw.place(x=50, y=400)
+        self.veiw = Ct.CTkButton(self.options_frame, text='View Book',fg_color='#00BF63', border_width=0, bg_color='#00BF63',font=Ct.CTkFont(family='Times',size=25,weight='bold'),text_color='white',hover=False, command=lambda: self.indicate(self.veiw_indicate,self.veiw_page))
+        self.veiw.place(x=50, y=330)
 
         self.veiw_indicate = Ct.CTkFrame(self.options_frame, fg_color='#00BF63',width=115,height=3)
         self.veiw_indicate.place(x=65,y=435)
 
         self.history = Ct.CTkButton(self.options_frame, text='History',fg_color='#00BF63', border_width=0, bg_color='#00BF63',font=Ct.CTkFont(family='Times',size=25,weight='bold'),text_color='white',hover=False, command=lambda: self.indicate(self.history_indicate,self.history_page))
-        self.history.place(x=50, y=475)
+        self.history.place(x=50, y=410)
 
         self.history_indicate = Ct.CTkFrame(self.options_frame, fg_color='#00BF63',width=80,height=3)
         self.history_indicate.place(x=80,y=510)
 
         self.change_password = Ct.CTkButton(self.options_frame, text='Change Password',fg_color='#00BF63', border_width=0, bg_color='#00BF63',font=Ct.CTkFont(family='Times',size=25,weight='bold'),text_color='white',hover=False, command=lambda: self.indicate(self.change_indicate,self.change_page))
-        self.change_password.place(x=30, y=550)
+        self.change_password.place(x=30, y=490)
 
         self.change_indicate = Ct.CTkFrame(self.options_frame, fg_color='#00BF63',width=190,height=3)
         self.change_indicate.place(x=35,y=590)
 
         self.delete = Ct.CTkButton(self.options_frame, text='Delete Account',fg_color='#00BF63', border_width=0, bg_color='#00BF63',font=Ct.CTkFont(family='Times',size=25,weight='bold'),text_color='white',hover=False, command=lambda: self.indicate(self.delete_indicate,self.delete_page))
-        self.delete.place(x=40, y=625)
+        self.delete.place(x=40, y=570)
 
         self.delete_indicate = Ct.CTkFrame(self.options_frame, fg_color='#00BF63',width=170,height=3)
         self.delete_indicate.place(x=40,y=660)
@@ -119,32 +119,15 @@ class Dashboard():
         self.veiw_frame = Ct.CTkFrame(self.main_frame,width=1150, height=750)
         self.veiw_frame.configure(fg_color= 'white')
 
-        self.pick=Ct.CTkLabel(self.veiw_frame, text='Pick up Address:',font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
+        self.pick=Ct.CTkLabel(self.veiw_frame, text='Booking Id:',font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
         self.pick.place(x=50,y=20)
         self.pick_entry=Ct.CTkEntry(self.veiw_frame,width=200)
         self.pick_entry.place(x=230,y=20)
 
-        self.drop=Ct.CTkLabel(self.veiw_frame, text='Drop off Address:',font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
-        self.drop.place(x=50,y=50)
+        self.drop=Ct.CTkLabel(self.veiw_frame, text='Booking Status:',font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
+        self.drop.place(x=50,y=80)
         self.drop_entry=Ct.CTkEntry(self.veiw_frame,width=200)
-        self.drop_entry.place(x=240,y=50)
-
-        self.date=Ct.CTkLabel(self.veiw_frame, text='Book Date:',font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
-        self.date.place(x=50,y=80)
-        self.date_entry=DateEntry(self.veiw_frame,width=20,height=50)
-        self.date_entry.place(x=220,y=110)
-
-        self.time_pick=Ct.CTkLabel(self.veiw_frame, text='Pickup Time:',font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
-        self.time_pick.place(x=50,y=120)
-
-        self.custime = Ct.StringVar()
-
-        self.time_pick_entry=Ct.CTkEntry(self.veiw_frame,width=200,textvariable=self.custime)
-        self.time_pick_entry.place(x=210,y=120)
- 
-        
-        self.time_entry=Ct.CTkButton(self.veiw_frame, text="clock",width=10,command=self.picktime)
-        self.time_entry.place(x=420,y=120)
+        self.drop_entry.place(x=240,y=80)
 
         self.update=Ct.CTkButton(self.veiw_frame, text="Update",width=20)
         self.update.place(x=320,y=160)
@@ -170,6 +153,8 @@ class Dashboard():
         self.history_frame.configure(fg_color= 'white')
         # Create the Treeview
         column = ("Booking_id", "Pickup Address", "Drop-off Address","date_of_booking","Booking status")
+
+        
         self.veiw_booking = ttk.Treeview(self.history_frame, columns=column, show="headings", height=30)
 
         for col in column:
@@ -192,7 +177,7 @@ class Dashboard():
         self.pass_entry=Ct.CTkEntry(self.change_frame,height=30)
         self.pass_entry.place(x=250,y=130)
         
-        self.password2=Ct.CTkLabel(self.change_frame, text="Conform Password:",font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
+        self.password2=Ct.CTkLabel(self.change_frame, text="Confirm Password:",font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
         self.password2.place(x=50,y=170)
         self.pass_entry2=Ct.CTkEntry(self.change_frame,height=30)
         self.pass_entry2.place(x=250,y=170)

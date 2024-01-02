@@ -6,10 +6,13 @@ from time import strftime
 from tkcalendar import DateEntry
 from Model import BookingModel
 from Controller import CustomerController
+from Controller.DataBaseConnection import Database
 from tkinter import messagebox
+import LoginView
 import customtkinter as Ct
 import tkinter as tkk
 import tkintermapview
+
 import GobalVariable
 
 
@@ -34,7 +37,7 @@ class Dashboard():
         self.lbl.place(x=1200,y=25)
         
         self.time()
-
+        self.connection = Database.Connect()
         self.options_frame = Ct.CTkFrame(self.master, fg_color='#00BF63',bg_color='#00BF63')
 
         self.profile = Ct.CTkImage(Image.open('D:\Code\Python\python project\TaxBookingSystem\image\images-removebg-preview.png'), size=(150,150))
@@ -44,7 +47,7 @@ class Dashboard():
         self.name.place(x=50,y=120)
         self.name.configure(text=GobalVariable.Customer[1] + ' ' + GobalVariable.Customer[2])
 
-        self.dash = Ct.CTkButton(self.options_frame,text="view Profile", fg_color='#00BF63', border_width=0, bg_color='#00BF63',font=Ct.CTkFont(family='Times',size=25,weight='bold'),text_color='white',hover=False,command=lambda: self.indicate(self.proview, self.profile_page))
+        self.dash = Ct.CTkButton(self.options_frame,text="View Profile", fg_color='#00BF63', border_width=0, bg_color='#00BF63',font=Ct.CTkFont(family='Times',size=25,weight='bold'),text_color='white',hover=False,command=lambda: self.indicate(self.proview, self.profile_page))
         self.dash.place(x=60,y=250)
 
         self.proview = Ct.CTkFrame(self.options_frame, fg_color='white',width=127,height=3)
@@ -56,7 +59,7 @@ class Dashboard():
         self.book_indicate = Ct.CTkFrame(self.options_frame, fg_color='#00BF63',width=110,height=3)
         self.book_indicate.place(x=65,y=360)
 
-        self.view = Ct.CTkButton(self.options_frame, text='view Book',fg_color='#00BF63', border_width=0, bg_color='#00BF63',font=Ct.CTkFont(family='Times',size=25,weight='bold'),text_color='white',hover=False, command=lambda: self.indicate(self.view_indicate,self.view_page))
+        self.view = Ct.CTkButton(self.options_frame, text='View Book',fg_color='#00BF63', border_width=0, bg_color='#00BF63',font=Ct.CTkFont(family='Times',size=25,weight='bold'),text_color='white',hover=False, command=lambda: self.indicate(self.view_indicate,self.view_page))
         self.view.place(x=50, y=400)
 
         self.view_indicate = Ct.CTkFrame(self.options_frame, fg_color='#00BF63',width=115,height=3)
@@ -103,6 +106,7 @@ class Dashboard():
         Ct.set_default_color_theme("green") 
         self.profile_lbl=Ct.CTkLabel(self.home_frame,text="Your Profile",font=Ct.CTkFont(family="Times",size=50, weight='bold'),text_color='#00BF63')
         self.profile_lbl.place(x=400,y=50)
+
         self.copy(self.main_frame)
         self.update_btn = Ct.CTkButton(self.home_frame,text="Edit",command=self.dulicate,font= Ct.CTkFont(family="Times", size=30),width=200,fg_color='#00BF63')
         self.update_btn.place(x=850,y=700)
@@ -170,7 +174,7 @@ class Dashboard():
         self.root.mainloop()
     
     def settime(self,time):
-            self.custime.set("{}:{}:{}".format(*time))
+            self.custime.set("{}:{} {}".format(*time))
 
             self.root.destroy()
 
@@ -178,6 +182,9 @@ class Dashboard():
         self.view_frame = Ct.CTkFrame(self.main_frame,width=1150, height=750)
         self.view_frame.configure(fg_color= 'white')
 
+        self.id = Ct.StringVar()
+        self.Bookid = Ct.CTkEntry(self.view_frame)
+        self.Bookid.place_forget()
         self.pick=Ct.CTkLabel(self.view_frame, text='Pick up Address:',font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
         self.pick.place(x=50,y=50)
         self.pick_entry=Ct.CTkEntry(self.view_frame,width=200)
@@ -205,22 +212,23 @@ class Dashboard():
         self.time_entry=Ct.CTkButton(self.view_frame, text="clock",width=10,command=self.picktime)
         self.time_entry.place(x=1020,y=120)
 
-        self.update=Ct.CTkButton(self.view_frame, text="Update",width=200,font=Ct.CTkFont(family="Times",size=25, weight='bold'))
+        self.update=Ct.CTkButton(self.view_frame, text="Update",width=200,font=Ct.CTkFont(family="Times",size=25, weight='bold'),command=self.update_book)
         self.update.place(x=300,y=180)
 
-        self.cancel_btn=Ct.CTkButton(self.view_frame, text="Cancel",width=200,font=Ct.CTkFont(family="Times",size=25, weight='bold'))
+        self.cancel_btn=Ct.CTkButton(self.view_frame, text="Cancel",width=200,font=Ct.CTkFont(family="Times",size=25, weight='bold'),command=self.cancel_book)
         self.cancel_btn.place(x=550,y=180)
 
         self.view_frame.pack(side=Ct.LEFT)
 
         # Create the Treeview
-        column = ("Booking_id", "Pickup Address", "Drop-off Address","date_of_booking","Booking status")
+        column = ("Booking_id", "Pickup Address", "Drop-off Address","date_of_booking","time","Booking status")
         self.view_booking = ttk.Treeview(self.view_frame, columns=column, show="headings", height=30)
+        self.view_booking.bind("<<TreeviewSelect>>", self.selectedRow)
 
         for col in column:
             self.view_booking.heading(col, text=col, anchor="center")
-            self.view_booking.column(col, anchor="center", width=250)
-
+            self.view_booking.column(col, anchor="center", width=210)
+            self.veiw_book()
         self.view_booking.place(x=100,y=300)
         self.view_frame.pack()
 
@@ -230,14 +238,14 @@ class Dashboard():
         # Create the Treeview
         self.booklb = Ct.CTkLabel(self.history_frame, text='Booking History',font=Ct.CTkFont(family="Times",size=50, weight='bold'),text_color='#00BF63')
         self.booklb.place(x=400,y=50)
-        column = ("Booking_id", "Pickup Address", "Drop-off Address","date_of_booking","Booking status")
-        self.view_booking = ttk.Treeview(self.history_frame, columns=column, show="headings", height=30)
-
+        column = ("id","Pickup Address", "Drop-off Address","date_of_booking","Booking status","Driverid","Driver Name","Phone_no","Vechicle_no")
+        self.history_booking = ttk.Treeview(self.history_frame, columns=column, show="headings", height=30)
+        
         for col in column:
-            self.view_booking.heading(col, text=col, anchor="center")
-            self.view_booking.column(col, anchor="center", width=260)
-
-        self.view_booking.place(x=50,y=200)
+            self.history_booking.heading(col, text=col, anchor="center")
+            self.history_booking.column(col, anchor="center", width=150)
+            self.view_detail()
+        self.history_booking.place(x=50,y=200)
         self.history_frame.pack()
 
     def change_page(self):
@@ -263,7 +271,7 @@ class Dashboard():
         self.pass_entry2=Ct.CTkEntry(self.change_frame,height=30,width=200)
         self.pass_entry2.place(x=700,y=400)
 
-        self.con_button=Ct.CTkButton(self.change_frame,text="Change",font=Ct.CTkFont(family="Times",size=25, weight='bold'),width=200)
+        self.con_button=Ct.CTkButton(self.change_frame,text="Change",font=Ct.CTkFont(family="Times",size=25, weight='bold'),width=200,command=self.change)
         self.con_button.place(x=700,y=450)
 
 
@@ -285,8 +293,8 @@ class Dashboard():
         self.booklb.place(x=0,y=150)
 
         
-        self.con_button=Ct.CTkButton(self.delete_fram,text="Delete Account",font=Ct.CTkFont(family="Times",size=30, weight='bold'),width=300)
-        self.con_button.place(x=420,y=450)
+        self.con_button=Ct.CTkButton(self.delete_fram,text="Delete Account",font=Ct.CTkFont(family="Times",size=30, weight='bold'),width=300,command=self.delete_acc)
+        self.con_button.place(x=420,y=450,)
 
 
         
@@ -316,132 +324,153 @@ class Dashboard():
         self.update_page()
 
     def copy(self,frame):
-        
-        self.view_first = Ct.CTkLabel(frame,text="First Name:",font=Ct.CTkFont(family="Times",size=30,))
-        self.view_first.place(x=50,y=200)
+        self.view_profile()
+        for i in self.profile:
 
-        self.view_firstname = Ct.CTkLabel(frame,text="",font=Ct.CTkFont(family="Times",size=30,))
-        self.view_firstname.place(x=200,y=200)
-        self.view_firstname.configure(text=GobalVariable.Customer[1])
+            self.view_first = Ct.CTkLabel(frame,text="First Name:",font=Ct.CTkFont(family="Times",size=30,))
+            self.view_first.place(x=50,y=200)
 
-        self.view_last = Ct.CTkLabel(frame,text="Last Name:",font=Ct.CTkFont(family="Times",size=30,))
-        self.view_last.place(x=450,y=200)
+            self.view_firstname = Ct.CTkLabel(frame,text="",font=Ct.CTkFont(family="Times",size=30,))
+            self.view_firstname.place(x=200,y=200)
+            self.view_firstname.configure(text=i[0])
 
-        self.view_lastname = Ct.CTkLabel(frame,text="",font=Ct.CTkFont(family="Times",size=30,))
-        self.view_lastname.place(x=600,y=200)
-        self.view_lastname.configure(text=GobalVariable.Customer[2])
+            self.view_last = Ct.CTkLabel(frame,text="Last Name:",font=Ct.CTkFont(family="Times",size=30,))
+            self.view_last.place(x=450,y=200)
 
-        self.view_gender = Ct.CTkLabel(frame,text="Gender:",font=Ct.CTkFont(family="Times",size=30,))
-        self.view_gender.place(x=850,y=200)
+            self.view_lastname = Ct.CTkLabel(frame,text="",font=Ct.CTkFont(family="Times",size=30,))
+            self.view_lastname.place(x=600,y=200)
+            self.view_lastname.configure(text=i[1])
 
-        self.view_genderdata = Ct.CTkLabel(frame,text="",font=Ct.CTkFont(family="Times",size=30,))
-        self.view_genderdata.place(x=950,y=200)
-        self.view_genderdata.configure(text=GobalVariable.Customer[5])
+            self.view_gender = Ct.CTkLabel(frame,text="Gender:",font=Ct.CTkFont(family="Times",size=30,))
+            self.view_gender.place(x=850,y=200)
 
-        self.view_Dob = Ct.CTkLabel(frame,text="Date of Birth:",font=Ct.CTkFont(family="Times",size=30,))
-        self.view_Dob.place(x=50,y=400)
+            self.view_genderdata = Ct.CTkLabel(frame,text="",font=Ct.CTkFont(family="Times",size=30,))
+            self.view_genderdata.place(x=950,y=200)
+            self.view_genderdata.configure(text=i[4])
 
-        self.view_dobdata = Ct.CTkLabel(frame,text="",font=Ct.CTkFont(family="Times",size=30,))
-        self.view_dobdata.place(x=230,y=400)
-        self.view_dobdata.configure(text=GobalVariable.Customer[4])
+            self.view_Dob = Ct.CTkLabel(frame,text="Date of Birth:",font=Ct.CTkFont(family="Times",size=30,))
+            self.view_Dob.place(x=50,y=400)
 
-        self.number = Ct.CTkLabel(frame,text="Phone Number:",font=Ct.CTkFont(family="Times",size=30,))
-        self.number.place(x=450,y=400)
+            self.view_dobdata = Ct.CTkLabel(frame,text="",font=Ct.CTkFont(family="Times",size=30,))
+            self.view_dobdata.place(x=230,y=400)
+            self.view_dobdata.configure(text=i[3])
 
-        self.view_numberdata = Ct.CTkLabel(frame,text="",font=Ct.CTkFont(family="Times",size=30,))
-        self.view_numberdata.place(x=650,y=400)
-        self.view_numberdata.configure(text=GobalVariable.Customer[6])
+            self.number = Ct.CTkLabel(frame,text="Phone Number:",font=Ct.CTkFont(family="Times",size=30,))
+            self.number.place(x=450,y=400)
 
-        self.view_add = Ct.CTkLabel(frame,text="Address:",font=Ct.CTkFont(family="Times",size=30,))
-        self.view_add.place(x=840,y=400)
+            self.view_numberdata = Ct.CTkLabel(frame,text="",font=Ct.CTkFont(family="Times",size=30,))
+            self.view_numberdata.place(x=650,y=400)
+            self.view_numberdata.configure(text=i[5])
 
-        self.view_adddata = Ct.CTkLabel(frame,text="",font=Ct.CTkFont(family="Times",size=30,))
-        self.view_adddata.place(x=950,y=400)
-        self.view_adddata.configure(text=GobalVariable.Customer[7])
+            self.view_add = Ct.CTkLabel(frame,text="Address:",font=Ct.CTkFont(family="Times",size=30,))
+            self.view_add.place(x=840,y=400)
 
-        self.view_pay = Ct.CTkLabel(frame,text="Payment Method:",font=Ct.CTkFont(family="Times",size=30,))
-        self.view_pay.place(x=50,y=600)
-        
+            self.view_adddata = Ct.CTkLabel(frame,text="",font=Ct.CTkFont(family="Times",size=30,))
+            self.view_adddata.place(x=950,y=400)
+            self.view_adddata.configure(text=i[6])
 
-        self.view_paydata = Ct.CTkLabel(frame,text="",font=Ct.CTkFont(family="Times",size=30,))
-        self.view_paydata.place(x=280,y=600)
-        self.view_paydata.configure(text=GobalVariable.Customer[8])
+            self.view_pay = Ct.CTkLabel(frame,text="Payment Method:",font=Ct.CTkFont(family="Times",size=30,))
+            self.view_pay.place(x=50,y=600)
+            
 
-        self.view_gmail = Ct.CTkLabel(frame,text="Email:",font=Ct.CTkFont(family="Times",size=30,))
-        self.view_gmail.place(x=500,y=600)
+            self.view_paydata = Ct.CTkLabel(frame,text="",font=Ct.CTkFont(family="Times",size=30,))
+            self.view_paydata.place(x=280,y=600)
+            self.view_paydata.configure(text=i[7])
 
-        self.view_gmaildata = Ct.CTkLabel(frame,text="",font=Ct.CTkFont(family="Times",size=30,))
-        self.view_gmaildata.place(x=600,y=600)
-        self.view_gmaildata.configure(text=GobalVariable.Customer[3])
+            self.view_gmail = Ct.CTkLabel(frame,text="Email:",font=Ct.CTkFont(family="Times",size=30,))
+            self.view_gmail.place(x=500,y=600)
 
-    def update_profile(self):
-        pass
+            self.view_gmaildata = Ct.CTkLabel(frame,text="",font=Ct.CTkFont(family="Times",size=30,))
+            self.view_gmaildata.place(x=600,y=600)
+            self.view_gmaildata.configure(text=i[2])
 
     def update_page(self):
         self.update_frame = Ct.CTkFrame(self.main_frame,width=1150, height=750)
 
         self.update_frame.configure(fg_color= 'white')
-        Ct.set_default_color_theme("green")  
+        Ct.set_default_color_theme("green") 
 
-        self.profile_lbl=Ct.CTkLabel(self.update_frame,text="Edit Your Profile",font=Ct.CTkFont(family="Times",size=50, weight='bold'),text_color='#00BF63')
-        self.profile_lbl.place(x=400,y=50)
+        for i in self.profile:
+            self.profile_lbl=Ct.CTkLabel(self.update_frame,text="Edit Your Profile",font=Ct.CTkFont(family="Times",size=50, weight='bold'),text_color='#00BF63')
+            self.profile_lbl.place(x=400,y=50)
 
-        self.update_first = Ct.CTkLabel(self.update_frame,text="First Name:",font=Ct.CTkFont(family="Times",size=30,))
-        self.update_first.place(x=50,y=200)
+            self.update_first = Ct.CTkLabel(self.update_frame,text="First Name:",font=Ct.CTkFont(family="Times",size=30,))
+            self.update_first.place(x=50,y=200)
 
-        self.update_firstname = Ct.CTkEntry(self.update_frame,font=Ct.CTkFont(family="Times",size=30,),width=180)
-        self.update_firstname.place(x=200,y=200)
+            self.edit_first = Ct.StringVar()
+            self.edit_first.set(i[0])
+            self.update_firstname = Ct.CTkEntry(self.update_frame,textvariable=self.edit_first,font=Ct.CTkFont(family="Times",size=30,),width=180)
+            self.update_firstname.place(x=200,y=200)
 
-        self.update_last = Ct.CTkLabel(self.update_frame,text="Last Name:",font=Ct.CTkFont(family="Times",size=30,))
-        self.update_last.place(x=450,y=200)
+            self.edit_last = Ct.StringVar()
+            self.edit_last.set(i[1])
+            self.update_last = Ct.CTkLabel(self.update_frame,text="Last Name:",font=Ct.CTkFont(family="Times",size=30,))
+            self.update_last.place(x=450,y=200)
 
-        self.update_lastname = Ct.CTkEntry(self.update_frame,font=Ct.CTkFont(family="Times",size=30,),width=180)
-        self.update_lastname.place(x=600,y=200)
+            self.update_lastname = Ct.CTkEntry(self.update_frame,textvariable=self.edit_last,font=Ct.CTkFont(family="Times",size=30,),width=180)
+            self.update_lastname.place(x=600,y=200)
 
-        self.update_gender = Ct.CTkLabel(self.update_frame,text="Gender:",font=Ct.CTkFont(family="Times",size=30,))
-        self.update_gender.place(x=850,y=200)
+            self.update_gender = Ct.CTkLabel(self.update_frame,text="Gender:",font=Ct.CTkFont(family="Times",size=30,))
+            self.update_gender.place(x=800,y=200)
 
-        self.update_genderdata = Ct.CTkEntry(self.update_frame,font=Ct.CTkFont(family="Times",size=30,),width=180)
-        self.update_genderdata.place(x=950,y=200)
+            self.edit_gender = Ct.StringVar()
+            self.edit_gender.set(i[4])
+            self.radio_btn =Ct.CTkRadioButton(self.update_frame, text="Male", variable=self.edit_gender, value="Male")
+            self.radio_btn.place(x=950, y=200)
+            self.radio_btn1 = Ct.CTkRadioButton(self.update_frame, text="Female", variable=self.edit_gender, value="Female")
+            self.radio_btn1.place(x=1050, y=200)
 
-        self.update_Dob = Ct.CTkLabel(self.update_frame,text="Date of Birth:",font=Ct.CTkFont(family="Times",size=30,))
-        self.update_Dob.place(x=50,y=400)
 
-        self.update_dobdata = Ct.CTkEntry(self.update_frame,font=Ct.CTkFont(family="Times",size=30,),width=180)
-        self.update_dobdata.place(x=230,y=400)
+            self.update_Dob = Ct.CTkLabel(self.update_frame,text="Date of Birth:",font=Ct.CTkFont(family="Times",size=30,))
+            self.update_Dob.place(x=50,y=400)
 
-        self.update_phone = Ct.CTkLabel(self.update_frame,text="Phone Number:",font=Ct.CTkFont(family="Times",size=30,))
-        self.update_phone.place(x=450,y=400)
+            self.edit_date = Ct.StringVar()
+            self.edit_date.set(i[3])
+            self.update_dobdata = DateEntry(self.update_frame,font=Ct.CTkFont(family="Times",size=30,),textvariable=self.edit_date,selectmode='day')
+            self.update_dobdata.place(x=300,y=500)
 
-        self.update_phonedata = Ct.CTkEntry(self.update_frame,font=Ct.CTkFont(family="Times",size=30,),width=180)
-        self.update_phonedata.place(x=650,y=400)
+            self.update_phone = Ct.CTkLabel(self.update_frame,text="Phone Number:",font=Ct.CTkFont(family="Times",size=30,))
+            self.update_phone.place(x=450,y=400)
 
-        self.update_add = Ct.CTkLabel(self.update_frame,text="Address:",font=Ct.CTkFont(family="Times",size=30,))
-        self.update_add.place(x=840,y=400)
+            self.edit_phone = Ct.StringVar()
+            self.edit_phone.set(i[5])
 
-        self.update_adddata = Ct.CTkEntry(self.update_frame,font=Ct.CTkFont(family="Times",size=30,),width=180)
-        self.update_adddata.place(x=950,y=400)
+            self.update_phonedata = Ct.CTkEntry(self.update_frame,font=Ct.CTkFont(family="Times",size=30,),width=180,textvariable=self.edit_phone)
+            self.update_phonedata.place(x=650,y=400)
 
-        self.update_pay = Ct.CTkLabel(self.update_frame,text="Payment Method:",font=Ct.CTkFont(family="Times",size=30,))
-        self.update_pay.place(x=50,y=600)
+            self.update_add = Ct.CTkLabel(self.update_frame,text="Address:",font=Ct.CTkFont(family="Times",size=30))
+            self.update_add.place(x=840,y=400)
 
-        self.update_paydata = Ct.CTkEntry(self.update_frame,font=Ct.CTkFont(family="Times",size=30,),width=180)
-        self.update_paydata.place(x=280,y=600)
+            self.edit_add = Ct.StringVar()
+            self.edit_add.set(i[6])
+            self.update_adddata = Ct.CTkEntry(self.update_frame,font=Ct.CTkFont(family="Times",size=30,),width=180,textvariable=self.edit_add)
+            self.update_adddata.place(x=950,y=400)
 
-        self.update_mail = Ct.CTkLabel(self.update_frame,text="Email:",font=Ct.CTkFont(family="Times",size=30,))
-        self.update_mail.place(x=480,y=600)
+            self.update_pay = Ct.CTkLabel(self.update_frame,text="Payment Method:",font=Ct.CTkFont(family="Times",size=30,))
+            self.update_pay.place(x=50,y=600)
 
-        self.update_maildata = Ct.CTkEntry(self.update_frame,font=Ct.CTkFont(family="Times",size=30,),width=250)
-        self.update_maildata.place(x=580,y=600)
+            self.edit_pay = Ct.StringVar()
+            self.edit_pay.set(i[7])
+            self.update_paydata = Ct.CTkOptionMenu(self.update_frame,font=Ct.CTkFont(family="Times",size=30),variable=self.edit_pay, values=["Cash", "Banking", "Esewa"])
+            self.update_paydata.place(x=280,y=600)
 
-        self.update_btn = Ct.CTkButton(self.main_frame,text="save",command=self.dulicate,font= Ct.CTkFont(family="Times", size=30),width=100,fg_color='#00BF63')
-        self.update_btn.place(x=850,y=700)
+            self.update_mail = Ct.CTkLabel(self.update_frame,text="Email:",font=Ct.CTkFont(family="Times",size=30))
+            self.update_mail.place(x=480,y=600)
 
-        self.update_btn = Ct.CTkButton(self.main_frame,text="back",command=self.back,font= Ct.CTkFont(family="Times", size=30),width=100,fg_color='#00BF63')
-        self.update_btn.place(x=1000,y=700)
+            self.mail = Ct.StringVar()
+            self.mail.set(i[2])
 
-        self.update_frame.pack(side=Ct.RIGHT)
-        self.update_frame.pack_propagate(False)
+            self.update_maildata = Ct.CTkEntry(self.update_frame,font=Ct.CTkFont(family="Times",size=30,),width=350,textvariable=self.mail)
+            self.update_maildata.place(x=580,y=600)
+
+            self.update_btn = Ct.CTkButton(self.main_frame,text="save",command=self.edit_profile,font= Ct.CTkFont(family="Times", size=30),width=100,fg_color='#00BF63')
+            self.update_btn.place(x=850,y=700)
+
+            self.update_btn = Ct.CTkButton(self.main_frame,text="back",command=self.back,font= Ct.CTkFont(family="Times", size=30),width=100,fg_color='#00BF63')
+            self.update_btn.place(x=1000,y=700)
+
+            self.update_frame.pack(side=Ct.RIGHT)
+            self.update_frame.pack_propagate(False)
     
     def back(self):
         self.delete_frame()
@@ -455,14 +484,12 @@ class Dashboard():
     def book_request(self):
         try:
             self.id = 0
-            
             self.Cusid = GobalVariable.Customer[0]
             book = BookingModel.Booking(self.id,self.pick_entry.get(),self.drop_entry.get(),self.date_entry.get_date(),self.custime.get(),self.Cusid)
             request = CustomerController.CustomerDatabase()
             result = request._CustomerBook(book)
 
             if result:
-
                 messagebox.showinfo("Booking", "Your Book has been requested",parent=self.master)
                 self.pick_entry.delete(0,'end')
                 self.drop_entry.delete(0,'end')
@@ -472,6 +499,157 @@ class Dashboard():
 
         except Exception as e:
             print(e)
+
+    def edit_profile(self):
+
+        try:
+            customerid = GobalVariable.Customer[0]
+            cursor =self.connection.cursor()
+            query = f"UPDATE `customer` SET `first name`='{self.edit_first.get()}',`last name`='{self.edit_last.get()}',`email`='{self.mail.get()}',`DOB`='{self.edit_date.get()}',`Gender`='{self.edit_gender.get()}',`phone number`='{self.edit_phone.get()}',`address`='{self.edit_add.get()}',`Payment_Method`='{self.edit_pay.get()}' WHERE customerid={customerid}"
+            cursor.execute(query)
+            # Commit the transaction
+            self.connection.commit()
+            self.view_profile()
+            messagebox.showinfo("Taxi", "Updated Profile",parent=self.master)
+        except Exception as e:
+            messagebox.showerror("Taxi", f"Update Failure: {e}",parent=self.master)
+
+    def veiw_book(self):
+        self.cust_id=GobalVariable.Customer[0]
+        try:
+            cursor =self.connection.cursor()
+            query = f"SELECT `bookingid`, `pickup_address`, `dropoff_address`, `date`, `time`, `status` FROM `booking` WHERE `customerid` ={self.cust_id} "
+            cursor.execute(query)
+            rows = cursor.fetchall()
+
+            for item in self.view_booking.get_children():
+                self.view_booking.delete(item)
+
+            for row in rows:
+                self.view_booking.insert(parent='', index='end', values=(row[0], row[1], row[2], row[3], row[4],row[5]))
+
+        except Exception as err:
+            print(f"Error: {err}")
+
+    def selectedRow(self,event):
+        selected_item = self.view_booking.focus()
+        values = self.view_booking.item(selected_item, "values")
+
+        if values:
+            self.id.set(values[0])
+
+            self.pick_entry.delete(0, "end")
+            self.pick_entry.insert(0, values[1])
+
+            self.drop_entry.delete(0, "end")
+            self.drop_entry.insert(0, values[2])
+
+            self.date_entry.delete(0, "end")
+            self.date_entry.insert(0, values[3])
+
+            self.custime.set(values[4])
+    def update_book(self):
+        try:
+            cursor =self.connection.cursor() 
+            query = f"UPDATE booking SET  `pickup_address`='{self.pick_entry.get()}', `dropoff_address`='{self.drop_entry.get()}', `date`='{self.date_entry.get_date()}',`time`='{self.custime.get()}' WHERE `bookingid`={self.id.get()}"
+
+            cursor.execute(query)
+            # Commit the transaction
+            self.connection.commit()
+            self.veiw_book()
+            messagebox.showinfo("Taxi", "Updated bookings",parent=self.master)
+        except Exception as err:
+            messagebox.showerror("Taxi", f"Update Failure: {err}",parent=self.master)
+
+    def cancel_book(self):
+        try:
+            cursor =self.connection.cursor() 
+            query = f"DELETE  FROM booking WHERE bookingid={self.id.get()}"
+            cursor.execute(query)
+
+            self.connection.commit()
+            self.veiw_book()
+            messagebox.showinfo("Taxi", "Your booking has been cancel",parent=self.master)
+        except Exception as err:
+            messagebox.showerror("Taxi", f" Failure: {err}",parent=self.master)
+
+    def view_detail(self):
+        self.cust_id=GobalVariable.Customer[0]
+        try:
+            cursor =self.connection.cursor()
+            query = f'''SELECT customer.customerid,booking.pickup_address,booking.dropoff_address,booking.date,booking.status,driver.driverid,CONCAT(driver.firstname," ",driver.lastname),driver.phonenumber,driver.vechicleno
+            FROM customer
+            JOIN booking
+            where customer.customerid={self.cust_id}'''
+            cursor.execute(query)
+            rows = cursor.fetchall()
+
+            for item in self.history_booking.get_children():
+                self.history_booking.delete(item)
+
+            for row in rows:
+                self.history_booking.insert(parent='', index='end', values=(row[0], row[1], row[2], row[3], row[4],row[5],row[6],row[7], row[8]))
+
+        except Exception as err:
+            print(f"Error: {err}")
+    
+    def view_profile(self):
+        self.cust_id=GobalVariable.Customer[0]
+        try:
+            cursor =self.connection.cursor()
+            query = f'''SELECT `first name`, `last name`, `email`, `DOB`, `Gender`, `phone number`, `address`, `Payment_Method`FROM `customer` WHERE customerid={self.cust_id} '''
+            cursor.execute(query)
+            self.profile = cursor.fetchall()
+
+        except Exception as err:
+            print(f"Error: {err}")
+
+    def delete_acc(self):
+        self.cust_id=GobalVariable.Customer[0]
+        try:
+            cursor =self.connection.cursor()
+            query1 = f"DELETE  FROM booking WHERE customerid={self.cust_id}"
+            cursor.execute(query1)
+            self.connection.commit()
+            query = f"DELETE  FROM customer WHERE customerid={self.cust_id}"
+            cursor.execute(query)
+            self.connection.commit()
+            value = messagebox.askyesno("Taxi","Do you want to delete your Account?",parent=self.master)
+            if value:
+                messagebox.showinfo("Taxi", "Your account has been deleted",parent=self.master)
+                app = Ct.CTkToplevel()
+                self.master.destroy()
+                LoginView.LoginPage(app)
+                app.after(0,lambda:app.state('zoomed'))
+                app.lift()
+                app.mainloop()
+                
+                
+        except Exception as err:
+            messagebox.showerror("Taxi", f" Failure: {err}",parent=self.master)
+
+    def change(self):
+                
+            old_password=GobalVariable.Customer[9]
+            customer_id = GobalVariable.Customer[0]
+
+            current_password=self.new_pass_entry.get()
+            new_password = self.pass_entry.get()
+            re_password = self.pass_entry2.get()
+            try:
+                if current_password!= old_password:
+                    messagebox.showerror("password","Please check the Old password")
+
+                elif new_password ==re_password:
+                    cursor =self.connection.cursor() 
+                    query = f"UPDATE `customer` SET `password`='{new_password}' WHERE customerid = '{customer_id}'"
+                    cursor.execute(query)                
+                    self.connection.commit()
+                    messagebox.showinfo("Success", "your password has been changed successfully!",parent=self.master)
+
+            
+            except Exception as err:
+                messagebox.showerror("Error", err)
 
 if __name__ == '__main__':
     apps = Ct.CTk()
