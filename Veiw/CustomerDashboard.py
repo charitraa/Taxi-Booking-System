@@ -22,7 +22,7 @@ class Dashboard():
         self.master.title('Customer Dashboard')
         Ct.set_default_color_theme("green") 
         self.master.attributes('-topmost',True)
-        self.company=Ct.CTkLabel(self.master,text="Whoami.com",font=Ct.CTkFont(family="Times",size=25, weight='bold'))
+        self.company=Ct.CTkLabel(self.master,text="Whoiam.com",font=Ct.CTkFont(family="Times",size=25, weight='bold'))
         self.company.place(x=150,y=25)
         self.cmpic = Ct.CTkImage(Image.open('D:\Code\Python\python project\TaxBookingSystem\image\Green White Simple Open Registration Facebook Post (3).png'), size=(100,100))
         self.cmimg = Ct.CTkLabel(self.master,image=self.cmpic, text="").place(x=50,y=-5)
@@ -477,7 +477,7 @@ class Dashboard():
         self.profile_page()
 
     def time(self):
-        self.string = strftime('%H:%M:%S %p')
+        self.string = strftime('%I:%M:%p')
         self.lbl.configure(text=self.string)
         self.lbl.after(1000, self.time)
 
@@ -505,7 +505,7 @@ class Dashboard():
         try:
             customerid = GobalVariable.Customer[0]
             cursor =self.connection.cursor()
-            query = f"UPDATE `customer` SET `first name`='{self.edit_first.get()}',`last name`='{self.edit_last.get()}',`email`='{self.mail.get()}',`DOB`='{self.edit_date.get()}',`Gender`='{self.edit_gender.get()}',`phone number`='{self.edit_phone.get()}',`address`='{self.edit_add.get()}',`Payment_Method`='{self.edit_pay.get()}' WHERE customerid={customerid}"
+            query = f"UPDATE `customer` SET `first name`='{self.edit_first.get()}',`last name`='{self.edit_last.get()}',`email`='{self.mail.get()}',`DOB`='{self.update_dobdata.get_date()}',`Gender`='{self.edit_gender.get()}',`phone number`='{self.edit_phone.get()}',`address`='{self.edit_add.get()}',`Payment_Method`='{self.edit_pay.get()}' WHERE customerid={customerid}"
             cursor.execute(query)
             # Commit the transaction
             self.connection.commit()

@@ -1,15 +1,14 @@
 class Driver:
     #constructor
-    def __init__(self,_driverid,_first,_last,_phone,_address,_email,_dob,_liscence,_vechicle,_password):
+    def __init__(self,_driverid,_first,_phone,_address,_email,_dob,_liscence,_gender,_password):
         self.driverid = _driverid
         self.first = _first
-        self.last = _last
+        self.gender = _gender
         self.phone = _phone
         self.address = _address
         self.email = _email
         self.DOB = _dob
         self.liscence = _liscence
-        self.vechicle = _vechicle
         self.password = _password
     
     #getters
@@ -19,8 +18,8 @@ class Driver:
     def getFirst(self):
         return self.first
     
-    def getLast(self):
-        return self.last
+    def getGender(self):
+        return self.gender
         
     def getPhone(self):
         return self.phone
@@ -33,9 +32,7 @@ class Driver:
     
     def getDOB(self):
         return self.DOB
-    
-    def getVechicle(self):
-        return self.vechicle
+
     
     def getLiscence(self):
         return self.liscence
@@ -51,8 +48,8 @@ class Driver:
     def setFirst(self,first ):
         self.first = first
 
-    def setLast(self, last):
-        self.last = last
+    def setGender(self, gender):
+        self.gender = gender
 
     def setPhone(self, phone):
         self.phone = phone
@@ -69,8 +66,7 @@ class Driver:
     def setLiscence(self, Liscence):
         self.liscence = Liscence
 
-    def setVechicle(self, Vechicle):
-        self.vechicle = Vechicle
+
 
     def setPassword(self, password):
         self.password = password

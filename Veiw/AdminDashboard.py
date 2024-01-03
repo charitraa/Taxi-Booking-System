@@ -7,12 +7,14 @@ from tkinter import ttk
 from tkcalendar import DateEntry
 from tkinter import messagebox
 import GobalVariable
+from Model.DriverRegistrationModel import Driver
+from Controller.DriverController import DriverDatabase
 from Controller.DataBaseConnection import Database
 
 class Dashboard():
     def __init__(self,master):
         self.master = master
-        self.master.title('Customer Dashboard')
+        self.master.title('Admin Dashboard')
         self.connection = Database.Connect()
         Ct.set_default_color_theme("green")
         # self.master.configure(fg_color='white')
@@ -30,7 +32,7 @@ class Dashboard():
         self.proveiw = Ct.CTkFrame(self.options_frame, fg_color='#00BF63',width=127,height=3)
         self.proveiw.place(x=68,y=285)
 
-        self.book = Ct.CTkButton(self.options_frame, text='Add Driver',fg_color='#00BF63', border_width=0, bg_color='#00BF63',font=Ct.CTkFont(family='Times',size=25,weight='bold'),text_color='white',hover=False, command=lambda: self.indicate(self.book_indicate, self.driver_register))
+        self.book = Ct.CTkButton(self.options_frame, text='Add Driver',fg_color='#00BF63', border_width=0, bg_color='#00BF63',font=Ct.CTkFont(family='Times',size=25,weight='bold'),text_color='white',hover=False, command=lambda: self.indicate(self.book_indicate, self.driver_regi))
         self.book.place(x=50,y=325)
 
         self.book_indicate = Ct.CTkFrame(self.options_frame, fg_color='#00BF63',width=110,height=3)
@@ -39,7 +41,7 @@ class Dashboard():
         self.veiw = Ct.CTkButton(self.options_frame, text='customer details',fg_color='#00BF63', border_width=0, bg_color='#00BF63',font=Ct.CTkFont(family='Times',size=25,weight='bold'),text_color='white',hover=False, command=lambda: self.indicate(self.veiw_indicate,self.cust_details))
         self.veiw.place(x=50, y=400)
 
-        self.veiw_indicate = Ct.CTkFrame(self.options_frame, fg_color='#00BF63',width=115,height=3)
+        self.veiw_indicate = Ct.CTkFrame(self.options_frame, fg_color='#00BF63',width=150,height=3)
         self.veiw_indicate.place(x=65,y=435)
 
         self.history = Ct.CTkButton(self.options_frame, text='History',fg_color='#00BF63', border_width=0, bg_color='#00BF63',font=Ct.CTkFont(family='Times',size=25,weight='bold'),text_color='white',hover=False, command=lambda: self.indicate(self.history_indicate,self.history_page))
@@ -53,12 +55,6 @@ class Dashboard():
 
         self.change_indicate = Ct.CTkFrame(self.options_frame, fg_color='#00BF63',width=190,height=3)
         self.change_indicate.place(x=35,y=590)
-
-        self.delete = Ct.CTkButton(self.options_frame, text='Delete Account',fg_color='#00BF63', border_width=0, bg_color='#00BF63',font=Ct.CTkFont(family='Times',size=25,weight='bold'),text_color='white',hover=False, command=lambda: self.indicate(self.delete_indicate,self.delete_page))
-        self.delete.place(x=40, y=625)
-
-        self.delete_indicate = Ct.CTkFrame(self.options_frame, fg_color='#00BF63',width=170,height=3)
-        self.delete_indicate.place(x=40,y=660)
 
         self.options_frame.pack(side=Ct.LEFT,padx=30)
         self.options_frame.pack_propagate(False)
@@ -80,15 +76,16 @@ class Dashboard():
         self.status=tk.OptionMenu(self.main_frame,self.var1,"Booked", "Pending")
         self.status.place(x=690,y=50, width=200, height=40)
 
+        self.veiw_driver()
         self.driver=Ct.CTkLabel(self.main_frame, text="Driver ID", fg_color='#00BF63', bg_color='#00BF63',font=Ct.CTkFont(family='Times',size=25,weight='bold'))
         self.driver.place(x=810, y=40)
         self.var2=Ct.StringVar()
-        self.var2.set("Select payment method")
+        self.var2.set("Select Driver")
 
-        self.driver_option=tk.OptionMenu(self.main_frame,self.var2,"Booked", "Pending")
+        self.driver_option=tk.OptionMenu(self.main_frame,self.var2,*self.mylist)
         self.driver_option.place(x=1160,y=50, width=200, height=40)
 
-        self.assign=Ct.CTkButton(self.main_frame, text="Assign", fg_color='#00BF63', bg_color='#00BF63', font=Ct.CTkFont(family='Times',size=25,weight='bold'))
+        self.assign=Ct.CTkButton(self.main_frame, text="Assign", fg_color='#00BF63', bg_color='#00BF63', font=Ct.CTkFont(family='Times',size=25,weight='bold'),command=self.assign_driver)
         self.assign.place(x=450, y=150)
 
         column = ("Booking_id", "Customer_Name","Mobile_no", "Pickup_Address", "Drop-off _Address","date_of_booking","Payment Method","Booking status")
@@ -125,15 +122,16 @@ class Dashboard():
         self.status=tk.OptionMenu(self.home_frame,self.var1,"Booked", "Pending")
         self.status.place(x=690,y=50, width=200, height=40)
 
+        self.veiw_driver()
         self.driver=Ct.CTkLabel(self.home_frame, text="Driver ID", fg_color='#00BF63', bg_color='#00BF63',font=Ct.CTkFont(family='Times',size=25,weight='bold'))
         self.driver.place(x=810, y=40)
-        self.var2=Ct.StringVar()
-        self.var2.set("Select payment method")
+        self.var2=Ct.StringVar(self.home_frame)
+        self.var2.set("Select Driver")
 
-        self.driver_option=tk.OptionMenu(self.home_frame,self.var2,"Booked", "Pending")
+        self.driver_option=tk.OptionMenu(self.home_frame,self.var2,*self.mylist)
         self.driver_option.place(x=1160,y=50, width=200, height=40)
 
-        self.assign=Ct.CTkButton(self.home_frame, text="Assign", fg_color='#00BF63', bg_color='#00BF63', font=Ct.CTkFont(family='Times',size=25,weight='bold'))
+        self.assign=Ct.CTkButton(self.home_frame, text="Assign", fg_color='#00BF63', bg_color='#00BF63', font=Ct.CTkFont(family='Times',size=25,weight='bold'),command=self.assign_driver)
         self.assign.place(x=450, y=150)
 
         column = ("Booking_id", "Customer_Name","Mobile_no", "Pickup_Address", "Drop-off _Address","date_of_booking","Payment Method","Booking status")
@@ -149,7 +147,7 @@ class Dashboard():
         self.home_frame.pack(side=Ct.LEFT)
 
 
-    def driver_register(self):
+    def driver_regi(self):
         self.driver_reg = Ct.CTkFrame(self.main_frame,width=1150, height=750)
         self.full_name_CTkLabel =Ct.CTkLabel(self.driver_reg, text="Full Name:",font=Ct.CTkFont(family="Times",size=20))
         self.driver_reg.configure(fg_color='white')
@@ -192,35 +190,39 @@ class Dashboard():
 
         self.license=Ct.CTkLabel(self.driver_reg,text='License No:',font=Ct.CTkFont(family="Times",size=20))
         self.license.place(x=400,y=250)
-        self.license=Ct.CTkEntry(self.driver_reg, textvariable=Ct.StringVar())
-        self.license.place(x=520,y=250)
+        self.license_entry=Ct.CTkEntry(self.driver_reg, textvariable=Ct.StringVar())
+        self.license_entry.place(x=520,y=250)
 
-        self.register = Ct.CTkButton(self.driver_reg, text="Register", font=Ct.CTkFont(family="Times",size=20))
+        self.register = Ct.CTkButton(self.driver_reg, text="Register", font=Ct.CTkFont(family="Times",size=20),command=self.driver_register)
         self.register.place(x=750, y=250)
         
-        column = ("Booking_id", "Customer Name", "Pickup Address", "Drop-off Address", "Mobile no.","date_of_booking","Payment Method","Booking status")
+        column = ("`driverid`, `fullname`, `phonenumber`, `Address`, `email`, `DOB`, `gender`, `status`, `liscenceno`, `password`")
         self.view_booking = ttk.Treeview(self.driver_reg, columns=column, show="headings", height=30)
 
         for col in column:
             self.view_booking.heading(col, text=col, anchor="center")
             self.view_booking.column(col, anchor="center", width=165)
+            self.driver_view()
 
         self.view_booking.place(x=60,y=360)
 
         self.driver_reg.pack(side=Ct.LEFT)
 
     def cust_details(self):
-
+        
         self.cus_det = Ct.CTkFrame(self.main_frame,width=1150, height=750)
         self.cus_det.configure(fg_color='white')
-        column = ("Booking_id", "Customer Name", "Pickup Address", "Drop-off Address", "Mobile no.","date_of_booking","Payment Method","Booking status")
+        self.booklb = Ct.CTkLabel(self.cus_det, text='Customer Details',font=Ct.CTkFont(family="Times",size=50, weight='bold'),text_color='#00BF63')
+        self.booklb.place(x=400,y=50)
+        column = ("id","firstname", "lastname","email","Date of birth","gender","address","payment_method")
         self.view_booking = ttk.Treeview(self.cus_det, columns=column, show="headings", height=40)
 
         for col in column:
             self.view_booking.heading(col, text=col, anchor="center")
             self.view_booking.column(col, anchor="center", width=165)
-
-        self.view_booking.place(x=60,y=20)
+            self.details_customer()
+    
+        self.view_booking.place(x=60,y=200)
 
         self.cus_det.pack()
 
@@ -230,12 +232,13 @@ class Dashboard():
         # Create the Treeview
         self.booklb = Ct.CTkLabel(self.history_frame, text='Booking History',font=Ct.CTkFont(family="Times",size=50, weight='bold'),text_color='#00BF63')
         self.booklb.place(x=400,y=50)
-        column = ("id","Pickup Address", "Drop-off Address","date_of_booking","Booking status","Driverid","Driver Name","Phone_no","Vechicle_no")
+        column = ("id","name","Date of birth","gender","address","payment_method","pickup","dropoff","date","time","status","Driver","phoneno")
         self.history_booking = ttk.Treeview(self.history_frame, columns=column, show="headings", height=30)
         
         for col in column:
             self.history_booking.heading(col, text=col, anchor="center")
-            self.history_booking.column(col, anchor="center", width=150)
+            self.history_booking.column(col, anchor="center", width=100)
+            self.historyy()
 
         self.history_booking.place(x=50,y=200)
         self.history_frame.pack()
@@ -263,33 +266,9 @@ class Dashboard():
         self.pass_entry2=Ct.CTkEntry(self.chan,height=30,width=200)
         self.pass_entry2.place(x=700,y=400)
 
-        self.con_button=Ct.CTkButton(self.chan,text="change",font=Ct.CTkFont(family="Times",size=25, weight='bold'),width=200)
+        self.con_button=Ct.CTkButton(self.chan,text="change",font=Ct.CTkFont(family="Times",size=25, weight='bold'),width=200,command=self.change)
         self.con_button.place(x=700,y=450)
         self.chan.pack()
-
-    def delete_page(self):
-        self.delete_fram = Ct.CTkFrame(self.main_frame,width=1125, height=750)
-        self.delete_fram.configure(fg_color= 'white')
-        self.booklb = Ct.CTkLabel(self.delete_fram, text='Delete Your Account',font=Ct.CTkFont(family="Times",size=50, weight='bold'),text_color='#00BF63')
-        self.booklb.place(x=350,y=100)
-        self.booklb = Ct.CTkLabel(self.delete_fram, text='''
-                    Are You sure you want to delete your Whoami Account? 
-                            
-                if you're having problems, please contact us we can help you.
-        
-            Deleting your account will remove all of your information from our database. 
-            This cannot be undone.''',font=Ct.CTkFont(family="Times",size=30))
-        self.booklb.place(x=0,y=150)
-
-        
-        self.con_button=Ct.CTkButton(self.delete_fram,text="Delete Account",font=Ct.CTkFont(family="Times",size=30, weight='bold'),width=300,command=self.delete_acc)
-        self.con_button.place(x=420,y=450,)
-
-
-        
-        self.delete_fram.pack()
-    
-    
 
     def delete_frame(self):
         for frame in self.main_frame.winfo_children():
@@ -311,8 +290,8 @@ class Dashboard():
 
     def change(self):
                 
-        old_password=GobalVariable.Customer[9]
-        customer_id = GobalVariable.Customer[0]
+        old_password=GobalVariable.Admin[6]
+        customer_id = GobalVariable.Admin[0]
         current_password=self.new_pass_entry.get()
         new_password = self.pass_entry.get()
         re_password = self.pass_entry2.get()
@@ -322,7 +301,7 @@ class Dashboard():
 
             elif new_password ==re_password:
                 cursor =self.connection.cursor() 
-                query = f"UPDATE `customer` SET `password`='{new_password}' WHERE customerid = '{customer_id}'"
+                query = f"UPDATE `admin` SET `password`='{new_password}' WHERE adminid = '{customer_id}'"
                 cursor.execute(query)                
                 self.connection.commit()
                 messagebox.showinfo("Success", "your password has been changed successfully!",parent=self.master)
@@ -332,10 +311,10 @@ class Dashboard():
             messagebox.showerror("Error", err)
     
     def delete_acc(self):
-        self.cust_id=GobalVariable.Customer[0]
+        self.cust_id=GobalVariable.Admin[0]
         try:
             cursor =self.connection.cursor() 
-            query = f"DELETE  FROM customer WHERE customerid={self.cust_id}"
+            query = f"DELETE  FROM admin WHERE adminid={self.cust_id}"
             cursor.execute(query)
 
 
@@ -360,7 +339,7 @@ class Dashboard():
             query = f'''SELECT booking.bookingid,customer.firstname,customer.phonenumber,booking.pickup_address,booking.dropoff_address,booking.date,customer.Payment_Method,booking.status
             FROM customer
             JOIN booking
-            where customer.customerid=booking.customerid'''
+            where booking.status = 'pending' '''
             cursor.execute(query)
             rows = cursor.fetchall()
 
@@ -384,6 +363,110 @@ class Dashboard():
 
             self.var1.set(values[7])
 
+    def veiw_driver(self):
+        try:
+            with self.connection.cursor() as cursor:
+                query = "SELECT `driverid` from driver where `status`='active' "
+                cursor.execute(query)
+                self.mydata = cursor.fetchall()
+                self.mylist = [r for r, in self.mydata]
+            
+        except Exception as err:
+            print(f"Error: {err}")
+            messagebox.showerror("Taxi", f"Error fetching bookings: {err}")
+    def assign_driver(self):
+        try:
+            cursor = self.connection.cursor()
+            query = f"UPDATE `booking` SET `status`='booked',`driverid`={self.var2.get()} WHERE `bookingid` ={self.bookingid.get()}"
+            result =cursor.execute(query)
+            query1 = f"UPDATE `driver` SET status='inactive' where `driverid`={self.var2.get()}"
+            result1 = cursor.execute(query1)
+            self.connection.commit()
+            self.veiw_driver()
+            self.veiw_customer()
+            self.driver_view()
+            messagebox.showinfo("Taxi", "Driver Assigned")
+        except Exception as err:
+            print(f"Error: {err}")
+            messagebox.showerror("Taxi", f"Assigned Failure: {err}")
+
+    def driver_register(self):
+        try:
+            self.gender = "Male" if self.var_gender.get() == 'Male' else "Female"
+            dri = Driver(0,self.full_name_CTkentry.get(),self.phone_CTkentry.get(),self.address_CTkentry.get(),self.email_CTkentry.get(),self.date_CTkEntry.get_date(),self.license_entry.get(),self.gender,self.pass_CTkentry.get())
+            result = DriverDatabase()
+            bol = result._DriverRegister(dri)
+            if bol:
+                self.driver_view()
+                messagebox.showinfo("taxi","Register")
+        except Exception as e:
+            messagebox.showinfo("taxi","{e}")
+        
+    def details_customer(self):
+        try:
+            with self.connection.cursor() as cursor:
+                query = "SELECT * from customer "
+                cursor.execute(query)
+                rows = cursor.fetchall()
+
+            for item in self.view_booking.get_children():
+                self.view_booking.delete(item)
+
+            for row in rows:
+                self.view_booking.insert(parent='', index='end', values=(row[0], row[1], row[2], row[3], row[4],row[5],row[6],row[7]))
+
+        except Exception as err:
+            print(f"Error: {err}")
+
+    def details_customer(self):
+        try:
+            with self.connection.cursor() as cursor:
+                query = "SELECT * from customer "
+                cursor.execute(query)
+                rows = cursor.fetchall()
+
+            for item in self.view_booking.get_children():
+                self.view_booking.delete(item)
+
+            for row in rows:
+                self.view_booking.insert(parent='', index='end', values=(row[0], row[1], row[2], row[3], row[4],row[5],row[6],row[7]))
+
+        except Exception as err:
+            print(f"Error: {err}")
+
+    def historyy(self):
+        try:
+            with self.connection.cursor() as cursor:
+                query = ''' SELECT customer.customerid, CONCAT(customer.firstname,' ',customer.lastname),customer.DOB,customer.Gender,customer.address,customer.Payment_Method,booking.pickup_address,booking.dropoff_address,booking.date,booking.time,booking.status,driver.fullname,driver.phonenumber FROM customer JOIN booking ON customer.customerid = booking.customerid JOIN driver ON booking.driverid = driver.driverid '''
+                cursor.execute(query)
+                rows = cursor.fetchall()
+
+            for item in self.history_booking.get_children():
+                self.history_booking.delete(item)
+
+            for row in rows:
+                self.history_booking.insert(parent='', index='end', values=(row[0], row[1], row[2], row[3], row[4],row[5],row[6],row[7],row[8],row[9],row[10],row[11],row[12]))
+
+        except Exception as err:
+            print(f"Error: {err}")
+
+    def driver_view(self):
+        try:
+            cursor =  self.connection.cursor()
+            query = "SELECT * from driver"
+            cursor.execute(query)
+            rows = cursor.fetchall()
+
+            for item in self.view_booking.get_children():
+                self.view_booking.delete(item)
+
+            for row in rows:
+                self.view_booking.insert(parent='', index='end',values=(row[0], row[1], row[2], row[3], row[4], row[5],row[6], row[7], row[8],row[9]))
+
+        except Exception as err:
+            print(f"Error: {err}")
+            messagebox.showerror("Taxi", f"Error fetching bookings: {err}")
+    
 if __name__ == '__main__':
     app = Ct.CTk()
     Dashboard(app)

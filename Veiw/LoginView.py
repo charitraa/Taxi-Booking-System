@@ -6,7 +6,7 @@ from Controller import CustomerController as cusdb , DriverController as drivedb
 from Model import LoginModel as loginmd
 import tkinter as tk
 import customtkinter as CT
-import Veiw.VerifyEmailView as VerifyEmailView , Veiw.RegistrationView as RegistrationView , GobalVariable, CustomerDashboard
+import Veiw.VerifyEmailView as VerifyEmailView , Veiw.RegistrationView as RegistrationView , GobalVariable, CustomerDashboard, DriverDashboardBoard ,AdminDashboard
 
 # create the class
 class LoginPage():
@@ -96,10 +96,19 @@ class LoginPage():
             messagebox.showinfo('Login','Driver Login Sucessfully')
             GobalVariable.Driver = dri
             self.master.destroy()
+            reg = CT.CTkToplevel()
+            DriverDashboardBoard.Dashboard(reg)
+            reg.after(0,lambda:reg.state('zoomed'))
+            reg.mainloop()
+
         elif ad!=None:
             messagebox.showinfo('Login','Admin Login Sucessfully')
             GobalVariable.Admin  = ad
             self.master.destroy()
+            reg = CT.CTkToplevel()
+            AdminDashboard.Dashboard(reg)
+            reg.after(0,lambda:reg.state('zoomed'))
+            reg.mainloop()
         elif username=='' or password=='':
             messagebox.showwarning('Login','please write both email and password')
         elif username=='' and password =='':
