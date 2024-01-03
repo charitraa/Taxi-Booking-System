@@ -22,7 +22,9 @@ class Dashboard():
         self.connection = Database.Connect()
         self.cmpic = Ct.CTkImage(Image.open('D:\Code\Python\python project\TaxBookingSystem\image\Green White Simple Open Registration Facebook Post (3).png'), size=(100,100))
         self.cmimg = Ct.CTkLabel(self.master,image=self.cmpic, text="").place(x=50,y=-5)
-
+        self.id = Ct.StringVar()
+        book_id = Ct.CTkEntry(self.master,textvariable=self.id)
+        book_id.place_forget()
         self.welcome=Ct.CTkLabel(self.master,text="Welcome Back,",font=Ct.CTkFont(family="Times",size=30, weight='bold'),text_color='#00BF63')
         self.welcome.place(x=400,y=25)
         self.user=Ct.CTkLabel(self.master,text="",font=Ct.CTkFont(family="Times",size=30, weight='bold'),text_color='#00BF63')
@@ -130,18 +132,20 @@ class Dashboard():
         self.click = Ct.CTkLabel(self.veiw_frame,text=
         ' To Confirm that you have completed the Trip . Please press the Buttton',font= Ct.CTkFont(family="Times", size=30))
         self.click.place(x=100,y=150)
-        self.update=Ct.CTkButton(self.veiw_frame, text="Complete",width=20)
+        self.update=Ct.CTkButton(self.veiw_frame, text="Complete",width=20,command=self.make_complete)
         self.update.place(x=1020,y=150)
         self.veiw_frame.pack(side=Ct.LEFT)
 
         # Create the Treeview
         column = ("Booking_id", "Customer_Name","Mobile_no", "Pickup_Address", "Drop-off _Address","date_of_booking","Payment Method","Booking status")
         self.veiw_booking = ttk.Treeview(self.veiw_frame, columns=column, show="headings", height=30)
+        self.veiw_booking.bind("<<TreeviewSelect>>",self.selectedRow)
 
         for col in column:
             self.veiw_booking.heading(col, text=col, anchor="center")
             self.veiw_booking.column(col, anchor="center", width=165)
             self.viewbooking()
+
 
         self.veiw_booking.place(x=70,y=250)
         self.veiw_frame.pack()
@@ -154,14 +158,12 @@ class Dashboard():
         self.profile_lbl.place(x=400,y=30)
         column = ("Booking_id", "Customer_Name","Mobile_no", "Pickup_Address", "Drop-off _Address","date_of_booking","Payment Method","Booking status")
 
-        
         self.veiw_booking = ttk.Treeview(self.history_frame, columns=column, show="headings", height=30)
 
         for col in column:
             self.veiw_booking.heading(col, text=col, anchor="center")
             self.veiw_booking.column(col, anchor="center", width=165)
             self.viewhistory()
-
 
         self.veiw_booking.place(x=50,y=200)
         self.history_frame.pack()
@@ -472,7 +474,7 @@ class Dashboard():
 
         except Exception as err:
             print(f"Error: {err}")
-            messagebox.showerror("Taxi", f"Error fetching bookings: {err}")
+            messagebox.showerror("Taxi", f"Error fetching bookings: {err}",parent=self.master)
     
 
     def viewhistory(self):
@@ -494,8 +496,35 @@ class Dashboard():
 
         except Exception as err:
             print(f"Error: {err}")
-            messagebox.showerror("Taxi", f"Error fetching bookings: {err}")
+            messagebox.showerror("Taxi", f"Error fetching bookings: {err}",parent=self.master)
     
+    def make_complete(self):
+        try:
+            value = self.id.get()
+            if value=='':
+                messagebox.showinfo("Taxi", "please selected the row",parent=self.master)
+            else:
+                driverid = GobalVariable.Driver[0]
+                cursor = self.connection.cursor()
+                query = f"UPDATE booking SET `status`='completed' WHERE `bookingid`={self.id.get()}"
+                query1 = f"UPDATE driver SET `status`='active' where `driverid`='{driverid}'"
+                cursor.execute(query)
+                cursor.execute(query1)
+                # Commit the transaction
+                self.connection.commit()
+                self.viewbooking()
+
+                messagebox.showinfo("Taxi", "complete booking",parent=self.master)
+        except Exception as err:
+
+            messagebox.showerror("Taxi", f"Update Failure: {err}",parent=self.master)
+
+    def selectedRow(self,event):
+        selected_item = self.veiw_booking.focus()
+        values = self.veiw_booking.item(selected_item, "values")
+
+        if values:
+            self.id.set(values[0])
 
 if __name__ == '__main__':
     apps = Ct.CTk()

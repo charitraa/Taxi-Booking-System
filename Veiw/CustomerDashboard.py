@@ -40,8 +40,8 @@ class Dashboard():
         self.connection = Database.Connect()
         self.options_frame = Ct.CTkFrame(self.master, fg_color='#00BF63',bg_color='#00BF63')
 
-        self.profile = Ct.CTkImage(Image.open('D:\Code\Python\python project\TaxBookingSystem\image\images-removebg-preview.png'), size=(150,150))
-        self.img = Ct.CTkLabel(self.options_frame,image=self.profile, text="").place(x=50,y=0)
+        self.profil = Ct.CTkImage(Image.open('D:\Code\Python\python project\TaxBookingSystem\image\images-removebg-preview.png'), size=(150,150))
+        self.img = Ct.CTkLabel(self.options_frame,image=self.profil, text="").place(x=50,y=0)
 
         self.name = Ct.CTkLabel(self.options_frame,text="", font=Ct.CTkFont(family='Times',size=30), text_color='white')
         self.name.place(x=50,y=120)
@@ -238,7 +238,7 @@ class Dashboard():
         # Create the Treeview
         self.booklb = Ct.CTkLabel(self.history_frame, text='Booking History',font=Ct.CTkFont(family="Times",size=50, weight='bold'),text_color='#00BF63')
         self.booklb.place(x=400,y=50)
-        column = ("id","Pickup Address", "Drop-off Address","date_of_booking","Booking status","Driverid","Driver Name","Phone_no","Vechicle_no")
+        column = ("id","Pickup Address", "Drop-off Address","date_of_booking","Booking status","Driver Name","Driverid","Phone_no","liscence no")
         self.history_booking = ttk.Treeview(self.history_frame, columns=column, show="headings", height=30)
         
         for col in column:
@@ -518,7 +518,7 @@ class Dashboard():
         self.cust_id=GobalVariable.Customer[0]
         try:
             cursor =self.connection.cursor()
-            query = f"SELECT `bookingid`, `pickup_address`, `dropoff_address`, `date`, `time`, `status` FROM `booking` WHERE `customerid` ={self.cust_id} "
+            query = f"SELECT `bookingid`, `pickup_address`, `dropoff_address`, `date`, `time`, `status` FROM `booking` WHERE `customerid` ={self.cust_id} and `status` = 'pending' "
             cursor.execute(query)
             rows = cursor.fetchall()
 
@@ -577,9 +577,12 @@ class Dashboard():
         self.cust_id=GobalVariable.Customer[0]
         try:
             cursor =self.connection.cursor()
-            query = f'''SELECT customer.customerid,booking.pickup_address,booking.dropoff_address,booking.date,booking.status,driver.driverid,CONCAT(driver.firstname," ",driver.lastname),driver.phonenumber,driver.vechicleno
+            query = f'''SELECT customer.customerid,booking.pickup_address,booking.dropoff_address,booking.date,booking.status,driver.fullname,driver.driverid,driver.phonenumber,driver.liscenceno
             FROM customer
             JOIN booking
+            ON customer.customerid =booking.customerid
+            JOIN driver
+            ON booking.driverid =driver.driverid
             where customer.customerid={self.cust_id}'''
             cursor.execute(query)
             rows = cursor.fetchall()
@@ -588,7 +591,7 @@ class Dashboard():
                 self.history_booking.delete(item)
 
             for row in rows:
-                self.history_booking.insert(parent='', index='end', values=(row[0], row[1], row[2], row[3], row[4],row[5],row[6],row[7], row[8]))
+                self.history_booking.insert(parent='', index='end', values=(row[0], row[1], row[2], row[3], row[4],row[5],row[6],row[7]))
 
         except Exception as err:
             print(f"Error: {err}")
@@ -597,7 +600,7 @@ class Dashboard():
         self.cust_id=GobalVariable.Customer[0]
         try:
             cursor =self.connection.cursor()
-            query = f'''SELECT `first name`, `last name`, `email`, `DOB`, `Gender`, `phone number`, `address`, `Payment_Method`FROM `customer` WHERE customerid={self.cust_id} '''
+            query = f'''SELECT `firstname`, `lastname`, `email`, `DOB`, `Gender`, `phonenumber`, `address`, `Payment_Method`FROM `customer` WHERE customerid={self.cust_id} '''
             cursor.execute(query)
             self.profile = cursor.fetchall()
 

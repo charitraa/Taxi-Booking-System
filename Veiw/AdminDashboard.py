@@ -196,12 +196,12 @@ class Dashboard():
         self.register = Ct.CTkButton(self.driver_reg, text="Register", font=Ct.CTkFont(family="Times",size=20),command=self.driver_register)
         self.register.place(x=750, y=250)
         
-        column = ("`driverid`, `fullname`, `phonenumber`, `Address`, `email`, `DOB`, `gender`, `status`, `liscenceno`, `password`")
+        column = ("Driverid", "fullname", "phonenumber", "Address", "email", "DOB", "gender", "status", "liscenceno", "password")
         self.view_booking = ttk.Treeview(self.driver_reg, columns=column, show="headings", height=30)
 
         for col in column:
             self.view_booking.heading(col, text=col, anchor="center")
-            self.view_booking.column(col, anchor="center", width=165)
+            self.view_booking.column(col, anchor="center", width=135)
             self.driver_view()
 
         self.view_booking.place(x=60,y=360)
@@ -279,7 +279,6 @@ class Dashboard():
         self.veiw_indicate.configure(fg_color='#00BF63')
         self.book_indicate.configure(fg_color='#00BF63')
         self.change_indicate.configure(fg_color='#00BF63')
-        self.delete_indicate.configure(fg_color='#00BF63')
         self.history_indicate.configure(fg_color='#00BF63')
 
     def indicate(self,lb, page):
@@ -313,7 +312,7 @@ class Dashboard():
     def delete_acc(self):
         self.cust_id=GobalVariable.Admin[0]
         try:
-            cursor =self.connection.cursor() 
+            cursor =self.connection.cursor()
             query = f"DELETE  FROM admin WHERE adminid={self.cust_id}"
             cursor.execute(query)
 

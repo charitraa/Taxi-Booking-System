@@ -1,1 +1,0 @@
-"Cash", "Mobile Banking", "Esewa"

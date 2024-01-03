@@ -46,7 +46,7 @@ class LoginPage():
         self.sh = CT.IntVar(value=0)
         def my_show():
             if(  self.sh.get()==1):
-                self.CTkentry_password.configure(show='') # display the chars 
+                self.CTkentry_password.configure(show='') # display the chars
             else:
                 self.CTkentry_password.configure(show='*')# hide the chars using mask
         # create check box
