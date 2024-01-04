@@ -18,6 +18,12 @@ class Dashboard():
         self.connection = Database.Connect()
         Ct.set_default_color_theme("green")
         # self.master.configure(fg_color='white')
+
+        self.company=Ct.CTkLabel(self.master,text="Whoiam.com",font=Ct.CTkFont(family="Times",size=25, weight='bold'))
+        self.company.place(x=150,y=25)
+        self.cmpic = Ct.CTkImage(Image.open('D:\Code\Python\python project\TaxBookingSystem\image\Green White Simple Open Registration Facebook Post (3).png'), size=(100,100))
+        self.cmimg = Ct.CTkLabel(self.master,image=self.cmpic, text="").place(x=50,y=-5)
+
         self.options_frame = Ct.CTkFrame(self.master, fg_color='#00BF63',bg_color='#00BF63')
 
         self.profile = Ct.CTkImage(Image.open('image\\images-removebg-preview.png'), size=(150,150))
@@ -81,9 +87,13 @@ class Dashboard():
         self.driver.place(x=810, y=40)
         self.var2=Ct.StringVar()
         self.var2.set("Select Driver")
-
-        self.driver_option=tk.OptionMenu(self.main_frame,self.var2,*self.mylist)
-        self.driver_option.place(x=1160,y=50, width=200, height=40)
+        self.driverr = ["driver unavailable"]
+        if len(self.mylist)!=0:
+            self.driver_option=tk.OptionMenu(self.main_frame,self.var2,*self.mylist)
+            self.driver_option.place(x=1160,y=50, width=200, height=40)
+        else:
+            self.driver_option=tk.OptionMenu(self.main_frame,self.var2,*self.driverr)
+            self.driver_option.place(x=1160,y=50, width=200, height=40)
 
         self.assign=Ct.CTkButton(self.main_frame, text="Assign", fg_color='#00BF63', bg_color='#00BF63', font=Ct.CTkFont(family='Times',size=25,weight='bold'),command=self.assign_driver)
         self.assign.place(x=450, y=150)
@@ -197,14 +207,14 @@ class Dashboard():
         self.register.place(x=750, y=250)
         
         column = ("Driverid", "fullname", "phonenumber", "Address", "email", "DOB", "gender", "status", "liscenceno", "password")
-        self.view_booking = ttk.Treeview(self.driver_reg, columns=column, show="headings", height=30)
+        self.view_driver = ttk.Treeview(self.driver_reg, columns=column, show="headings", height=30)
 
         for col in column:
-            self.view_booking.heading(col, text=col, anchor="center")
-            self.view_booking.column(col, anchor="center", width=135)
+            self.view_driver.heading(col, text=col, anchor="center")
+            self.view_driver.column(col, anchor="center", width=135)
             self.driver_view()
 
-        self.view_booking.place(x=60,y=360)
+        self.view_driver.place(x=60,y=360)
 
         self.driver_reg.pack(side=Ct.LEFT)
 
@@ -215,14 +225,14 @@ class Dashboard():
         self.booklb = Ct.CTkLabel(self.cus_det, text='Customer Details',font=Ct.CTkFont(family="Times",size=50, weight='bold'),text_color='#00BF63')
         self.booklb.place(x=400,y=50)
         column = ("id","firstname", "lastname","email","Date of birth","gender","address","payment_method")
-        self.view_booking = ttk.Treeview(self.cus_det, columns=column, show="headings", height=40)
+        self.view_customer = ttk.Treeview(self.cus_det, columns=column, show="headings", height=40)
 
         for col in column:
-            self.view_booking.heading(col, text=col, anchor="center")
-            self.view_booking.column(col, anchor="center", width=165)
+            self.view_customer.heading(col, text=col, anchor="center")
+            self.view_customer.column(col, anchor="center", width=165)
             self.details_customer()
     
-        self.view_booking.place(x=60,y=200)
+        self.view_customer.place(x=60,y=200)
 
         self.cus_det.pack()
 
@@ -296,7 +306,7 @@ class Dashboard():
         re_password = self.pass_entry2.get()
         try:
             if current_password!= old_password:
-                messagebox.showerror("password","Please check the Old password")
+                messagebox.showerror("password","Please check the old password",parent=self.master)
 
             elif new_password ==re_password:
                 cursor =self.connection.cursor() 
@@ -372,7 +382,7 @@ class Dashboard():
             
         except Exception as err:
             print(f"Error: {err}")
-            messagebox.showerror("Taxi", f"Error fetching bookings: {err}")
+            messagebox.showerror("Taxi", f"Error fetching bookings: {err}",parent=self.master)
     def assign_driver(self):
         try:
             cursor = self.connection.cursor()
@@ -383,8 +393,7 @@ class Dashboard():
             self.connection.commit()
             self.veiw_driver()
             self.veiw_customer()
-            self.driver_view()
-            messagebox.showinfo("Taxi", "Driver Assigned")
+            messagebox.showinfo("Taxi", "Driver Assigned Successfully",parent=self.master)
         except Exception as err:
             print(f"Error: {err}")
             messagebox.showerror("Taxi", f"Assigned Failure: {err}")
@@ -397,9 +406,9 @@ class Dashboard():
             bol = result._DriverRegister(dri)
             if bol:
                 self.driver_view()
-                messagebox.showinfo("taxi","Register")
+                messagebox.showinfo("Taxi","Driver Register Sucessfull",parent=self.master)
         except Exception as e:
-            messagebox.showinfo("taxi","{e}")
+            messagebox.showinfo("Taxi","{e}")
         
     def details_customer(self):
         try:
@@ -408,30 +417,30 @@ class Dashboard():
                 cursor.execute(query)
                 rows = cursor.fetchall()
 
-            for item in self.view_booking.get_children():
-                self.view_booking.delete(item)
+            for item in self.view_customer.get_children():
+                self.view_customer.delete(item)
 
             for row in rows:
-                self.view_booking.insert(parent='', index='end', values=(row[0], row[1], row[2], row[3], row[4],row[5],row[6],row[7]))
+                self.view_customer.insert(parent='', index='end', values=(row[0], row[1], row[2], row[3], row[4],row[5],row[6],row[7]))
 
         except Exception as err:
             print(f"Error: {err}")
 
-    def details_customer(self):
-        try:
-            with self.connection.cursor() as cursor:
-                query = "SELECT * from customer "
-                cursor.execute(query)
-                rows = cursor.fetchall()
+    # def details_customer(self):
+    #     try:
+    #         with self.connection.cursor() as cursor:
+    #             query = "SELECT * from customer "
+    #             cursor.execute(query)
+    #             rows = cursor.fetchall()
 
-            for item in self.view_booking.get_children():
-                self.view_booking.delete(item)
+    #         for item in self.view_booking.get_children():
+    #             self.view_booking.delete(item)
 
-            for row in rows:
-                self.view_booking.insert(parent='', index='end', values=(row[0], row[1], row[2], row[3], row[4],row[5],row[6],row[7]))
+    #         for row in rows:
+    #             self.view_booking.insert(parent='', index='end', values=(row[0], row[1], row[2], row[3], row[4],row[5],row[6],row[7]))
 
-        except Exception as err:
-            print(f"Error: {err}")
+    #     except Exception as err:
+    #         print(f"Error: {err}")
 
     def historyy(self):
         try:
@@ -456,15 +465,15 @@ class Dashboard():
             cursor.execute(query)
             rows = cursor.fetchall()
 
-            for item in self.view_booking.get_children():
-                self.view_booking.delete(item)
+            for item in self.view_driver.get_children():
+                self.view_driver.delete(item)
 
             for row in rows:
-                self.view_booking.insert(parent='', index='end',values=(row[0], row[1], row[2], row[3], row[4], row[5],row[6], row[7], row[8],row[9]))
+                self.view_driver.insert(parent='', index='end',values=(row[0], row[1], row[2], row[3], row[4], row[5],row[6], row[7], row[8],row[9]))
 
         except Exception as err:
             print(f"Error: {err}")
-            messagebox.showerror("Taxi", f"Error fetching bookings: {err}")
+            messagebox.showerror("Taxi", f"Error fetching bookings: {err}",parent=self.master)
     
 if __name__ == '__main__':
     app = Ct.CTk()

@@ -84,7 +84,7 @@ class LoginPage():
         ad = admin.AdminLogin(login)
 
         if cus!=None:
-            messagebox.showinfo('Login','Customer Login Sucessfully')
+            messagebox.showinfo('Login','Customer Login Sucessfully',parent=self.master)
             GobalVariable.Customer = cus
             self.master.destroy()
             reg = CT.CTkToplevel()
@@ -93,7 +93,7 @@ class LoginPage():
             reg.mainloop()
 
         elif dri!=None:
-            messagebox.showinfo('Login','Driver Login Sucessfully')
+            messagebox.showinfo('Login','Driver Login Sucessfully',parent=self.master)
             GobalVariable.Driver = dri
             self.master.destroy()
             reg = CT.CTkToplevel()
@@ -102,7 +102,7 @@ class LoginPage():
             reg.mainloop()
 
         elif ad!=None:
-            messagebox.showinfo('Login','Admin Login Sucessfully')
+            messagebox.showinfo('Login','Admin Login Sucessfully',parent=self.master)
             GobalVariable.Admin  = ad
             self.master.destroy()
             reg = CT.CTkToplevel()
@@ -110,11 +110,11 @@ class LoginPage():
             reg.after(0,lambda:reg.state('zoomed'))
             reg.mainloop()
         elif username=='' or password=='':
-            messagebox.showwarning('Login','please write both email and password')
+            messagebox.showwarning('Login','please write both email and password',parent=self.master)
         elif username=='' and password =='':
-            messagebox.showwarning('Login','please write email and password')
+            messagebox.showwarning('Login','please write email and password',parent=self.master)
         else:
-            messagebox.showerror('Login','Incorrect email and password')
+            messagebox.showerror('Login','Incorrect email and password',parent=self.master)
 #create the name function
 if __name__ == "__main__":
     

@@ -1,6 +1,5 @@
 from tkinter import messagebox
 from Controller import DataBaseConnection as con
-
 class CustomerDatabase:
     __connection__ = None
 
@@ -46,15 +45,3 @@ class CustomerDatabase:
             return True
         except Exception as e:
             print(e)
-
-    def _CustomerBook(self,CusBook):
-        try:
-            cursor = self.__connection__.cursor()
-            query  = f"INSERT INTO `booking`(`bookingid`, `pickup_address`, `dropoff_address`, `date`, `time`, `status`, `customerid`) VALUES ('{CusBook.getId()}','{CusBook.getPickup()}','{CusBook.getDropoff()}','{CusBook.getDate()}','{CusBook.getTime()}','pending','{CusBook.getUID()}')"
-            cursor.execute(query)
-            self.__connection__.commit()
-            cursor.close()
-            return True
-        except Exception as e:
-            print(e)
-            return False

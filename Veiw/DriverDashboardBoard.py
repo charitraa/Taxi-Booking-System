@@ -17,7 +17,7 @@ class Dashboard():
         self.master.title('Driver Dashboard')
         Ct.set_default_color_theme("green") 
         self.master.attributes('-topmost',True)
-        self.company=Ct.CTkLabel(self.master,text="Whoami.com",font=Ct.CTkFont(family="Times",size=25, weight='bold'))
+        self.company=Ct.CTkLabel(self.master,text="Whoiam.com",font=Ct.CTkFont(family="Times",size=25, weight='bold'))
         self.company.place(x=150,y=25)
         self.connection = Database.Connect()
         self.cmpic = Ct.CTkImage(Image.open('D:\Code\Python\python project\TaxBookingSystem\image\Green White Simple Open Registration Facebook Post (3).png'), size=(100,100))
@@ -406,7 +406,7 @@ class Dashboard():
             # Commit the transaction
             self.connection.commit()
             self.view_profile()
-            messagebox.showinfo("Taxi", "Updated Profile",parent=self.master)
+            messagebox.showinfo("Taxi", "Your profile has been Update",parent=self.master)
         except Exception as e:
             messagebox.showerror("Taxi", f"Update Failure: {e}",parent=self.master)
 
@@ -514,10 +514,10 @@ class Dashboard():
                 self.connection.commit()
                 self.viewbooking()
 
-                messagebox.showinfo("Taxi", "complete booking",parent=self.master)
+                messagebox.showinfo("Trip", "Your trip has been completed",parent=self.master)
         except Exception as err:
 
-            messagebox.showerror("Taxi", f"Update Failure: {err}",parent=self.master)
+            messagebox.showerror("Trip", f"Failure: {err}",parent=self.master)
 
     def selectedRow(self,event):
         selected_item = self.veiw_booking.focus()

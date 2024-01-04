@@ -53,7 +53,7 @@ class VerifyEmail():
         
         if check==True:
             GobalVariable.email = self.emailaddress_entry.get()
-            messagebox.showinfo("verify", "email has been verify successful!",parent=self.master)
+            messagebox.showinfo("verify", "Email has been verify successful!",parent=self.master)
             self.master.destroy()
             reg = CT.CTkToplevel()
             NewPasswordView.PasswordCreation(reg)

@@ -4,7 +4,6 @@ from PIL import Image
 from tkinter import ttk
 from time import strftime
 from tkcalendar import DateEntry
-from Model import BookingModel
 from Controller import CustomerController
 from Controller.DataBaseConnection import Database
 from tkinter import messagebox
@@ -485,34 +484,32 @@ class Dashboard():
         try:
             self.id = 0
             self.Cusid = GobalVariable.Customer[0]
-            book = BookingModel.Booking(self.id,self.pick_entry.get(),self.drop_entry.get(),self.date_entry.get_date(),self.custime.get(),self.Cusid)
-            request = CustomerController.CustomerDatabase()
-            result = request._CustomerBook(book)
-
-            if result:
-                messagebox.showinfo("Booking", "Your Book has been requested",parent=self.master)
-                self.pick_entry.delete(0,'end')
-                self.drop_entry.delete(0,'end')
-                self.time_pick_entry.delete(0,'end')
-            else:
-                messagebox.showerror("Booking", "Something Error",parent=self.master)
-
+            cursor = self.connection.cursor()
+            query  = f"INSERT INTO `booking`(`bookingid`, `pickup_address`, `dropoff_address`, `date`, `time`, `status`, `customerid`) VALUES ('{self.id}','{self.pick_entry.get()}','{self.drop_entry.get()}','{self.date_entry.get_date()}','{self.custime.get()}','pending','{self.Cusid}')"
+            cursor.execute(query)
+            self.connection.commit()
+            self.veiw_book()
+            messagebox.showinfo("Booking", "Your Book has been requested",parent=self.master)
+            self.pick_entry.delete(0,'end')
+            self.drop_entry.delete(0,'end')
+            self.time_pick_entry.delete(0,'end')
         except Exception as e:
-            print(e)
+            messagebox.showerror("Booking", "Something Error",parent=self.master)
+
 
     def edit_profile(self):
 
         try:
             customerid = GobalVariable.Customer[0]
             cursor =self.connection.cursor()
-            query = f"UPDATE `customer` SET `first name`='{self.edit_first.get()}',`last name`='{self.edit_last.get()}',`email`='{self.mail.get()}',`DOB`='{self.update_dobdata.get_date()}',`Gender`='{self.edit_gender.get()}',`phone number`='{self.edit_phone.get()}',`address`='{self.edit_add.get()}',`Payment_Method`='{self.edit_pay.get()}' WHERE customerid={customerid}"
+            query = f"UPDATE `customer` SET `firstname`='{self.edit_first.get()}',`lastname`='{self.edit_last.get()}',`email`='{self.mail.get()}',`DOB`='{self.update_dobdata.get_date()}',`Gender`='{self.edit_gender.get()}',`phonenumber`='{self.edit_phone.get()}',`address`='{self.edit_add.get()}',`Payment_Method`='{self.edit_pay.get()}' WHERE customerid={customerid}"
             cursor.execute(query)
             # Commit the transaction
             self.connection.commit()
             self.view_profile()
-            messagebox.showinfo("Taxi", "Updated Profile",parent=self.master)
+            messagebox.showinfo("Profile", "Profile has been updated",parent=self.master)
         except Exception as e:
-            messagebox.showerror("Taxi", f"Update Failure: {e}",parent=self.master)
+            messagebox.showerror("Profile", f"Update Failure: {e}",parent=self.master)
 
     def veiw_book(self):
         self.cust_id=GobalVariable.Customer[0]
@@ -557,9 +554,9 @@ class Dashboard():
             # Commit the transaction
             self.connection.commit()
             self.veiw_book()
-            messagebox.showinfo("Taxi", "Updated bookings",parent=self.master)
+            messagebox.showinfo("Booking", "Booking has been updated",parent=self.master)
         except Exception as err:
-            messagebox.showerror("Taxi", f"Update Failure: {err}",parent=self.master)
+            messagebox.showerror("Booking", f"Update Failure: {err}",parent=self.master)
 
     def cancel_book(self):
         try:
@@ -569,9 +566,9 @@ class Dashboard():
 
             self.connection.commit()
             self.veiw_book()
-            messagebox.showinfo("Taxi", "Your booking has been cancel",parent=self.master)
+            messagebox.showinfo("booking", "Your booking has been cancel",parent=self.master)
         except Exception as err:
-            messagebox.showerror("Taxi", f" Failure: {err}",parent=self.master)
+            messagebox.showerror("booking", f" Failure: {err}",parent=self.master)
 
     def view_detail(self):
         self.cust_id=GobalVariable.Customer[0]
@@ -617,9 +614,9 @@ class Dashboard():
             query = f"DELETE  FROM customer WHERE customerid={self.cust_id}"
             cursor.execute(query)
             self.connection.commit()
-            value = messagebox.askyesno("Taxi","Do you want to delete your Account?",parent=self.master)
+            value = messagebox.askyesno("Account","Do you want to delete your Account?",parent=self.master)
             if value:
-                messagebox.showinfo("Taxi", "Your account has been deleted",parent=self.master)
+                messagebox.showinfo("Account", "Your account has been deleted",parent=self.master)
                 app = Ct.CTkToplevel()
                 self.master.destroy()
                 LoginView.LoginPage(app)
