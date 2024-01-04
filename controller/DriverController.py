@@ -13,7 +13,8 @@ class DriverDatabase:
             query  = f"INSERT INTO `driver`(`driverid`,fullname,`phonenumber`, `Address`, `email`, `DOB`,`gender`,`liscenceno`, `password`) VALUES ('{DriveRegister.getId()}','{DriveRegister.getFirst()}','{DriveRegister.getPhone()}','{DriveRegister.getAddress()}','{DriveRegister.getEmail()}','{DriveRegister.getDOB()}','{DriveRegister.getGender()}','{DriveRegister.getLiscence()}','{DriveRegister.getPassword()}')"
             cursor.execute(query)
             self.__connection__.commit()
-            cursor.close()
+    
+            # cursor.close()
             return True
         except Exception as e:
             print(e)

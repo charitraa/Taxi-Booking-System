@@ -7,6 +7,8 @@ from tkinter import ttk
 from tkcalendar import DateEntry
 from tkinter import messagebox
 import GobalVariable
+import CustomerDashboard
+from time import strftime
 from Model.DriverRegistrationModel import Driver
 from Controller.DriverController import DriverDatabase
 from Controller.DataBaseConnection import Database
@@ -20,12 +22,15 @@ class Dashboard():
         # self.master.configure(fg_color='white')
 
         self.company=Ct.CTkLabel(self.master,text="Whoiam.com",font=Ct.CTkFont(family="Times",size=25, weight='bold'))
-        self.company.place(x=150,y=25)
+        self.company.place(x=150,y=10)
         self.cmpic = Ct.CTkImage(Image.open('D:\Code\Python\python project\TaxBookingSystem\image\Green White Simple Open Registration Facebook Post (3).png'), size=(100,100))
-        self.cmimg = Ct.CTkLabel(self.master,image=self.cmpic, text="").place(x=50,y=-5)
+        self.cmimg = Ct.CTkLabel(self.master,image=self.cmpic, text="").place(x=50,y=-30)
 
         self.options_frame = Ct.CTkFrame(self.master, fg_color='#00BF63',bg_color='#00BF63')
-
+        
+        self.lbl = Ct.CTkLabel(self.master,font=Ct.CTkFont(family="Times",size=30, weight='bold'))
+        self.lbl.place(x=1200,y=5)
+        self.time()
         self.profile = Ct.CTkImage(Image.open('image\\images-removebg-preview.png'), size=(150,150))
         self.img = Ct.CTkLabel(self.options_frame,image=self.profile, text="").place(x=50,y=0)
 
@@ -236,6 +241,11 @@ class Dashboard():
 
         self.cus_det.pack()
 
+    def time(self):
+        self.string = strftime('%I:%M:%p')
+        self.lbl.configure(text=self.string)
+        self.lbl.after(1000, self.time)
+
     def history_page(self):
         self.history_frame = Ct.CTkFrame(self.main_frame,width=1125, height=750)
         self.history_frame.configure(fg_color= 'white')
@@ -318,15 +328,30 @@ class Dashboard():
         
         except Exception as err:
             messagebox.showerror("Error", err)
-    
+
+    def driver_view(self):
+        try:
+            cursor =  self.connection.cursor()
+            query = "SELECT * from driver"
+            cursor.execute(query)
+            rows = cursor.fetchall()
+
+            for item in self.view_driver.get_children():
+                self.view_driver.delete(item)
+
+            for row in rows:
+                self.view_driver.insert(parent='', index='end',values=(row[0], row[1], row[2], row[3], row[4], row[5],row[6], row[7], row[8],row[9]))
+
+        except Exception as err:
+            print(f"Error: {err}")
+            messagebox.showerror("Taxi", f"Error fetching bookings: {err}",parent=self.master)
+
     def delete_acc(self):
         self.cust_id=GobalVariable.Admin[0]
         try:
             cursor =self.connection.cursor()
             query = f"DELETE  FROM admin WHERE adminid={self.cust_id}"
             cursor.execute(query)
-
-
             self.connection.commit()
             value = messagebox.askyesno("Taxi","Do you want to delete your Account?",parent=self.master)
             if value:
@@ -342,6 +367,7 @@ class Dashboard():
                 
         except Exception as err:
             messagebox.showerror("Taxi", f" Failure: {err}",parent=self.master)
+
     def veiw_customer(self):
         try:
             cursor =self.connection.cursor()
@@ -404,7 +430,9 @@ class Dashboard():
             dri = Driver(0,self.full_name_CTkentry.get(),self.phone_CTkentry.get(),self.address_CTkentry.get(),self.email_CTkentry.get(),self.date_CTkEntry.get_date(),self.license_entry.get(),self.gender,self.pass_CTkentry.get())
             result = DriverDatabase()
             bol = result._DriverRegister(dri)
+
             if bol:
+                # self.indicate(self.book_indicate, self.driver_regi)
                 self.driver_view()
                 messagebox.showinfo("Taxi","Driver Register Sucessfull",parent=self.master)
         except Exception as e:
@@ -458,22 +486,7 @@ class Dashboard():
         except Exception as err:
             print(f"Error: {err}")
 
-    def driver_view(self):
-        try:
-            cursor =  self.connection.cursor()
-            query = "SELECT * from driver"
-            cursor.execute(query)
-            rows = cursor.fetchall()
-
-            for item in self.view_driver.get_children():
-                self.view_driver.delete(item)
-
-            for row in rows:
-                self.view_driver.insert(parent='', index='end',values=(row[0], row[1], row[2], row[3], row[4], row[5],row[6], row[7], row[8],row[9]))
-
-        except Exception as err:
-            print(f"Error: {err}")
-            messagebox.showerror("Taxi", f"Error fetching bookings: {err}",parent=self.master)
+    
     
 if __name__ == '__main__':
     app = Ct.CTk()
