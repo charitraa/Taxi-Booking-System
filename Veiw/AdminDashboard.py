@@ -9,7 +9,7 @@ from tkinter import messagebox
 import GobalVariable
 import CustomerDashboard
 from time import strftime
-from Model.DriverRegistrationModel import Driver
+import LoginView
 from Controller.DriverController import DriverDatabase
 from Controller.DataBaseConnection import Database
 
@@ -27,9 +27,11 @@ class Dashboard():
         self.cmimg = Ct.CTkLabel(self.master,image=self.cmpic, text="").place(x=50,y=-30)
 
         self.options_frame = Ct.CTkFrame(self.master, fg_color='#00BF63',bg_color='#00BF63')
-        
+        self.master.iconbitmap(self.cmpic)
         self.lbl = Ct.CTkLabel(self.master,font=Ct.CTkFont(family="Times",size=30, weight='bold'))
         self.lbl.place(x=1200,y=5)
+        self.lbl2 = Ct.CTkButton(self.master,text="logout",font=Ct.CTkFont(family="Times",size=30, weight='bold'),command=self.logout)
+        self.lbl2.place(x=1350,y=5)
         self.time()
         self.profile = Ct.CTkImage(Image.open('image\\images-removebg-preview.png'), size=(150,150))
         self.img = Ct.CTkLabel(self.options_frame,image=self.profile, text="").place(x=50,y=0)
@@ -40,7 +42,7 @@ class Dashboard():
         self.dash = Ct.CTkButton(self.options_frame,text="Assign Driver", fg_color='#00BF63', border_width=0, bg_color='#00BF63',font=Ct.CTkFont(family='Times',size=25,weight='bold'),text_color='white',hover=False,command=lambda: self.indicate(self.proveiw, self.profile_page))
         self.dash.place(x=60,y=250)
 
-        self.proveiw = Ct.CTkFrame(self.options_frame, fg_color='#00BF63',width=127,height=3)
+        self.proveiw = Ct.CTkFrame(self.options_frame, fg_color='white',width=127,height=3)
         self.proveiw.place(x=68,y=285)
 
         self.book = Ct.CTkButton(self.options_frame, text='Add Driver',fg_color='#00BF63', border_width=0, bg_color='#00BF63',font=Ct.CTkFont(family='Times',size=25,weight='bold'),text_color='white',hover=False, command=lambda: self.indicate(self.book_indicate, self.driver_regi))
@@ -213,11 +215,11 @@ class Dashboard():
         
         column = ("Driverid", "fullname", "phonenumber", "Address", "email", "DOB", "gender", "status", "liscenceno", "password")
         self.view_driver = ttk.Treeview(self.driver_reg, columns=column, show="headings", height=30)
-
+        self.driver_view()
         for col in column:
             self.view_driver.heading(col, text=col, anchor="center")
             self.view_driver.column(col, anchor="center", width=135)
-            self.driver_view()
+
 
         self.view_driver.place(x=60,y=360)
 
@@ -236,9 +238,7 @@ class Dashboard():
             self.view_customer.heading(col, text=col, anchor="center")
             self.view_customer.column(col, anchor="center", width=165)
             self.details_customer()
-    
         self.view_customer.place(x=60,y=200)
-
         self.cus_det.pack()
 
     def time(self):
@@ -328,7 +328,18 @@ class Dashboard():
         
         except Exception as err:
             messagebox.showerror("Error", err)
+    def driver_register(self):
+        try:
+            self.gender = "Male" if self.var_gender.get() == 'Male' else "Female"
+            cursor =  self.connection.cursor()
+            query  = f"INSERT INTO `driver`(`driverid`,fullname,`phonenumber`, `Address`, `email`, `DOB`,`gender`,`liscenceno`, `password`) VALUES ('0','{self.full_name_CTkentry.get()}','{self.phone_CTkentry.get()}','{self.address_CTkentry.get()}','{self.email_CTkentry.get()}','{self.date_CTkEntry.get_date()}','{self.license_entry.get()}','{self.gender}','{self.pass_CTkentry.get()}')"
+            cursor.execute(query)
+            self.connection.commit()
+            self.driver_view()
+            messagebox.showinfo("Taxi","Driver Register Sucessfull",parent=self.master)
 
+        except Exception as e:
+            messagebox.showinfo("Taxi","{e}")
     def driver_view(self):
         try:
             cursor =  self.connection.cursor()
@@ -424,19 +435,7 @@ class Dashboard():
             print(f"Error: {err}")
             messagebox.showerror("Taxi", f"Assigned Failure: {err}")
 
-    def driver_register(self):
-        try:
-            self.gender = "Male" if self.var_gender.get() == 'Male' else "Female"
-            dri = Driver(0,self.full_name_CTkentry.get(),self.phone_CTkentry.get(),self.address_CTkentry.get(),self.email_CTkentry.get(),self.date_CTkEntry.get_date(),self.license_entry.get(),self.gender,self.pass_CTkentry.get())
-            result = DriverDatabase()
-            bol = result._DriverRegister(dri)
-
-            if bol:
-                # self.indicate(self.book_indicate, self.driver_regi)
-                self.driver_view()
-                messagebox.showinfo("Taxi","Driver Register Sucessfull",parent=self.master)
-        except Exception as e:
-            messagebox.showinfo("Taxi","{e}")
+   
         
     def details_customer(self):
         try:
@@ -486,6 +485,12 @@ class Dashboard():
         except Exception as err:
             print(f"Error: {err}")
 
+    def logout(self):
+        self.master.destroy()
+        app = Ct.CTkToplevel()
+        app.after(0,lambda:app.state('zoomed'))
+        LoginView.LoginPage(app)
+        app.mainloop()
     
     
 if __name__ == '__main__':

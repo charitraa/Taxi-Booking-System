@@ -23,7 +23,7 @@ class Dashboard():
         self.master.attributes('-topmost',True)
         self.company=Ct.CTkLabel(self.master,text="Whoiam.com",font=Ct.CTkFont(family="Times",size=25, weight='bold'))
         self.company.place(x=150,y=25)
-        self.cmpic = Ct.CTkImage(Image.open('D:\Code\Python\python project\TaxBookingSystem\image\Green White Simple Open Registration Facebook Post (3).png'), size=(100,100))
+        self.cmpic = Ct.CTkImage(Image.open('D:\\Code\\Python\\python project\\TaxBookingSystem\\image\\Green White Simple Open Registration Facebook Post (3).png'), size=(100,100))
         self.cmimg = Ct.CTkLabel(self.master,image=self.cmpic, text="").place(x=50,y=-5)
 
         self.welcome=Ct.CTkLabel(self.master,text="Welcome Back,",font=Ct.CTkFont(family="Times",size=30, weight='bold'),text_color='#00BF63')
@@ -34,7 +34,8 @@ class Dashboard():
 
         self.lbl = Ct.CTkLabel(self.master,font=Ct.CTkFont(family="Times",size=30, weight='bold'))
         self.lbl.place(x=1200,y=25)
-        
+        self.lbl2 = Ct.CTkButton(self.master,text="logout",font=Ct.CTkFont(family="Times",size=30, weight='bold'),command=self.logout)
+        self.lbl2.place(x=1350,y=25)
         self.time()
         self.connection = Database.Connect()
         self.options_frame = Ct.CTkFrame(self.master, fg_color='#00BF63',bg_color='#00BF63')
@@ -650,6 +651,12 @@ class Dashboard():
             
             except Exception as err:
                 messagebox.showerror("Error", err)
+    def logout(self):
+        self.master.destroy()
+        app = Ct.CTkToplevel()
+        app.after(0,lambda:app.state('zoomed'))
+        LoginView.LoginPage(app)
+        app.mainloop()
 
 if __name__ == '__main__':
     apps = Ct.CTk()

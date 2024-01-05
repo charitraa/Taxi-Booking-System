@@ -9,6 +9,7 @@ from time import strftime
 from tkcalendar import DateEntry
 from Controller.DataBaseConnection import Database
 import GobalVariable
+import LoginView
 from tkinter import messagebox
 
 class Dashboard():
@@ -20,7 +21,7 @@ class Dashboard():
         self.company=Ct.CTkLabel(self.master,text="Whoiam.com",font=Ct.CTkFont(family="Times",size=25, weight='bold'))
         self.company.place(x=150,y=25)
         self.connection = Database.Connect()
-        self.cmpic = Ct.CTkImage(Image.open('D:\Code\Python\python project\TaxBookingSystem\image\Green White Simple Open Registration Facebook Post (3).png'), size=(100,100))
+        self.cmpic = Ct.CTkImage(Image.open('D:\\Code\\Python\\python project\\TaxBookingSystem\\image\\Green White Simple Open Registration Facebook Post (3).png'), size=(100,100))
         self.cmimg = Ct.CTkLabel(self.master,image=self.cmpic, text="").place(x=50,y=-5)
         self.id = Ct.StringVar()
         book_id = Ct.CTkEntry(self.master,textvariable=self.id)
@@ -33,6 +34,8 @@ class Dashboard():
         self.user.configure(text=GobalVariable.Driver[1])
         self.lbl = Ct.CTkLabel(self.master,text="",font=Ct.CTkFont(family="Times",size=30, weight='bold'))
         self.lbl.place(x=1200,y=25)
+        self.lbl2 = Ct.CTkButton(self.master,text="logout",font=Ct.CTkFont(family="Times",size=30, weight='bold'),command=self.logout)
+        self.lbl2.place(x=1350,y=25)
         
         self.options_frame = Ct.CTkFrame(self.master, fg_color='#00BF63',bg_color='#00BF63')
 
@@ -525,6 +528,13 @@ class Dashboard():
 
         if values:
             self.id.set(values[0])
+
+    def logout(self):
+        self.master.destroy()
+        app = Ct.CTkToplevel()
+        app.after(0,lambda:app.state('zoomed'))
+        LoginView.LoginPage(app)
+        app.mainloop()
 
 if __name__ == '__main__':
     apps = Ct.CTk()

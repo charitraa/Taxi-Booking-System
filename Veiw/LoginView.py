@@ -21,7 +21,7 @@ class LoginPage():
         my_font = CT.CTkFont(family="Times", size=50,weight="bold")
 
         #create Background Image
-        self.background_image = CT.CTkImage(Image.open('D:\Code\Python\python project\TaxBookingSystem\image\Home.png'), size=(1000,850))
+        self.background_image = CT.CTkImage(Image.open('D:\\Code\\Python\\python project\\TaxBookingSystem\\image\\Home.png'), size=(1000,850))
         self.img = CT.CTkLabel(self.master,image=self.background_image, text="").place(x=0,y=0)
 
         # Create CTkLabels
