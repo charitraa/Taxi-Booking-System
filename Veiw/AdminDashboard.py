@@ -27,7 +27,7 @@ class Dashboard():
         self.cmimg = Ct.CTkLabel(self.master,image=self.cmpic, text="").place(x=50,y=-30)
 
         self.options_frame = Ct.CTkFrame(self.master, fg_color='#00BF63',bg_color='#00BF63')
-        self.master.iconbitmap(self.cmpic)
+        # self.master.iconbitmap(self.cmpic)
         self.lbl = Ct.CTkLabel(self.master,font=Ct.CTkFont(family="Times",size=30, weight='bold'))
         self.lbl.place(x=1200,y=5)
         self.lbl2 = Ct.CTkButton(self.master,text="logout",font=Ct.CTkFont(family="Times",size=30, weight='bold'),command=self.logout)
@@ -309,7 +309,7 @@ class Dashboard():
 
     def change(self):
                 
-        old_password=GobalVariable.Admin[6]
+        old_password=GobalVariable.Admin[4]
         customer_id = GobalVariable.Admin[0]
         current_password=self.new_pass_entry.get()
         new_password = self.pass_entry.get()
@@ -324,10 +324,9 @@ class Dashboard():
                 cursor.execute(query)                
                 self.connection.commit()
                 messagebox.showinfo("Success", "your password has been changed successfully!",parent=self.master)
-
-        
         except Exception as err:
             messagebox.showerror("Error", err)
+
     def driver_register(self):
         try:
             self.gender = "Male" if self.var_gender.get() == 'Male' else "Female"
@@ -340,6 +339,7 @@ class Dashboard():
 
         except Exception as e:
             messagebox.showinfo("Taxi","{e}")
+
     def driver_view(self):
         try:
             cursor =  self.connection.cursor()
@@ -385,6 +385,7 @@ class Dashboard():
             query = f'''SELECT booking.bookingid,customer.firstname,customer.phonenumber,booking.pickup_address,booking.dropoff_address,booking.date,customer.Payment_Method,booking.status
             FROM customer
             JOIN booking
+            ON customer.customerid = booking.customerid
             where booking.status = 'pending' '''
             cursor.execute(query)
             rows = cursor.fetchall()
@@ -420,6 +421,7 @@ class Dashboard():
         except Exception as err:
             print(f"Error: {err}")
             messagebox.showerror("Taxi", f"Error fetching bookings: {err}",parent=self.master)
+
     def assign_driver(self):
         try:
             cursor = self.connection.cursor()
@@ -452,22 +454,6 @@ class Dashboard():
 
         except Exception as err:
             print(f"Error: {err}")
-
-    # def details_customer(self):
-    #     try:
-    #         with self.connection.cursor() as cursor:
-    #             query = "SELECT * from customer "
-    #             cursor.execute(query)
-    #             rows = cursor.fetchall()
-
-    #         for item in self.view_booking.get_children():
-    #             self.view_booking.delete(item)
-
-    #         for row in rows:
-    #             self.view_booking.insert(parent='', index='end', values=(row[0], row[1], row[2], row[3], row[4],row[5],row[6],row[7]))
-
-    #     except Exception as err:
-    #         print(f"Error: {err}")
 
     def historyy(self):
         try:

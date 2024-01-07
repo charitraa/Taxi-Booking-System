@@ -439,7 +439,7 @@ class Dashboard():
     
     def change(self):
 
-        old_password=GobalVariable.Driver[6]
+        old_password=GobalVariable.Driver[9]
         customer_id = GobalVariable.Driver[0]
         current_password=self.new_pass_entry.get()
         new_password = self.pass_entry.get()
@@ -465,6 +465,7 @@ class Dashboard():
             query = f'''SELECT booking.bookingid,customer.firstname,customer.phonenumber,booking.pickup_address,booking.dropoff_address,booking.date,customer.Payment_Method,booking.status
             FROM customer
             JOIN booking
+            ON customer.customerid = booking.customerid
             where booking.status="booked" and booking.driverid = "{driverid}" '''
             cursor.execute(query)
             rows = cursor.fetchmany(size=10)  # Adjust the size as needed
@@ -487,6 +488,7 @@ class Dashboard():
             query = f'''SELECT booking.bookingid,customer.firstname,customer.phonenumber,booking.pickup_address,booking.dropoff_address,booking.date,customer.Payment_Method,booking.status
             FROM customer
             JOIN booking
+            ON customer.customerid = booking.customerid
             where booking.status="completed" and booking.driverid = "{driverid}" '''
             cursor.execute(query)
             rows = cursor.fetchall()

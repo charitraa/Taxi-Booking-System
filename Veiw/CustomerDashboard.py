@@ -253,7 +253,7 @@ class Dashboard():
         self.change_frame.configure(fg_color= 'white')
 
         self.cmpic = Ct.CTkImage(Image.open('D:\Code\Python\python project\TaxBookingSystem\image\Screenshot 2023-12-30 153422.png'), size=(600,500))
-        self.booklb = Ct.CTkLabel(self.change_frame, text='Password Change',font=Ct.CTkFont(family="Times",size=50, weight='bold'),text_color='#00BF63')
+        self.booklb = Ct.CTkLabel(self.change_frame, text='Change Password',font=Ct.CTkFont(family="Times",size=50, weight='bold'),text_color='#00BF63')
         self.booklb.place(x=400,y=50)
         self.cmimg = Ct.CTkLabel(self.change_frame,image=self.cmpic, text="").place(x=50,y=100)
         self.new_pass=Ct.CTkLabel(self.change_frame, text='Current Password:',font=Ct.CTkFont(family="Times",size=25, weight='bold'),text_color='black')
@@ -644,11 +644,10 @@ class Dashboard():
                 elif new_password ==re_password:
                     cursor =self.connection.cursor() 
                     query = f"UPDATE `customer` SET `password`='{new_password}' WHERE customerid = '{customer_id}'"
-                    cursor.execute(query)                
+                    cursor.execute(query)       
                     self.connection.commit()
                     messagebox.showinfo("Success", "your password has been changed successfully!",parent=self.master)
 
-            
             except Exception as err:
                 messagebox.showerror("Error", err)
     def logout(self):

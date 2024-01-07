@@ -1,3 +1,5 @@
+
+#importing the libary and files
 import sys
 sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
 from tkinter import messagebox
@@ -15,7 +17,7 @@ class LoginPage():
         self.master = master
         self.master.title('Login Page')#titlename
         self.master.config(background="white")#background   
-        CT.set_default_color_theme("green")  
+        CT.set_default_color_theme("green")
         
         # decleare the font for text
         my_font = CT.CTkFont(family="Times", size=50,weight="bold")
