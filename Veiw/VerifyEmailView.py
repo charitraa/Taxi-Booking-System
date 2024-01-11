@@ -2,7 +2,7 @@ import sys
 sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
 from tkinter import messagebox
 from Model.VerifyModel import Email
-from Controller.CustomerController import CustomerDatabase
+from controller.CustomerController import CustomerDatabase
 import tkinter as tk
 import GobalVariable
 import customtkinter as CT

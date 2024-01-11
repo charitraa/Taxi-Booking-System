@@ -4,10 +4,10 @@ from PIL import Image
 import customtkinter as Ct
 import tkinter as tkk
 from tkinter import ttk
-import tkintermapview
+
 from time import strftime
 from tkcalendar import DateEntry
-from Controller.DataBaseConnection import Database
+from controller.DataBaseConnection import Database
 import GobalVariable
 import LoginView
 from tkinter import messagebox

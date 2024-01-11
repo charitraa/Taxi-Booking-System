@@ -9,9 +9,10 @@ from tkinter import messagebox
 import GobalVariable
 import CustomerDashboard
 from time import strftime
+import valid
 import LoginView
-from Controller.DriverController import DriverDatabase
-from Controller.DataBaseConnection import Database
+from controller.DriverController import DriverDatabase
+from controller.DataBaseConnection import Database
 
 class Dashboard():
     def __init__(self,master):
@@ -308,37 +309,51 @@ class Dashboard():
         page()
 
     def change(self):
-                
-        old_password=GobalVariable.Admin[4]
-        customer_id = GobalVariable.Admin[0]
-        current_password=self.new_pass_entry.get()
-        new_password = self.pass_entry.get()
-        re_password = self.pass_entry2.get()
-        try:
-            if current_password!= old_password:
-                messagebox.showerror("password","Please check the old password",parent=self.master)
+        if self.new_pass_entry.get()!='' and self.pass_entry.get()!='' and self.pass_entry2.get()!='':
+            if self.new_pass_entry.get()!=''or self.pass_entry.get()!='' or self.pass_entry2.get()!='':
+                old_password=GobalVariable.Admin[4]
+                customer_id = GobalVariable.Admin[0]
+                current_password=self.new_pass_entry.get()
+                new_password = self.pass_entry.get()
+                re_password = self.pass_entry2.get()
+                try:
+                    if current_password!= old_password:
+                        messagebox.showerror("password","Please check the old password",parent=self.master)
 
-            elif new_password ==re_password:
-                cursor =self.connection.cursor() 
-                query = f"UPDATE `admin` SET `password`='{new_password}' WHERE adminid = '{customer_id}'"
-                cursor.execute(query)                
-                self.connection.commit()
-                messagebox.showinfo("Success", "your password has been changed successfully!",parent=self.master)
-        except Exception as err:
-            messagebox.showerror("Error", err)
+                    elif new_password ==re_password:
+                        cursor =self.connection.cursor() 
+                        query = f"UPDATE `admin` SET `password`='{new_password}' WHERE adminid = '{customer_id}'"
+                        cursor.execute(query)                
+                        self.connection.commit()
+                        messagebox.showinfo("Success", "your password has been changed successfully!",parent=self.master)
+                except Exception as err:
+                    messagebox.showerror("Error", err)
+            else:
+                messagebox.showinfo("Password", "All entry has't fill",parent=self.master)
+        else:
+            messagebox.showinfo("Password", "please fill all the Entry",parent=self.master)
 
     def driver_register(self):
-        try:
-            self.gender = "Male" if self.var_gender.get() == 'Male' else "Female"
-            cursor =  self.connection.cursor()
-            query  = f"INSERT INTO `driver`(`driverid`,fullname,`phonenumber`, `Address`, `email`, `DOB`,`gender`,`liscenceno`, `password`) VALUES ('0','{self.full_name_CTkentry.get()}','{self.phone_CTkentry.get()}','{self.address_CTkentry.get()}','{self.email_CTkentry.get()}','{self.date_CTkEntry.get_date()}','{self.license_entry.get()}','{self.gender}','{self.pass_CTkentry.get()}')"
-            cursor.execute(query)
-            self.connection.commit()
-            self.driver_view()
-            messagebox.showinfo("Taxi","Driver Register Sucessfull",parent=self.master)
+        if self.full_name_CTkentry.get()!='' and self.phone_CTkentry.get()!=''and self.address_CTkentry.get()!=''and self.email_CTkentry.get()!='' and self.gender!='' and self.date_CTkEntry.get_date()!='' and self.license_entry.get()!='' and self.pass_CTkentry.get()!='' :
+            if self.full_name_CTkentry.get()!='' or self.phone_CTkentry.get()!=''or self.address_CTkentry.get()!=''or self.email_CTkentry.get()!='' or self.gender!='' or self.date_CTkEntry.get_date()!='' or self.license_entry.get()!='' or self.pass_CTkentry.get()!='' :
+                if valid.checkemail(self.email_CTkentry.get())==True:
+                    try:
+                        self.gender = "Male" if self.var_gender.get() == 'Male' else "Female"
+                        cursor =  self.connection.cursor()
+                        query  = f"INSERT INTO `driver`(`driverid`,fullname,`phonenumber`, `Address`, `email`, `DOB`,`gender`,`liscenceno`, `password`) VALUES ('0','{self.full_name_CTkentry.get()}','{self.phone_CTkentry.get()}','{self.address_CTkentry.get()}','{self.email_CTkentry.get()}','{self.date_CTkEntry.get_date()}','{self.license_entry.get()}','{self.gender}','{self.pass_CTkentry.get()}')"
+                        cursor.execute(query)
+                        self.connection.commit()
+                        self.driver_view()
+                        messagebox.showinfo("Taxi","Driver Register Sucessfull",parent=self.master)
 
-        except Exception as e:
-            messagebox.showinfo("Taxi","{e}")
+                    except Exception as e:
+                        messagebox.showinfo("Taxi","{e}")
+                else:
+                    messagebox.showinfo("Taxi","Please enter the valid data ",parent=self.master)
+            else:
+                    messagebox.showinfo("Taxi","Please enter the valid data ",parent=self.master)
+        else:
+                    messagebox.showinfo("Taxi","Please enter the valid data ",parent=self.master)
 
     def driver_view(self):
         try:

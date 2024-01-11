@@ -3,7 +3,7 @@ from tkinter import messagebox
 import sys
 sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
 from Model import CusRegistrationModel as cusmodel
-from Controller import CustomerController as cusdb
+from controller import CustomerController as cusdb
 from PIL import ImageTk, Image
 import tkinter as tk
 from tkinter import ttk
@@ -95,24 +95,27 @@ class RegistrationPage():
         self.gender = "Male" if self.var_gender.get() == 'Male' else "Female"
         self.pay_method = self.var.get()
         if self.first_name_CTkentry.get()!='' and self.last_name_CTkentry.get()!=''and self.var_gender.get()!=''and self.var.get!='' and self.phone_CTkentry.get()!='' and self.email_CTkentry.get()!='' and self.address_CTkentry.get()!='' and self.date_CTkEntry.get_date()!='' and self.pass_CTkentry.get()!='':
-            if valid.checkemail(self.email_CTkentry.get())==True:
+            if self.first_name_CTkentry.get()!='' or  self.last_name_CTkentry.get()!=''or self.var_gender.get()!=''or self.var.get!='' or self.phone_CTkentry.get()!='' or self.email_CTkentry.get()!='' or self.address_CTkentry.get()!='' or self.date_CTkEntry.get_date()!='' or self.pass_CTkentry.get()!='':
+                if valid.checkemail(self.email_CTkentry.get())==True:
 
-                cus = cusmodel.Customer(self.id, self.first_name_CTkentry.get(),self.last_name_CTkentry.get(),self.phone_CTkentry.get(),self.pay_method,self.gender,self.address_CTkentry.get(),self.date_CTkEntry.get_date(),self.email_CTkentry.get(),self.pass_CTkentry.get())
-                reg = cusdb.CustomerDatabase()
-                reg._CustomerRegister(cus)
-                if reg:
-                    self.first_name_CTkentry.delete(0,'end')
-                    self.last_name_CTkentry.delete(0,'end')
-                    self.email_CTkentry.delete(0,'end')
-                    self.phone_CTkentry.delete(0,'end')
-                    self.address_CTkentry.delete(0,'end')
-                    self.pass_CTkentry.delete(0,'end')
-                    messagebox.showinfo('register','Registration Successfully',parent=self.master)
-                    self.master.destroy()
+                    cus = cusmodel.Customer(self.id, self.first_name_CTkentry.get(),self.last_name_CTkentry.get(),self.phone_CTkentry.get(),self.pay_method,self.gender,self.address_CTkentry.get(),self.date_CTkEntry.get_date(),self.email_CTkentry.get(),self.pass_CTkentry.get())
+                    reg = cusdb.CustomerDatabase()
+                    reg._CustomerRegister(cus)
+                    if reg:
+                        self.first_name_CTkentry.delete(0,'end')
+                        self.last_name_CTkentry.delete(0,'end')
+                        self.email_CTkentry.delete(0,'end')
+                        self.phone_CTkentry.delete(0,'end')
+                        self.address_CTkentry.delete(0,'end')
+                        self.pass_CTkentry.delete(0,'end')
+                        messagebox.showinfo('register','Registration Successfully',parent=self.master)
+                        self.master.destroy()
+                    else:
+                        messagebox.showerror("register","Register Failure",parent=self.master)
                 else:
-                    messagebox.showerror("register","Register Failure",parent=self.master)
+                    messagebox.showinfo("register","please write a valid email address",parent=self.master)
             else:
-                messagebox.showinfo("register","please write a valid email address",parent=self.master)
+                messagebox.showinfo("register","please write  a valid information",parent=self.master)
         else:
                 messagebox.showinfo("register","please write a valid information",parent=self.master)
     def Back(self):

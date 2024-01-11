@@ -4,8 +4,8 @@ from PIL import Image
 from tkinter import ttk
 from time import strftime
 from tkcalendar import DateEntry
-from Controller import CustomerController
-from Controller.DataBaseConnection import Database
+from controller import CustomerController
+from controller.DataBaseConnection import Database
 from tkinter import messagebox
 import LoginView
 import customtkinter as Ct
@@ -160,7 +160,7 @@ class Dashboard():
 
     def picktime(self):
         import tkinter as tk
-        from tktimepicker import AnalogPicker, AnalogThemes
+        from tktimepicker import AnalogPicker,AnalogThemes
 
         self.root = tk.Tk()
         self.root.attributes('-topmost',True)

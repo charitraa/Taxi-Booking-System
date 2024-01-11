@@ -1,6 +1,6 @@
 import sys
 sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
-from Controller import CustomerController
+from controller import CustomerController
 from Model import LoginModel
 from tkinter import messagebox
 import customtkinter as CT

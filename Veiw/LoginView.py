@@ -3,8 +3,8 @@
 import sys
 sys.path.append("D:\Code\Python\python project\TaxBookingSystem")
 from tkinter import messagebox
-from PIL import ImageTk, Image
-from Controller import CustomerController as cusdb , DriverController as drivedb , AdminController as admindb
+from PIL import Image
+from controller import CustomerController as cusdb , DriverController as drivedb , AdminController as admindb
 from Model import LoginModel as loginmd
 import tkinter as tk
 import customtkinter as CT
