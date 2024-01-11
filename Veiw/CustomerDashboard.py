@@ -11,7 +11,6 @@ import LoginView
 import customtkinter as Ct
 import tkinter as tkk
 import tkintermapview
-
 import GobalVariable
 
 
