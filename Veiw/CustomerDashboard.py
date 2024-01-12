@@ -13,7 +13,6 @@ import tkinter as tkk
 import tkintermapview
 import GobalVariable
 
-
 class Dashboard():
     def __init__(self,master):
         self.master = master
